@@ -1,0 +1,356 @@
+.user-avatar #avatar-image {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+}
+
+.user-avatar{
+    /* margin: 20px 20px; */
+    width: 48px;
+    height: 48px;
+
+}
+.text-avatar{
+    width: 48px;
+    height: 48px;
+}
+
+.top_bar_login
+{
+	display: flex;
+	height: 100%;
+}
+.login_button{
+    margin:0 5px;
+}
+.form-group{
+    margin: 5px 0 !important;
+}
+.clearfix {
+    clear: both;
+}
+.float-left{
+    float: left;
+}
+.main-content{
+    background-color: #eef1f2;
+    margin: 50px 0px;
+    padding: 30px 0;
+}
+.quick-user-info{
+    padding: 20px;
+}
+.account-nav{
+    background-color: #fff;
+    border-radius: 7px;
+    border: 1px solid #e7eaec;
+    margin-top: 30px;
+}
+
+.block{
+    margin-bottom: 40px;
+}
+.user-name-and-role{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    padding-left: 20px;
+    
+}
+.user-name-and-role>span{
+    display: block;
+}
+
+.user-name{
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 1px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;    
+}
+
+/* body .account .block .account-nav .account-nav-content .items .item  */
+
+.current  {
+    border-left: 4px solid #df322f;
+    color: #464646;
+
+    background-color: rgb(250, 231, 231);
+}
+
+body.account .account-nav .items .item .current strong {
+    font-weight: 400;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #df322f !important;
+}
+
+.nav > li > a, strong {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.nav-list{
+    display: flex;
+    flex-direction: column;
+}
+/*  */
+.info-block{
+    background-color: #fff;
+    border-radius: 7px;
+    border: 1px solid #e7eaec;
+    margin-top: 30px;
+    padding: 30px;
+}
+
+.info-title{
+    font-size: 25px;
+    color: #464646;
+    font-weight: 600;;
+    margin-bottom: 20px;
+    font-family: 'Open Sans',sans-serif;
+    line-height: 1.28;
+}
+.user-big-avatar #avatar-image{
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+.user-big-avatar{
+    /* margin: 20px 20px; */
+    width: 120px;
+    height: 120px;
+
+}
+
+.user-info{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    margin-left: 0px;
+    padding-left: 40px;
+}
+
+.form-control{
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: rgb(39, 38, 38);
+    background-color:#f4f7f8;
+    background-image: none;
+    border: 0px solid rgb(255, 255, 255);
+    border-radius: 4px;
+}
+
+.date-input{
+    display: flex;   
+    justify-content: flex-start;
+}
+.gj-datepicker-bootstrap{
+    display: flex;
+}
+
+.border-left-0{
+    height: 40px;
+}
+
+
+
+body.account .account-main-content .fieldset .field .btn-change-password .change-password-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+    margin-right: 5px;
+    background: url(https://edumall.vn/static/version1592505578/frontend/Edumall/winstrike/default/images/password_lock.png) no-repeat center/cover;
+}
+
+.btn-field{
+    
+    margin: 10px 30px;
+    display: flex;
+    justify-content: space-around;
+}
+.btn-field>.btn>span{
+    font-size: 20px;
+   
+}
+
+label{
+    color: #464646;
+}
+.user-name-and-role span{
+    color: #464646;
+}
+.avt-block{
+    position: relative;
+}
+.btn-change-avt{
+    position: absolute;
+}
+
+.avatar-customer:hover{
+    border: 2px solid red;
+}
+
+/* changepw */
+.noti{
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20%;
+}
+.noti-content{
+   color: red;
+   font-size: 18px;
+}
+.noti-content-successful{
+    color: rgb(34, 219, 9) !important;
+}
+.noti-content-hidden{
+    visibility: hidden;
+}
+/* cart */
+.cart-page{
+    padding-left: 0;
+    padding-right: 0;
+}
+.cart-list{
+    margin-top: 25px;
+}
+.course-in-cart{
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 5px 0px;
+    padding: 10px;
+    background-color: #fff;
+    height: 120px;
+    border-radius: 8px;
+    flex-wrap: nowrap;
+    /* width: 600px; */
+}
+.course-img{
+    flex-grow: 2;
+    max-width: 160px;
+}
+.img-in-cart{
+    border-radius: 8px;
+    max-width: 160px;
+}
+.course-info{
+    flex-grow: 5;
+    margin-left: 10px;
+
+}
+.course-name{
+    font-size: 20px;
+    color: black;
+    font-weight: 600;
+}
+.course-author{
+   
+    color: rgb(0, 140, 165);
+    font-weight: 500;
+}
+.prize{
+    margin-left: 10px;
+    flex-grow: 1;
+    font-weight: 400;
+    font-size:18px;
+}
+.del-btn{
+    margin-left: 10px;
+    flex-grow: 1;
+}
+.course-info > a{
+    display: block;
+
+}
+
+.course_text > p {
+    
+        /* width: 500px; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 20px;
+        -webkit-line-clamp:4;
+        height: 80px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+.pagination_courses{
+    display: flex;
+    justify-content: center;
+}
+.pagination_list > li > a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+a{
+    text-decoration: none;
+} 
+  
+  .pagination_list > li > a.active {
+    background-color: #14bdee;
+    /* border-radius: 5px; */
+  }
+  
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+li.no-hover{
+    background-color: white !important;
+}
+.course-remove{
+    animation-name: hiden;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+} 
+@-webkit-keyframes hiden{
+    from {opacity: 1; };
+    to{opacity: 0; };
+}
+
+
+.cart-info{
+    background-color: #fff;
+    border-radius: 7px;
+    border: 1px solid #e7eaec;
+    margin-top: 30px;
+    padding: 15px ;
+   
+
+}
+.prize-label{
+    font-size: 25px;
+    font-weight: 500;
+    color: black;
+}
+.prize{
+    margin-top: 5px;
+    color: rgb(65, 64, 64);
+}
+.ckeckout-button{
+    /* margin-top: 15px ; */
+   margin-top: 20px; 
+  
+}
+/*  */
+.payment-contnent{
+    color: rgb(77, 75, 75);
+    font-size: 28px;
+}
+
+
+
