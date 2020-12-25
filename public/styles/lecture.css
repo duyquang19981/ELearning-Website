@@ -1,0 +1,100 @@
+
+.course-infomation{
+    margin: 20px 0;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.course-name{
+    font-size: 40px;
+    color: black;
+}
+.description, .rate{
+    margin: 10px 0;
+    font-size: 18px;
+
+}
+.course-img{
+    width: 100%;
+    /* `c */
+    margin: 30px 15px;
+    max-height: 450px;
+    border: 1px solid ;
+    border-radius: 10px;
+}
+.lectureslist{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 0 ;
+
+}
+.chapter-wrap{
+    box-shadow: none;
+    border: 1px solid #cfd2d8;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: rgb(243, 240, 240);
+}
+.chapter-name{
+    font-size: 30px;
+    color: black;
+    
+}
+.lessons{
+    display: flex;
+    flex-direction: column;
+}
+.lesson-name{
+    font-size: 17px;
+}
+.course-index{
+    display: inline-block;
+}
+
+/* learning page */
+.lecture-wrap{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.chapter-name-sidebar{
+    font-size: 15px;
+    font-weight: 500;
+}
+.lectureslist-sidebar{
+    margin: 0px 0 ;
+    height: 800px; /* Full-height: remove this if you want "auto" height */
+  /* width: 160px; Set the width of the sidebar */
+  /* position: fixed; Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+   /* Stay at the top */
+  left: 0;
+  /* background-color: #111; Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  overflow-y: scroll;
+  padding-top: 20px;   
+  display: flex; 
+  align-content: start;
+}
+.lecture-active{
+    background-color: rgb(180, 109, 109);
+    color: black;
+}
+.list-group-item{
+    padding: 5px 10px;
+}
+.video-wrap{
+    display: flex;
+    flex-direction: column;
+}
+.video-wrap > .course-name-vid{
+    color: black;
+    font-size: 30px;
+
+
+}
+
+.leclist-sidebar{
+    width: 100%;
+}
