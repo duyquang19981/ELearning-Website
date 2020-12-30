@@ -1,0 +1,28 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const HocVienSchema = new Schema({
+    Ten: String,
+    Mail: String,
+    User: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    DSKhoaHocDK:[{
+        KhoaHoc:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref: 'KhoaHoc'
+        },
+        TrangThai:Number
+    }],
+    WatchList:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'KhoaHoc'
+    }],
+    GioHang:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'KhoaHoc'
+    }]
+
+}, {collection:'HocVien'})
+module.exports = mongoose.model('HocVien', HocVienSchema);
