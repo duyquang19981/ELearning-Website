@@ -3,6 +3,12 @@ const app = express();
 const exphbs = require('express-handlebars');
 const port = 3000;
 const path = require('path');
+const mongoose = require('mongoose');
+const _db = require('./utils/db');
+
+const TheLoaiCap1 = require('./models/schema/TheLoaiCap1.model');
+
+
 
 app.engine('.hbs', exphbs({
   extname: '.hbs',
@@ -13,7 +19,13 @@ app.engine('.hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 app.use(express.static('./public'));
-app.get('/', (req, res) => {
+app.get('/',async (req, res) => {
   res.render('user/home');
 });
+
+app.use('/admin',express.static('public/admin'));
+app.use('/admin/manage-table',express.static('public/admin'));
+app.use('/admin',require('./controllers/admin/admin.controller'));
+
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

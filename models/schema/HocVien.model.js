@@ -4,10 +4,8 @@ const Schema = mongoose.Schema;
 const HocVienSchema = new Schema({
     Ten: String,
     Mail: String,
-    User: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    Username: String,
+    Password: String,
     DSKhoaHocDK:[{
         KhoaHoc:{
             type:mongoose.Schema.Types.ObjectId,

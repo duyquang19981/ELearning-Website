@@ -14,7 +14,7 @@ const KhoaHocSchema = new Schema({
         ref: 'GiangVien'
     }],
     HocPhiGoc: {
-        type:Double,
+        type:Number,
         min:0
     },
     KhuyenMai: {

@@ -1,4 +1,6 @@
 desktop.ini
+public/admin/*.html
+test.html
 multilevel
 # Logs
 logs

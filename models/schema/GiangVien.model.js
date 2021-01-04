@@ -4,10 +4,8 @@ const Schema = mongoose.Schema;
 const GiangVienSchema = new Schema({
     Ten: String,
     Mail: String,
-    User: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    Username: String,
+    Password: String,
     DSKhoaHocDay:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'KhoaHoc'
