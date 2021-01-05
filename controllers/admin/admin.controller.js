@@ -42,7 +42,6 @@ route.get('/manage-table/:index', async (req,res)=>{
   db._connect();
   const index = +req.params.index;
   const admin = await Admin.findOne().lean();
-  console.log('tableNames :>> ', admin);
   let tableName = admin.DSBangQL[index].TenBang;
   let result, render_view;
 

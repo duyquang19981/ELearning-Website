@@ -42,5 +42,23 @@ route.post('/edit', async (req,res )=>{
   res.redirect('/admin/manage-table/3');
 });
 
+route.post('/delete', async (req,res )=>{
+  console.log('del');
+  const _id = req.body._id;
+  console.log('_id :>> ', _id);
+  db._connect();
+  const TheLoai1 = await TheLoaiCap1.findById(_id); 
+  console.log('TheLoai1 :>> ', TheLoai1);
+  if(+TheLoai1.SoKhoaHoc===0){
+    await TheLoaiCap1.findByIdAndRemove(_id,function (err) {
+      if (err) return console.error(err);
+      console.log(" delete TheLoaiCap1 collection.");
+    });
+  }
+  
+  db._disconnect;
 
+  res.redirect('/admin/manage-table/3');
+  res.location()
+});
 module.exports = route;

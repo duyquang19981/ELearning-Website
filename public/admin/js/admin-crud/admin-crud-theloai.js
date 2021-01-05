@@ -47,11 +47,26 @@ $(document).ready(function(){
     const edit_input_ten = $('#edit_input_ten');
     edit_input_id[0].value = _id;
     edit_input_ten[0].value = TenTheLoai;
-    $('#edit_input_ten').value = TenTheLoai;
     console.log('edit_input_id :>> ', edit_input_id[0]);
     console.log('edit_input_ten :>> ', edit_input_ten[0]);
   });
   
+  $(".deleteButton").click(function(){
+    //kiem tra o client, va server, sua o client submit nhung khong thao tac
+    console.log('delete');
+    const td = $(this).closest('tr').find('td');
+    const _id = td[0].innerHTML;
+    const SoKhoaHoc = +td[2].innerHTML;
+    const delete_input_id = $('#delete_input_id');
+    delete_input_id[0].value = _id;
+    if(SoKhoaHoc>0){
+      const noti = $('.noti');
+      noti[0].innerHTML = `There are some available courses. Category can't be deleted!`;
+      $('#deleteButton').attr('disabled', 'disabled');
+      $('.text-warning').css('display','none');
+    }
+  });
+
 
 });
 
