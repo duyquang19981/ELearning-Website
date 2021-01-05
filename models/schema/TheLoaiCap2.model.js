@@ -4,6 +4,6 @@ const Schema = mongoose.Schema;
 const TheLoaiCap2Schema = new Schema({
     TenTheLoai: String,
     DSKhoaHoc: [{type:mongoose.Schema.Types.ObjectId}],
-    DS5KhoaMuaNhieu: [{type:mongoose.Schema.Types.ObjectId}],
+    
 }, {collection:'TheLoaiCap2'})
 module.exports = mongoose.model('TheLoaiCap2', TheLoaiCap2Schema);

@@ -10,6 +10,7 @@ const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
+const crudTheLoai = require('./crudTheLoai');
 
 route.get('/', async (req,res )=>{
   console.log('go to admin');
@@ -33,6 +34,12 @@ route.get('/', async (req,res )=>{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
   });
+});
+
+route.get('/manage-table/addCategory', async (req,res)=>{
+  console.log('add cate');
+  const TenTheLoai = req.params.tentheloai;
+  console.log('TenTheLoai :>> ', TenTheLoai);
 });
 
 route.get('/manage-table/:index', async (req,res)=>{
@@ -67,19 +74,28 @@ route.get('/manage-table/:index', async (req,res)=>{
       break; 
   
     default:
-      result = null;
+      console.log('đefault');
+      
       render_view = '123';
       break;
   }
+  // result = [
+  //   {_id: '1fasfs', TenTheLoai:'Mang may tinh', SoKhoaHoc:10},
+  //   {_id: '12fasfwfw', TenTheLoai:'Mang12h', SoKhoaHoc:10},
+  //   {_id: '1àasdwfqwf', TenTheLoai:'Mang 124inh', SoKhoaHoc:12},
+  //   {_id: '1qưeqwr3r3t', TenTheLoai:'Mang m124tinh', SoKhoaHoc:140},
+  // ];
   console.log('result :>> ', result);
   console.log('tableName :>> ', tableName);
   console.log('render_view :>> ', render_view);
   res.render(`admin/${render_view}`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
+    result : result
   });
   db._disconnect();
-})
+});
 
+route.use('/manage-table/TheLoai', crudTheLoai);
 
 module.exports = route;
