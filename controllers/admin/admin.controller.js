@@ -27,9 +27,6 @@ route.get('/', async (req,res )=>{
   // });
   // await admin.save();
   const admin = await Admin.findOne().lean();
-  console.log('admin :>> ', admin);
-  console.log('admin.DSBangQL :>> ', admin.DSBangQL);
-  
   res.render('admin/dashboard',{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
@@ -39,13 +36,11 @@ route.get('/', async (req,res )=>{
 route.get('/manage-table/addCategory', async (req,res)=>{
   console.log('add cate');
   const TenTheLoai = req.params.tentheloai;
-  console.log('TenTheLoai :>> ', TenTheLoai);
 });
 
 route.get('/manage-table/:index', async (req,res)=>{
   db._connect();
   const index = +req.params.index;
-  console.log('index :>> ', index);
   const admin = await Admin.findOne().lean();
   console.log('tableNames :>> ', admin);
   let tableName = admin.DSBangQL[index].TenBang;
@@ -74,8 +69,7 @@ route.get('/manage-table/:index', async (req,res)=>{
       break; 
   
     default:
-      console.log('đefault');
-      
+
       render_view = '123';
       break;
   }
@@ -85,8 +79,6 @@ route.get('/manage-table/:index', async (req,res)=>{
   //   {_id: '1àasdwfqwf', TenTheLoai:'Mang 124inh', SoKhoaHoc:12},
   //   {_id: '1qưeqwr3r3t', TenTheLoai:'Mang m124tinh', SoKhoaHoc:140},
   // ];
-  console.log('result :>> ', result);
-  console.log('tableName :>> ', tableName);
   console.log('render_view :>> ', render_view);
   res.render(`admin/${render_view}`,{
     layout:'admin/a_main',

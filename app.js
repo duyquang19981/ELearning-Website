@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const exphbs = require('express-handlebars');
 const port = 3000;
@@ -8,7 +9,11 @@ const _db = require('./utils/db');
 
 const TheLoaiCap1 = require('./models/schema/TheLoaiCap1.model');
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
+// parse application/json
+app.use(bodyParser.json())
 
 app.engine('.hbs', exphbs({
   extname: '.hbs',

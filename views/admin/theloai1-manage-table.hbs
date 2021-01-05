@@ -83,7 +83,7 @@
 <div id="addRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form method="GET" action="TheLoai/add">
+			<form method="POST" action="TheLoai/add">
 				<div class="modal-header">						
 					<h4 class="modal-title">Add Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -107,7 +107,7 @@
 <div id="editRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form id="edit_form" method="GET" action="#"  >
+			<form id="edit_form" method="POST" action="TheLoai/edit"  >
 				<div class="modal-header">						
 					<h4 class="modal-title">Edit Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -116,13 +116,13 @@
 					<div class="form-group">
 						<label>Tên thể loại</label>
 						<input id="edit_input_id" style="display:none" name="_id" type="text"  required>
-						<input id="edit_input_ten"name="tentheloai" type="text" class="form-control"  >
+						<input id="edit_input_ten"name="tentheloai" type="text" class="form-control" required >
 					</div>
 					
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input id="addButton" type="submit" class="btn btn-info" value="Save">
+					<input id="saveButton" type="submit" class="btn btn-info" value="Save">
 				</div>
 			</form>
 		</div>
