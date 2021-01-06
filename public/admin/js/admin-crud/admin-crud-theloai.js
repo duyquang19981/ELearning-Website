@@ -23,21 +23,6 @@ $(document).ready(function(){
 		}
   });
 
-  //Add new record
-  $("#addButton").click(function(){
-    console.log('add new');
-    const td = $(this).closest('tr').find('td');
-    const _id = td[0].innerHTML;
-    const TenTheLoai = td[1].innerHTML;
-    const edit_input_id = $('#edit_input_id');
-    const edit_input_ten = $('#edit_input_ten');
-    edit_input_id[0].value = _id;
-    edit_input_ten[0].value = TenTheLoai;
-    $('#edit_input_ten').value = TenTheLoai;
-    console.log('edit_input_id :>> ', edit_input_id[0]);
-    console.log('edit_input_ten :>> ', edit_input_ten[0]);
-  });
-
   $(".editButton").click(function(){
     console.log('edit');
     const td = $(this).closest('tr').find('td');
@@ -67,6 +52,13 @@ $(document).ready(function(){
     }
   });
 
-
+  // fill parent id for add new
+  $('.addNewSubCate').click(function(){
+    const parent_id = $(this).closest('div').find('.parent_id');
+    console.log('parent_id tm :>> ', parent_id[0].innerHTML);
+    $('#parent_id_submit')[0].value = parent_id[0].innerHTML;
+  });
 });
+
+
 

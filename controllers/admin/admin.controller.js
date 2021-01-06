@@ -33,37 +33,78 @@ route.get('/', async (req,res )=>{
   });
 });
 
-route.get('/manage-table/addCategory', async (req,res)=>{
-  console.log('add cate');
-  const TenTheLoai = req.params.tentheloai;
-});
 
-route.get('/manage-table/:index', async (req,res)=>{
-  db._connect();
-  const index = +req.params.index;
-  const admin = await Admin.findOne().lean();
-  let tableName = admin.DSBangQL[index].TenBang;
-  let result, render_view;
+// route.get('/manage-table/:index', async (req,res)=>{
+//   db._connect();
+//   const index = +req.params.index;
+//   const admin = await Admin.findOne().lean();
+//   let tableName = admin.DSBangQL[index].TenBang;
+//   let TheLoai1, render_view;
 
+//   switch (index) {
+//     case 0:
+//       TheLoai1 = await KhoaHoc.find().lean();
+//       render_view = 'khoahoc-manage-table'
+//       break;
+//     case 1:
+//       TheLoai1 = await GiangVien.find().lean();
+//       render_view = 'giangvien-manage-table'
+//       break;
+//     case 2:
+//       TheLoai1 = await HocVien.find().lean();
+//       render_view = 'hocvien-manage-table'
+//       break; 
+//     case 3:
+//       TheLoai1 = await TheLoaiCap1.find().lean();
+//       render_view = 'theloai1-manage-table'
+//       break;
+//     case 4:
+//       TheLoai1 = await ThongKe.find().lean();
+//       render_view = 'thongke-manage-table'
+//       break; 
+  
+//     default:
+
+//       render_view = '123';
+//       break;
+//   }
+//   // result = [
+//   //   {_id: '1fasfs', TenTheLoai:'Mang may tinh', SoKhoaHoc:10},
+//   //   {_id: '12fasfwfw', TenTheLoai:'Mang12h', SoKhoaHoc:10},
+//   //   {_id: '1àasdwfqwf', TenTheLoai:'Mang 124inh', SoKhoaHoc:12},
+//   //   {_id: '1qưeqwr3r3t', TenTheLoai:'Mang m124tinh', SoKhoaHoc:140},
+//   // ];
+//   console.log('render_view :>> ', render_view);
+//   res.render(`admin/${render_view}`,{
+//     layout:'admin/a_main',
+//     tableList : admin.DSBangQL,
+//     result : result
+//   });
+//   db._disconnect();
+// });
+route.get('/manage-table',  (req,res)=>{
+  console.log('manaage');
+  const index = +req.query.index;
   switch (index) {
     case 0:
-      result = await KhoaHoc.find().lean();
+      // TheLoai1 = await KhoaHoc.find().lean();
       render_view = 'khoahoc-manage-table'
       break;
     case 1:
-      result = await GiangVien.find().lean();
+      // TheLoai1 = await GiangVien.find().lean();
       render_view = 'giangvien-manage-table'
       break;
     case 2:
-      result = await HocVien.find().lean();
+      // TheLoai1 = await HocVien.find().lean();
       render_view = 'hocvien-manage-table'
       break; 
     case 3:
-      result = await TheLoaiCap1.find().lean();
-      render_view = 'theloai1-manage-table'
+      console.log('the loai');
+      res.redirect('/admin/manage-table/TheLoai');
       break;
     case 4:
-      result = await ThongKe.find().lean();
+      
+    
       render_view = 'thongke-manage-table'
       break; 
   
@@ -78,13 +119,7 @@ route.get('/manage-table/:index', async (req,res)=>{
   //   {_id: '1àasdwfqwf', TenTheLoai:'Mang 124inh', SoKhoaHoc:12},
   //   {_id: '1qưeqwr3r3t', TenTheLoai:'Mang m124tinh', SoKhoaHoc:140},
   // ];
-  console.log('render_view :>> ', render_view);
-  res.render(`admin/${render_view}`,{
-    layout:'admin/a_main',
-    tableList : admin.DSBangQL,
-    result : result
-  });
-  db._disconnect();
+  
 });
 
 route.use('/manage-table/TheLoai', crudTheLoai);

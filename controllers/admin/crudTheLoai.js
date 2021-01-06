@@ -10,8 +10,21 @@ const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
 
+route.get('/', async (req,res)=>{
+  console.log('the loai1');
+  db._connect();
+  const admin = await Admin.findOne().lean();
+  const TheLoai1 = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+  console.log('TheLoai1 :>> ', TheLoai1);
+  res.render(`admin/theloai1-manage-table`,{
+    layout:'admin/a_main',
+    tableList : admin.DSBangQL,
+    TheLoai1 : TheLoai1
+    });
+  db._disconnect();
+});
 
-route.post('/add', async (req,res)=>{
+route.post('/add1', async (req,res)=>{
   const TenTheLoai = req.body.tentheloai;
   console.log('TenTheLoai :>> ',TenTheLoai);
   const theloai = new TheLoaiCap1({
@@ -24,26 +37,27 @@ route.post('/add', async (req,res)=>{
   theloai.save(function (err) {
     if (err) return console.error(err);
     console.log(" saved to TheLoaiCap1 collection.");
+    db._disconnect;
+    res.redirect('/admin/manage-table/TheLoai');
   });
-  db._disconnect;
-  res.redirect('/admin/manage-table/3');
 });
 
-route.post('/edit', async (req,res )=>{
+route.post('/edit1', async (req,res )=>{
   const TenTheLoai = req.body.tentheloai;
   const _id = req.body._id;
   db._connect();
   TheLoaiCap1.findByIdAndUpdate(_id,{TenTheLoai:TenTheLoai},function (err) {
     if (err) return console.error(err);
     console.log(" edit TheLoaiCap1 collection.");
+    
+    db._disconnect;
+    res.redirect('/admin/manage-table/3');
   });
 
-  db._disconnect;
-  res.redirect('/admin/manage-table/3');
 });
 
-route.post('/delete', async (req,res )=>{
-  console.log('del');
+route.post('/delete1', async (req,res )=>{
+  console.log('del1');
   const _id = req.body._id;
   console.log('_id :>> ', _id);
   db._connect();
@@ -61,4 +75,25 @@ route.post('/delete', async (req,res )=>{
   res.redirect('/admin/manage-table/3');
   res.location()
 });
+
+// sub category
+
+route.post('/add2', async (req,res)=>{
+  const TenTheLoai = req.body.tentheloai;
+  const parent_id = req.body.parent_id;
+  console.log('TenTheLoai :>> ',TenTheLoai);
+  console.log('parent_id :>> ', parent_id);
+  const theloai2 = new TheLoaiCap2({
+    TenTheLoai : TenTheLoai,
+    DSKhoaHoc:[],
+    SoKhoaHoc:0,
+  });
+  db._connect();
+  await theloai2.save();
+  await TheLoaiCap1.findByIdAndUpdate(parent_id, {$push:{TheLoaiCon:theloai2._id}});
+  db._disconnect;
+  res.redirect('/admin/manage-table/TheLoai');
+});
+
+
 module.exports = route;
