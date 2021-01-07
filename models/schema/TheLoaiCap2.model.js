@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const TheLoaiCap2Schema = new Schema({
     TenTheLoai: String,
-    DSKhoaHoc: [{type:mongoose.Schema.Types.ObjectId}],
+    DSKhoaHoc: [{type:mongoose.Schema.Types.ObjectId, ref:'KhoaHoc'}],
     SoKhoaHoc: Number,
     
 }, {collection:'TheLoaiCap2'})

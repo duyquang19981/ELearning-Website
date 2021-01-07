@@ -62,21 +62,29 @@ route.post('/edit', async (req,res )=>{
 });
 
 route.post('/delete', async (req,res )=>{
-  console.log('del1');
+  console.log('del giang vien');
   const _id = req.body._id;
   db._connect();
-  const TheLoai1 = await TheLoaiCap1.findById(_id); 
-  if(+TheLoai1.SoKhoaHoc===0){
-    TheLoaiCap1.findByIdAndRemove(_id,function (err) {
-      if (err) return console.error(err);
-      console.log(" delete TheLoaiCap1 collection.");
+  const giangvien = await GiangVien.findById(_id); 
+  console.log('giang vien :>> ', giangvien);
+  if(+giangvien.DSKhoaHocDay.length===0){
+    GiangVien.findByIdAndRemove(_id, function(err){
+      console.log('err', err);
     });
   }
-  
   db._disconnect;
-
-  res.redirect('/admin/manage-table/TheLoai');
+  res.redirect('/admin/manage-table/GiangVien');
 });
 
+route.get('/getnumberofcourse', async(req,res)=>{
+  db._connect();
+  const _id = req.query._id;
+  const data = await GiangVien.findById(_id);
+  const numberofcourse = data.DSKhoaHocDay.length;
+  console.log('data :>> ', data);
+  console.log('numberofcourse :>> ', numberofcourse);
+  db._disconnect();
+  res.send({numberofcourse: numberofcourse});
+});
 
 module.exports = route;

@@ -26,6 +26,7 @@ $(document).ready(function(){
   $(".editButton").click(function(){
     console.log('edit');
     const td = $(this).closest('tr').find('td');
+    console.log('td[0] :>> ', td[0]);
     const _id = td[0].innerHTML;
     const TenTheLoai = td[1].innerHTML;
     const edit_input_id = $('#edit_input_id');
@@ -34,6 +35,7 @@ $(document).ready(function(){
     edit_input_ten[0].value = TenTheLoai;
     console.log('edit_input_id :>> ', edit_input_id[0]);
     console.log('edit_input_ten :>> ', edit_input_ten[0]);
+    console.log('_id :>> ', _id);
   });
   
   $(".deleteButton").click(function(){
@@ -97,6 +99,27 @@ $(document).ready(function(){
       $('.text-warning').css('display','none');
     }
   });
+
+  // xem danh sach khoa hoc
+  $('.detail').click(function(){
+    console.log('xem chi tiet khoa hoc');
+    const td = $(this).closest('tr').find('td');
+    const _id = td[1].innerHTML;
+    var xhttp = new XMLHttpRequest();
+      xhttp.open('GET','TheLoai/getcoursesincate?_id=' + _id);
+    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send();
+      xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status == 200){
+              //alert(this.responseText);
+              var resText = this.responseText;
+              console.log('resText :>> ', resText);
+              
+          }
+
+      }
+  });
+
 });
 
 

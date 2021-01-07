@@ -16,7 +16,7 @@
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Bảng <b>Thể loại</b></h2>
+						<h2>Bảng <b>Thể loại cấp 1</b></h2>
 					</div>
 					<div class="col-sm-6">
 						<a href="#addRecord" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Record</span></a>
@@ -52,6 +52,7 @@
 								<td>{{SoKhoaHoc}}</td>
 								
 								<td>
+									<a  href="#table_{{@index}}" ><i style="color: rgb(31, 183, 243);" class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Detail"></i></a>
 									<a  href="#editRecord"  class="editButton edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 									<a  href="#deleteRecord" class="deleteButton delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 								</td>
@@ -116,7 +117,7 @@
 					<div class="form-group">
 						<label>Tên thể loại</label>
 						<input id="edit_input_id" style="display:none" name="_id" type="text"  required>
-						<input id="edit_input_ten"name="tentheloai" type="text" class="form-control" required >
+						<input id="edit_input_ten" name="tentheloai" type="text" class="form-control" required >
 					</div>
 					
 				</div>
@@ -157,7 +158,7 @@
 <div class="container-xl">
 <h2>Các thể loại con:</h2>
 	{{#each TheLoai1}}
-		<div class="table-responsive">
+		<div id="table_{{@index}}" class="table-responsive">
 			<div class="table-wrapper">
 				<div class="table-title">
 					<div class="row">
@@ -167,7 +168,7 @@
 						<div class="col-sm-6">
 							<p class="parent_id" style="display:none;">{{_id}}</p>
 							<a href="#addRecord2" class="addNewSubCate btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Record</span></a>
-							<a href="#deleteRecord2" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+							<a disabled href="#deleteRecord2" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
 						</div>
 					</div>
 				</div>
@@ -195,7 +196,7 @@
 									<td style="display:none;">{{_id}}</td>
 									<td>{{TenTheLoai}}</td>
 									<td>{{SoKhoaHoc}}</td>
-									<td><a href="#" >Xem chi tiết</a></td>
+									<td><a href="#show-courses" class="detail edit" data-toggle="modal" >Xem chi tiết</a></td>
 									
 									<td>
 										<a  href="#editRecord2"  class="editButton2 edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -287,6 +288,26 @@
 			</form>
 		</div>
 	</div>
-	
+</div>
+{{!-- danh sach khoa hoc model  --}}
+
+<div id="show-courses" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">						
+					<h4 class="modal-title">Danh sách khóa học: </h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<ul id="courses-list" style="text-decoration: none;">
+						<li>khoa1</li>
+						<li>khoa 2</li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+				</div>
+		</div>
+	</div>
 </div>
 </body>
