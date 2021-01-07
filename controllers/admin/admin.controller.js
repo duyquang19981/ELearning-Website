@@ -13,6 +13,8 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 const crudTheLoai = require('./crudTheLoai');
 const crudKhoaHoc = require('./crudKhoaHoc');
 const crudGiangVien = require('./crudGiangVien');
+const crudHocVien = require('./crudHocVien');
+
 route.get('/', async (req,res )=>{
   console.log('go to admin');
   db._connect();
@@ -102,7 +104,7 @@ route.get('/manage-table',  (req,res)=>{
     case 2:
       // TheLoai1 = await HocVien.find().lean();
       //render_view = 'hocvien-manage-table'
-      console.log('giang vien');
+      console.log('hoc vien');
       res.redirect('/admin/manage-table/HocVien');
       break; 
     case 3:
@@ -132,5 +134,6 @@ route.get('/manage-table',  (req,res)=>{
 route.use('/manage-table/TheLoai', crudTheLoai);
 route.use('/manage-table/KhoaHoc', crudKhoaHoc);
 route.use('/manage-table/GiangVien', crudGiangVien);
+route.use('/manage-table/HocVien', crudHocVien);
 
 module.exports = route;

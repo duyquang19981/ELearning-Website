@@ -11,7 +11,7 @@ const HocVienSchema = new Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref: 'KhoaHoc'
         },
-        TrangThai:Number
+        TrangThai:[{type: mongoose.Schema.Types.Number}]
     }],
     WatchList:[{
         type:mongoose.Schema.Types.ObjectId,
