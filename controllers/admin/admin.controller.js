@@ -11,7 +11,8 @@ const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
 const crudTheLoai = require('./crudTheLoai');
-
+const crudKhoaHoc = require('./crudKhoaHoc');
+const crudGiangVien = require('./crudGiangVien');
 route.get('/', async (req,res )=>{
   console.log('go to admin');
   db._connect();
@@ -88,15 +89,21 @@ route.get('/manage-table',  (req,res)=>{
   switch (index) {
     case 0:
       // TheLoai1 = await KhoaHoc.find().lean();
-      render_view = 'khoahoc-manage-table'
+      //render_view = 'khoahoc-manage-table'
+      console.log('khoa hoc');
+      res.redirect('/admin/manage-table/KhoaHoc');
       break;
     case 1:
       // TheLoai1 = await GiangVien.find().lean();
-      render_view = 'giangvien-manage-table'
+      //render_view = 'giangvien-manage-table'
+      console.log('giang vien');
+      res.redirect('/admin/manage-table/GiangVien');
       break;
     case 2:
       // TheLoai1 = await HocVien.find().lean();
-      render_view = 'hocvien-manage-table'
+      //render_view = 'hocvien-manage-table'
+      console.log('giang vien');
+      res.redirect('/admin/manage-table/HocVien');
       break; 
     case 3:
       console.log('the loai');
@@ -123,5 +130,7 @@ route.get('/manage-table',  (req,res)=>{
 });
 
 route.use('/manage-table/TheLoai', crudTheLoai);
+route.use('/manage-table/KhoaHoc', crudKhoaHoc);
+route.use('/manage-table/GiangVien', crudGiangVien);
 
 module.exports = route;
