@@ -16,15 +16,26 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 route.get('/', async (req,res)=>{
   console.log('khoa hoc');
   const searchkey = req.query.searchkey || null;
-  //const page = req.query.page;
+  const page = req.query.page || 1;
+  const perPage = 10;
   db._connect();
   let data = [];
   const admin = await Admin.findOne().lean();
   if(searchkey===null){
-    data = await KhoaHoc.find().lean();
+    const numberOfData = await KhoaHoc.find().countDocuments();
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    data = await KhoaHoc.find()
+    .skip(perPage*(page-1))
+    .limit(perPage)
+    .lean();
   }
   else{
-    data = await KhoaHoc.find({$text: { $search: searchkey }}).lean();
+    const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    data = await KhoaHoc.find({$text: { $search: searchkey }})
+    .skip(perPage*(page-1))
+    .limit(perPage)
+    .lean();
   }
   // const data1 = new KhoaHoc({
   // // _id: "123123eqqwqwdqwdid",
@@ -86,11 +97,27 @@ route.get('/', async (req,res)=>{
   // } catch (error) {
   //   console.log('error :>> ', error);
   // }
+  const pages = [];       // array of page and status
+  for (let i = 0; i < totalPages; i++) {
+      pages[i] = {
+          value : i + 1 ,
+          isActive : (i+1) == page,
+      }
+  }
+  const pagesNav = {};
+  if(page > 1){
+      pagesNav.prev = Number(page) - 1;
+  }
+  if(page < totalPages){
+      pagesNav.next = Number(page) + 1;
+  }
   res.render(`admin/khoahoc-manage-table`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
     KhoaHoc : data,
     searchkey : searchkey,
+    pages : pages,
+    pagesNav : pagesNav
     });
   db._disconnect();
 });
