@@ -14,20 +14,51 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 route.get('/', async (req,res)=>{
   console.log('giang vien table');
   const searchkey = req.query.searchkey || null;
+  const page = req.query.page || 1;
+  const perPage = 3;
   db._connect();
   let data = [];
+  var totalPages = 1;
   const admin = await Admin.findOne().lean();
   if(searchkey===null){
-    data = await GiangVien.find().lean();
+    //get all data
+    const numberOfData = await GiangVien.find().countDocuments();
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    data = await GiangVien.find()
+    .skip(perPage*(page-1))
+    .limit(perPage)
+    .lean();
   }
   else{
-    data = await GiangVien.find({$text: { $search: searchkey }}).lean();
+    const numberOfData = await GiangVien.find({$text: { $search: searchkey }}).count();
+    console.log('numberOfData :>> ', numberOfData);
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    data = await GiangVien.find({$text: { $search: searchkey }})
+    .skip(perPage*(page-1))
+    .limit(perPage)
+    .lean();
+  }
+  const pages = [];       // array of page and status
+  for (let i = 0; i < totalPages; i++) {
+      pages[i] = {
+          value : i + 1 ,
+          isActive : (i+1) == page,
+      }
+  }
+  const pagesNav = {};
+  if(page > 1){
+      pagesNav.prev = Number(page) - 1;
+  }
+  if(page < totalPages){
+      pagesNav.next = Number(page) + 1;
   }
   res.render(`admin/giangvien-manage-table`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
     GiangVien : data,
     searchkey : searchkey,
+    pages : pages,
+    pagesNav : pagesNav
     });
   db._disconnect();
 }); 
