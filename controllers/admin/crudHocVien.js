@@ -2,6 +2,7 @@ const  express = require('express');
 const route = express.Router();
 const db = require('../../utils/db');
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const Admin = require('../../models/schema/Admin.model');
 const KhoaHoc = require('../../models/schema/KhoaHoc.model');
 const GiangVien = require('../../models/schema/GiangVien.model');
@@ -14,21 +15,54 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 route.get('/', async (req,res)=>{
   console.log('hoc vien table');
   const searchkey = req.query.searchkey || null;
-  console.log('searchket :>> ', searchkey);
+  const page = req.query.page || 1;
+  const perPage = 10;
   db._connect();
   let data = [];
+  var totalPages = 1;
   const admin = await Admin.findOne().lean();
-  if(searchkey===null){
-    data = await HocVien.find().lean();
+  if(searchkey===null){     
+    //get all data
+    const numberOfData = await HocVien.find().count();
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    data = await HocVien.find()
+    .skip(perPage*(page-1))
+    .limit(perPage)
+    .lean();
   }
   else{
-    data = await HocVien.find({$text: { $search: searchkey }}).lean();
+    const numberOfData = await HocVien.find({$text: { $search: searchkey }}).count();
+    console.log('numberOfData :>> ', numberOfData);
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    data = await HocVien.find({$text: { $search: searchkey }})
+    .skip(perPage*(page-1))
+    .limit(perPage)
+    .lean();
+    console.log('data :>> ', data);
   }
-  
+  const pages = [];       // array of page and status
+  for (let i = 0; i < totalPages; i++) {
+      pages[i] = {
+          value : i + 1 ,
+          isActive : (i+1) == page,
+      }
+  }
+  const pagesNav = {};
+  if(page > 1){
+      pagesNav.prev = Number(page) - 1;
+  }
+  if(page < totalPages){
+      pagesNav.next = Number(page) + 1;
+  }
+  console.log('pages :>> ', pages);
+  console.log('pagesNav :>> ', pagesNav);
   res.render(`admin/hocvien-manage-table`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
-    HocVien : data
+    HocVien : data,
+    searchkey : searchkey,
+    pages : pages,
+    pagesNav : pagesNav
     });
   db._disconnect();
 }); 

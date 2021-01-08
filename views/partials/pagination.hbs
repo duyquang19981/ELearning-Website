@@ -1,0 +1,23 @@
+<ul class="pagination pagin">
+  {{#if pagesNav.prev}}
+      <li class="page-item"><a class="page-link" href="?searchkey={{searchkey}}&page={{pagesNav.prev}}">Previous</a></li>
+  {{else}}
+      <li class="page-item disabled"><a class = "page-link disabled" href="">Previous</a></li>
+  {{/if}}
+
+  {{#each pages}}
+    {{#if isActive}}
+          <li class="page-item active"><a href="" class="disabled page-link">{{value}}</a></li>
+    {{else}}
+          <li class="page-item"><a href="?searchkey={{../searchkey}}&page={{value}}" class="page-link">{{value}}</a></li>
+    {{/if}}
+  {{/each}} 
+
+  {{#if pagesNav.next}}					
+      <li class="page-item"><a class="page-link" href="?searchkey={{searchkey}}&page={{pagesNav.next}}">Next</a></li>
+  {{else}}
+      <li class="page-item disabled"><a class = "page-link disabled" href="" >Next</a></li>
+    
+  {{/if}} 
+
+</ul>
