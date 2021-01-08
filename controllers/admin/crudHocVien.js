@@ -13,9 +13,17 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
   console.log('hoc vien table');
+  const searchkey = req.query.searchkey || null;
+  console.log('searchket :>> ', searchkey);
   db._connect();
+  let data = [];
   const admin = await Admin.findOne().lean();
-  const data = await HocVien.find().lean();
+  if(searchkey===null){
+    data = await HocVien.find().lean();
+  }
+  else{
+    data = await HocVien.find({$text: { $search: searchkey }}).lean();
+  }
   
   res.render(`admin/hocvien-manage-table`,{
     layout:'admin/a_main',

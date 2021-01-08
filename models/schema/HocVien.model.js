@@ -23,4 +23,5 @@ const HocVienSchema = new Schema({
     }]
 
 }, {collection:'HocVien'})
+HocVienSchema.index({ 'Ten': 'text' });
 module.exports = mongoose.model('HocVien', HocVienSchema);

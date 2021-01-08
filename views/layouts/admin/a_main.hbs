@@ -115,18 +115,10 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    {{#section 'searchbar'}}
+                    
+                    {{/section}}
+                    {{{_sections.searchbar}}}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -235,15 +227,15 @@
 				<div class="modal-body">					
 					<div class="form-group">
 						<label>Tên: </label>
-						<input name="ten" type="text" class="form-control" required>
+						<input name="ten" type="text" class="form-control" required maxlength="30">
 					</div>
 					<div class="form-group">
 						<label>Mail: </label>
-						<input name="mail" type="email" class="form-control" required>
+						<input name="mail" type="email" class="form-control" required maxlength="30">
 					</div>
 					<div class="form-group">
 						<label>Tài khoản: </label>
-						<input id='username' name="username" type="text" class="form-control" pattern="^[a-z_-][a-z0-9_-]{5,17}$" title="Username độ dài 6-16 kí tự, được bao gồm _-, không có kí tự đặc biệt, bắt đầu bằng chữ." required>
+						<input id='username' name="username" type="text" class="form-control" pattern="^[a-z_-][a-z0-9_-]{5,17}$" title="Username độ dài 6-16 kí tự, được bao gồm _-, không có kí tự đặc biệt, bắt đầu bằng chữ." required maxlength="16">
 						<p class="username-noti text-warning" style="visibility:hidden;"><small  >Tài khoản đã tồn tại hoặc không hợp lệ.</small></p>
 					</div>
 					
