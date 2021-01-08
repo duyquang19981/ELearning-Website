@@ -56,7 +56,7 @@ $(document).ready(function(){
   $('.detail').click(function(){
     console.log('xem chi tiet khoa hoc cua hoc vien');
     const td = $(this).closest('tr').find('td');
-    const _id = td[1].innerHTML;
+    const _id = td[0].innerHTML;
     var xhttp = new XMLHttpRequest();
       xhttp.open('GET','HocVien/getcoursesofstudent?_id=' + _id);
     // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -73,4 +73,29 @@ $(document).ready(function(){
 });
 
 
-
+function validateForm(){
+  const username = $('#username')[0].value;
+  console.log('username :>> ', username);
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET','GiangVien/checkUsernameExist?username=' + username);
+// xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send();
+  xhttp.onreadystatechange = async function(){
+      if(this.readyState == 4 && this.status == 200){
+          //alert(this.responseText);
+          var resText = this.responseText;
+          console.log('resText :>> ', resText);
+          const isExist = JSON.parse(resText).isExist;
+          console.log('isExist :>> ', isExist);
+          const noti = $('.username-noti');
+          console.log('noti :>> ', noti);
+          if(isExist){
+            noti.css('visibility','visible');
+          }
+          else{
+            noti.css('visibility','hidden');
+          }
+      }
+  }
+  return false;
+}

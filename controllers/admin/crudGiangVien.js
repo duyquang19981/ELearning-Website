@@ -81,10 +81,42 @@ route.get('/getnumberofcourse', async(req,res)=>{
   const _id = req.query._id;
   const data = await GiangVien.findById(_id);
   const numberofcourse = data.DSKhoaHocDay.length;
-  console.log('data :>> ', data);
-  console.log('numberofcourse :>> ', numberofcourse);
   db._disconnect();
   res.send({numberofcourse: numberofcourse});
+});
+
+route.get('/getcoursesofteacher', async(req,res)=>{
+  console.log('get course of teacher');
+  const _id = req.query._id;
+  console.log('_id :>> ', _id);
+  db._connect();
+  let data ;
+  try{
+    data = await GiangVien.findById(_id).populate('DSKhoaHocDay','TenKhoaHoc');
+  }
+  catch(err){
+    console.log(err);
+    res.send({status:'Failed'});
+  }
+  
+  console.log('data :>> ', data);
+  res.send({status:'Successed',  data:data});
+});
+
+route.get('/checkUsernameExist', async(req,res)=>{
+  console.log('check username exist');
+  db._connect();
+  const username = req.query.username;
+  const data1 = await GiangVien.findOne({Username:username}).lean();
+  const data2 = await HocVien.findOne({Username:username}).lean();
+  db._disconnect();
+  if(data1 === null && data2===null){
+    res.send({isExist:false});
+  }
+  else{
+    res.send({isExist:true});
+  }
+
 });
 
 module.exports = route;
