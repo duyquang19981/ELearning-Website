@@ -44,7 +44,6 @@ route.post('/add1', async (req,res)=>{
 route.post('/edit1', async (req,res )=>{
   const TenTheLoai = req.body.tentheloai;
   const _id = req.body._id;
-  console.log('_id ne :>> ', _id);
   db._connect();
   TheLoaiCap1.findByIdAndUpdate(_id,{TenTheLoai:TenTheLoai},function (err) {
     if (err) return console.error(err);
@@ -76,5 +75,46 @@ route.post('/delete1', async (req,res )=>{
 // sub category
 
 
+route.post('/add2', async (req,res)=>{
+  const TenTheLoai = req.body.tentheloai;
+  const parent_id = req.body.parent_id;
+  const theloai2 = new TheLoaiCap2({
+    TenTheLoai : TenTheLoai,
+    DSKhoaHoc:[],
+    SoKhoaHoc:0,
+  });
+  db._connect();
+  await theloai2.save();
+  await TheLoaiCap1.findByIdAndUpdate(parent_id, {$push:{TheLoaiCon:theloai2._id}});
+  db._disconnect;
+  res.redirect('/admin/manage-table/TheLoai');
+});
+
+
+route.post('/edit2', async (req,res )=>{
+  const TenTheLoai = req.body.tentheloai;
+  const {_id} = req.body;
+  db._connect();
+  TheLoaiCap2.findByIdAndUpdate(_id,{TenTheLoai:TenTheLoai},function (err) {
+    if (err) return console.error(err);
+    console.log(" edit TheLoaiCap2 collection.");
+    db._disconnect;
+    res.redirect('/admin/manage-table/TheLoai');
+  });
+
+});
+
+route.post('/delete2', async (req,res )=>{
+  const {_id} = req.body;
+  const parent_id = req.body.parent_id;
+  db._connect();
+  const TheLoai2 = await TheLoaiCap2.findById(_id); 
+  if(+TheLoai2.SoKhoaHoc===0){
+    await TheLoaiCap2.findByIdAndRemove(_id);
+    await TheLoaiCap1.findByIdAndUpdate(parent_id,{$pull:{TheLoaiCon:_id}});
+  }
+  db._disconnect;
+  res.redirect('/admin/manage-table/TheLoai');
+});
 
 module.exports = route;
