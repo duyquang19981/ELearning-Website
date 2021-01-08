@@ -15,10 +15,17 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
   console.log('khoa hoc');
+  const searchkey = req.query.searchkey || null;
   //const page = req.query.page;
   db._connect();
+  let data = [];
   const admin = await Admin.findOne().lean();
-  const data1 = await KhoaHoc.find().lean();
+  if(searchkey===null){
+    data = await KhoaHoc.find().lean();
+  }
+  else{
+    data = await KhoaHoc.find({$text: { $search: searchkey }}).lean();
+  }
   // const data1 = new KhoaHoc({
   // // _id: "123123eqqwqwdqwdid",
   //   TenKhoaHoc: "day la ten3",
@@ -82,7 +89,8 @@ route.get('/', async (req,res)=>{
   res.render(`admin/khoahoc-manage-table`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
-    KhoaHoc : data1
+    KhoaHoc : data,
+    searchkey : searchkey,
     });
   db._disconnect();
 });

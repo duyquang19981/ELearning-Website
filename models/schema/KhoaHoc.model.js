@@ -60,4 +60,5 @@ const KhoaHocSchema = new Schema({
         default:0
     }
 }, {collection:'KhoaHoc'})
+KhoaHocSchema.index({ 'TenKhoaHoc': 'text' });
 module.exports = mongoose.model('KhoaHoc', KhoaHocSchema);
