@@ -86,7 +86,7 @@
 <div id="addRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form onsubmit="return validateForm()" method="POST" action="HocVien/add">
+			<form id = "addForm" onsubmit="validateForm(); return false;" method="POST" action="HocVien/add">
 				<div class="modal-header">						
 					<h4 class="modal-title">Add Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

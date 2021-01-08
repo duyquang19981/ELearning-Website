@@ -94,6 +94,7 @@ function validateForm(){
           }
           else{
             noti.css('visibility','hidden');
+            document.forms['addForm'].submit();
           }
       }
   }

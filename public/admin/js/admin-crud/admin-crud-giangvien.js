@@ -107,14 +107,16 @@ $(document).ready(function(){
 });
 
 
-function validateForm(){
+
+function  validateForm(){
   const username = $('#username')[0].value;
   console.log('username :>> ', username);
   var xhttp = new XMLHttpRequest();
-  xhttp.open('GET','GiangVien/checkUsernameExist?username=' + username);
+  xhttp.open('GET','/admin/manage-table/GiangVien/checkUsernameExist?username=' + username);
 // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send();
-  xhttp.onreadystatechange = async function(){
+  let check;
+  xhttp.onreadystatechange = function(){
       if(this.readyState == 4 && this.status == 200){
           //alert(this.responseText);
           var resText = this.responseText;
@@ -126,11 +128,13 @@ function validateForm(){
           if(isExist){
             noti.css('visibility','visible');
           }
-          else{
+          else
+          {
             noti.css('visibility','hidden');
+            document.forms['addForm'].submit();
           }
       }
   }
-  return false;
+
 }
 
