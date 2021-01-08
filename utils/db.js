@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const dbName = 'finalweb';
-const uri = process.env.MONGODB_URL || `mongodb+srv://bintech:1234@dbbintech-zalgy.gcp.mongodb.net/${dbName}`
+const uri = process.env.MONGODB_URL || `mongodb+srv://ad:ad@cluster0.qg9si.mongodb.net/${dbName}`
 class Database{
     constructor(){
         
     }
 
     _connect(){
-        mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true,useUnifiedTopology: true, useFindAndModify: false })
+        mongoose.connect('mongodb+srv://ad:ad@cluster0.qg9si.mongodb.net/finalweb', {useNewUrlParser: true,useUnifiedTopology: true, useFindAndModify: false })
             .then(() => {console.log('connect mongodb successful')})
             .catch((err) => console.log('connect error'));
     }

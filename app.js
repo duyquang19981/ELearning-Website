@@ -24,13 +24,12 @@ app.engine('.hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 app.use(express.static('./public'));
-app.get('/',async (req, res) => {
-  res.render('user/home');
-});
-
+// app.get('/',async (req, res) => {
+//   res.render('user/home');
+// });
+app.use('/',require('./controllers/user/home.controller'));
 app.use('/admin',express.static('public/admin'));
 app.use('/admin/manage-table',express.static('public/admin'));
 app.use('/admin',require('./controllers/admin/admin.controller'));
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
