@@ -12,4 +12,5 @@ const GiangVienSchema = new Schema({
     }]
 
 }, {collection:'GiangVien'})
+GiangVienSchema.index({ 'Ten': 'text' });
 module.exports = mongoose.model('GiangVien', GiangVienSchema);

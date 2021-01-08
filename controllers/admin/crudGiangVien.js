@@ -13,14 +13,21 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
   console.log('giang vien table');
+  const searchkey = req.query.searchkey || null;
   db._connect();
+  let data = [];
   const admin = await Admin.findOne().lean();
-  const data = await GiangVien.find().lean();
-  
+  if(searchkey===null){
+    data = await GiangVien.find().lean();
+  }
+  else{
+    data = await GiangVien.find({$text: { $search: searchkey }}).lean();
+  }
   res.render(`admin/giangvien-manage-table`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
-    GiangVien : data
+    GiangVien : data,
+    searchkey : searchkey,
     });
   db._disconnect();
 }); 
