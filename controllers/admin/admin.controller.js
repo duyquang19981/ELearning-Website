@@ -16,14 +16,14 @@ route.get('/', async (req,res )=>{
   console.log('go to admin');
   db._connect();
   // const admin = new Admin({
-  //   Username : 'admin',
-  //   DSBangQL : [
-  //     {TenBang: 'Khóa học'},
-  //     {TenBang: 'Giảng viên'},
-  //     {TenBang: 'Học viên'},
-  //     {TenBang: 'Thể loại'},
-  //     {TenBang: 'Thống kê'},
-  //   ]
+    // Username : 'admin',
+    // DSBangQL : [
+    //   {TenBang: 'Khóa học'},
+    //   {TenBang: 'Giảng viên'},
+    //   {TenBang: 'Học viên'},
+    //   {TenBang: 'Thể loại'},
+    //   {TenBang: 'Thống kê'},
+    // ]
   // });
   // await admin.save();
   const admin = await Admin.findOne().lean();

@@ -12,21 +12,13 @@ const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
 
 route.get('/', async (req,res )=>{
-  console.log('go to home');
+  console.log('go to profile');
   db._connect();
- 
-  const trending = await KhoaHoc.findOne().sort({DiemDanhGia:-1}).limit(1).lean();
-  const mostView = await KhoaHoc.findOne().sort({SoLuotXem:-1}).limit(1).lean();
-  const newest = await KhoaHoc.findOne().sort({NgayDang:-1}).limit(1).lean();
-  res.render('user/home', {
-    layout: 'main',
-    trending: trending,
-    mostView: mostView,
-    newest: newest
+
+  res.render('user/info', {
+    layout: 'user/profile',
   });
-  // console.log(trending);
-  // console.log(mostView);
-  // console.log(newest);
+
 });
 
 module.exports = route;

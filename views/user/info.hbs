@@ -1,0 +1,276 @@
+{{#if isAuthentication}}
+<script>
+    window.onload = login_func;
+</script>
+{{/if}}
+	<header class="header">
+		
+		{{>topbar}}
+
+		<!-- Header Content -->
+		<div class="header_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="header_content d-flex flex-row align-items-center justify-content-start">
+							<div class="logo_container">
+								<a href="#">
+									<div class="logo_text"><span>mE</span>Learning</div>
+								</a>
+							</div>
+							<nav class="main_nav_contaner ml-auto">
+								<ul class="main_nav">
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">  Categories  </a>
+												<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
+												<li><a class="dropdown-item" href="#"> Dropdown item 2 &raquo </a>
+													<ul class="submenu dropdown-menu">
+														<li><a class="dropdown-item" href="">Submenu item 1</a></li>
+														<li><a class="dropdown-item" href="">Submenu item 2</a></li>
+														<li><a class="dropdown-item" href="">Submenu item 3 &raquo </a>
+															<ul class="submenu dropdown-menu">
+																<li><a class="dropdown-item" href="">Multi level 1</a></li>
+																<li><a class="dropdown-item" href="">Multi level 2</a></li>
+															</ul>
+														</li>
+														<li><a class="dropdown-item" href="">Submenu item 4</a></li>
+														<li><a class="dropdown-item" href="">Submenu item 5</a></li>
+												</ul>
+												</li>
+												<li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
+												<li><a class="dropdown-item" href="#"> Dropdown item 4 </a>
+												</ul>
+										</li>
+									<li class="active"><a href="#">Home</a></li>
+								
+									<li><a href="courses.html">My Courses</a></li>
+									<li>
+										<form class="form-inline md-form mr-auto mb-4">
+											<input class="form-control mr-md-2 search-input" type="text" placeholder="Search" aria-label="Search">
+											<button class="btn purple-gradient btn-rounded btn-md my-0" type="submit">Search</button>
+										</form>
+									</li>
+									
+								</ul>
+								
+								<!-- Hamburger -->
+
+								<div class="shopping_cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+								
+								<div class="hamburger menu_mm">
+									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+								</div>
+							</nav>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+		<div class="search">
+			<form action="#" class="header_search_form menu_mm">
+				<input type="search" class="search_input menu_mm" placeholder="Search" required="required">
+				<button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
+					<i class="fa fa-search menu_mm" aria-hidden="true"></i>
+				</button>
+			</form>
+		</div>
+		<nav class="menu_nav">
+			<ul class="menu_mm">
+				<li class="menu_mm"><a href="index.html">Home</a></li>
+				<li class="menu_mm"><a href="#">About</a></li>
+				<li class="menu_mm"><a href="#">Courses</a></li>
+				<li class="menu_mm"><a href="#">Blog</a></li>
+				<li class="menu_mm"><a href="#">Page</a></li>
+				<li class="menu_mm"><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+	</div>
+	
+
+<div class="main-content">
+  
+    <div class="container " style="margin-top: 70px;">
+        <div class="row">
+            <div class="col-md-3"> 
+                <div class="block account-nav">
+                    <div class="quick-user-info clearfix">
+                        <div class="user-avatar float-left white-background">
+                            {{!-- <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg" id="avatar-image" class="avatar-customer"> --}}
+                            <img src="{{userinfo.Avt}}" id="avatar-image" class="" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
+                            <span class="text-avatar" style="visibility: hidden;">DQ</span>
+                        </div>
+                        <div class="user-name-and-role">
+                            <span class="user-name">{{userinfo.HoTen}}</span> 
+                            <span class="sub-title">&lrm;Học viên</span>
+                        </div>
+                    </div>
+                    <div class="content account-nav-content" id="account-nav">
+                        <ul class="nav items nav-list">
+                            <li class="nav item current"><strong>Profile</strong></li>
+                            <li class="nav item"><a href="mycourses">My courses</a></li>
+                            <li class="nav item"><a href="cart">My cart</a></li>
+                            {{!-- <li class="nav item"><a href="purhistory">Purchase history</a></li> --}}
+                            <li class="nav item"><span class="delimiter"></span></li> 
+                            <li class="nav item"><span class="delimiter"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="block info-block">
+                   
+                        {{!-- <form class="form form-edit-account" action="changeinfo" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="* Required Fields" autocomplete="off" novalidate="novalidate"> --}}
+                         <form class="form form-edit-account" action="changeinfo" method="post" id="form-validate" >
+                            <div  class="info-title">
+                                <span > Profile </span>    
+                            </div>
+                            <div class=" clearfix">
+                                <div class="col-md-3 avt-block">
+                                    <div class="user-big-avatar float-left white-background">
+                                        {{!-- <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg" id="avatar-image" class="avatar-customer"> --}}
+                                        <img src="{{userinfo.Avt}}" id="avatar-image" class="avatar-customer" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
+                                        <span class="text-avatar" style="visibility: hidden;">DQ</span>
+                                        {{!-- <button class="btn btn-outline-info btn-change-avt" style="top:100px"><i class="fa fa-camera" aria-hidden="true"></i> Change</button> --}}
+                                    </div>
+                                </div>
+                             
+                                <div class="user-info col-md-8">
+                                     <div class="form-group row">
+                                        <label for="email" class="col-4 col-form-label">Email</label> 
+                                        <div class="col-8">
+                                            <input id="email" name="email" placeholder="Email" class="form-control here"  type="text" value="{{userinfo.Email}}" required disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="name" class="col-4 col-form-label">Full name</label> 
+                                        <div class="col-8">
+                                            <input id="name"  name="hoten" placeholder="Name" class="form-control here" type="text" value = "{{userinfo.HoTen}}" required  >
+                                        </div>
+                                        <div class="custom-input-error">
+                                            <span class="custom-error-text"> </span>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group row">
+                                        <label for="diachi" class="col-4 col-form-label">Address</label> 
+                                        <div class="col-8">
+                                            <input id="diachi" name="diachi" placeholder=" Address" class="form-control " type="text" value="{{userinfo.DiaChi}}" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="sdt" class="col-4 col-form-label">Phone number</label> 
+                                        <div class="col-8">
+                                            <input id="sdt" name="SDT" placeholder="Phone number" class="form-control here" type="text" value = "{{userinfo.SDT}}" >
+                                        </div>
+                                    </div>
+                                    
+            
+                                <!--Date picker -->
+                                    <div class="form-group row ">
+                                        <label for="date" class="col-4 col-form-label">DOB</label> 
+                                        <div class="col-8  date-input">
+                                            <input name ="DOB" id="datepicker" class="form-control here" value="{{userinfo.NgaySinh}}" />
+                                            <script>
+                                                $('#datepicker').datepicker({
+                                                    uiLibrary: 'bootstrap4',
+                                                    dateFormat: "yy-MM-dd",
+                                                    maxDate: new Date()
+                                                });
+                                            
+                                            </script>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row btn-field">
+                                <button type="submit" class="btn btn-primary save-btn"> <span> Save </span> </button> 
+                                <button type="button" class="btn btn-outline-primary changepw-btn" onclick="window.location.href='changepw';"> <span> Change password </span> </button> 
+                            </div>
+                        
+                        </form>     
+                    
+                </div>
+                     
+                   
+                        
+                       
+                   
+             </div>
+        </div>
+    </div>
+            
+                {{!-- s --}}
+               
+
+                {{!--  --}}
+        </div>
+
+    </div>
+</div>
+
+{{!-- đổi mật khẩu --}}
+{{!-- <div class="change-password-mask"></div>
+<div class="change-password-wrap">
+    <div class="title">
+        Change Password
+    </div>
+    <form action="/changepass" method="POST" class =" change-pw-form">
+        <input type="text">
+    </form>
+</div> --}}
+<script>
+// Disable form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Get the forms we want to add validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+
+<script type="text/javascript">
+    (function() {
+        
+        'use strict';
+        console.log('GG123');
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            console.log('form: ', forms);
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+        })();
+</script>

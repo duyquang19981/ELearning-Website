@@ -28,8 +28,11 @@ app.use(express.static('./public'));
 //   res.render('user/home');
 // });
 app.use('/',require('./controllers/user/home.controller'));
+app.use('/user/profile', express.static('public'));
+app.use('/user/profile',require('./controllers/user/profile.controller'));
 app.use('/admin',express.static('public/admin'));
 app.use('/admin/manage-table',express.static('public/admin'));
 app.use('/admin',require('./controllers/admin/admin.controller'));
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
