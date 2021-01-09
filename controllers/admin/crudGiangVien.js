@@ -13,14 +13,14 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
   console.log('giang vien table');
-  const searchkey = req.query.searchkey || null;
+  const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
-  const perPage = 3;
+  const perPage = 10;
   db._connect();
   let data = [];
   var totalPages = 1;
   const admin = await Admin.findOne().lean();
-  if(searchkey===null){
+  if(searchkey===""){
     //get all data
     const numberOfData = await GiangVien.find().countDocuments();
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
@@ -31,7 +31,6 @@ route.get('/', async (req,res)=>{
   }
   else{
     const numberOfData = await GiangVien.find({$text: { $search: searchkey }}).count();
-    console.log('numberOfData :>> ', numberOfData);
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
     data = await GiangVien.find({$text: { $search: searchkey }})
     .skip(perPage*(page-1))
@@ -57,6 +56,7 @@ route.get('/', async (req,res)=>{
     tableList : admin.DSBangQL,
     GiangVien : data,
     searchkey : searchkey,
+    page : page,
     pages : pages,
     pagesNav : pagesNav
     });
@@ -65,10 +65,8 @@ route.get('/', async (req,res)=>{
 
 route.post('/add', async (req,res)=>{
   const {ten,username,mail} = req.body;
-  console.log('ten :>> ', ten);
-  console.log('username :>> ', username);
-  console.log('email :>> ', mail);
-
+  const searchkey = req.query.searchkey || "";
+  const page = req.query.page || 1;
   const giangvien = new GiangVien({
     Ten : ten,
     Mail: mail,
@@ -81,20 +79,21 @@ route.post('/add', async (req,res)=>{
     if (err) return console.error(err);
     console.log(" saved to GiangVien collection.");
     db._disconnect;
-    res.redirect('/admin/manage-table/GiangVien');
+    res.redirect(`/admin/manage-table/GiangVien?searchkey=${searchkey}&page=${page}`);
   });
 });
 
 route.post('/edit', async (req,res )=>{
   const {_id, ten, mail} = req.body;
-  console.log('_id ne :>> ', _id);
+  const searchkey = req.query.searchkey || "";
+  const page = req.query.page || 1;
   db._connect();
   GiangVien.findByIdAndUpdate(_id,{Ten:ten, Mail:mail},function (err) {
     if (err) return console.error(err);
     console.log(" edit GiangVien collection.");
     
     db._disconnect;
-    res.redirect('/admin/manage-table/GiangVien');
+    res.redirect(`/admin/manage-table/GiangVien?searchkey=${searchkey}&page=${page}`);
   });
 
 });
@@ -102,16 +101,17 @@ route.post('/edit', async (req,res )=>{
 route.post('/delete', async (req,res )=>{
   console.log('del giang vien');
   const _id = req.body._id;
+  const searchkey = req.query.searchkey || "";
+  const page = req.query.page || 1;
   db._connect();
   const giangvien = await GiangVien.findById(_id); 
-  console.log('giang vien :>> ', giangvien);
   if(+giangvien.DSKhoaHocDay.length===0){
     GiangVien.findByIdAndRemove(_id, function(err){
       console.log('err', err);
     });
   }
   db._disconnect;
-  res.redirect('/admin/manage-table/GiangVien');
+  res.redirect(`/admin/manage-table/GiangVien?searchkey=${searchkey}&page=${page}`);
 });
 
 route.get('/getnumberofcourse', async(req,res)=>{
@@ -126,7 +126,6 @@ route.get('/getnumberofcourse', async(req,res)=>{
 route.get('/getcoursesofteacher', async(req,res)=>{
   console.log('get course of teacher');
   const _id = req.query._id;
-  console.log('_id :>> ', _id);
   db._connect();
   let data ;
   try{
@@ -137,7 +136,6 @@ route.get('/getcoursesofteacher', async(req,res)=>{
     res.send({status:'Failed'});
   }
   
-  console.log('data :>> ', data);
   res.send({status:'Successed',  data:data});
 });
 

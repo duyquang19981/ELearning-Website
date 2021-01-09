@@ -1,6 +1,10 @@
 
 $(document).ready(function(){
 
+  var searchkey = getParameterByName('searchkey') || null;
+  var page = getParameterByName('page') || 1;
+  console.log('searchkey :>> ', searchkey);
+  console.log('page :>> ', page);
 	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
 	
@@ -26,7 +30,6 @@ $(document).ready(function(){
   $(".editButton").click(function(){
     console.log('edit giang vien');
     const td = $(this).closest('tr').find('td');
-    console.log('td[0] :>> ', td[0]);
     const _id = td[0].innerHTML;
     const Ten = td[1].innerHTML;
     const Mail = td[2].innerHTML;
@@ -36,11 +39,6 @@ $(document).ready(function(){
     edit_input_id[0].value = _id;
     edit_input_ten[0].value = Ten;
     edit_input_mail[0].value = Mail;
-    console.log('edit_input_id :>> ', edit_input_id[0]);
-    console.log('edit_input_ten :>> ', edit_input_ten[0]);
-    console.log('edit_input_mail :>> ', edit_input_mail[0]);
-    
-    console.log('_id :>> ', _id);
   });
   
   $(".deleteButton").click(function(){
@@ -61,7 +59,6 @@ $(document).ready(function(){
             //alert(this.responseText);
             var resText = this.responseText;
             SoKhoaHoc =  JSON.parse(resText).numberofcourse;
-            console.log('SoKhoaHoc :>> ', SoKhoaHoc);
             const noti = $('.noti');
             if(SoKhoaHoc>0){
               noti[0].innerHTML = `This GiangVien has some available courses. GiangVien can't be deleted!`;
@@ -87,7 +84,6 @@ $(document).ready(function(){
     console.log('xem chi tiet khoa hoc');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
-    console.log('_id :>> ', _id);
     var xhttp = new XMLHttpRequest();
       xhttp.open('GET','TheLoai/getcoursesincate?_id=' + _id);
     // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -100,41 +96,10 @@ $(document).ready(function(){
           }
       }
   });
-
-  
-  
   
 });
 
 
 
-function  validateForm(){
-  const username = $('#username')[0].value;
-  console.log('username :>> ', username);
-  var xhttp = new XMLHttpRequest();
-  xhttp.open('GET','/admin/manage-table/GiangVien/checkUsernameExist?username=' + username);
-// xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send();
-  let check;
-  xhttp.onreadystatechange = function(){
-      if(this.readyState == 4 && this.status == 200){
-          //alert(this.responseText);
-          var resText = this.responseText;
-          console.log('resText :>> ', resText);
-          const isExist = JSON.parse(resText).isExist;
-          console.log('isExist :>> ', isExist);
-          const noti = $('.username-noti');
-          console.log('noti :>> ', noti);
-          if(isExist){
-            noti.css('visibility','visible');
-          }
-          else
-          {
-            noti.css('visibility','hidden');
-            document.forms['addForm'].submit();
-          }
-      }
-  }
 
-}
 

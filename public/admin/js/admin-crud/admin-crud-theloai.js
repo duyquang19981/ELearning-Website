@@ -26,16 +26,12 @@ $(document).ready(function(){
   $(".editButton").click(function(){
     console.log('edit');
     const td = $(this).closest('tr').find('td');
-    console.log('td[0] :>> ', td[0]);
     const _id = td[0].innerHTML;
     const TenTheLoai = td[1].innerHTML;
     const edit_input_id = $('#edit_input_id');
     const edit_input_ten = $('#edit_input_ten');
     edit_input_id[0].value = _id;
     edit_input_ten[0].value = TenTheLoai;
-    console.log('edit_input_id :>> ', edit_input_id[0]);
-    console.log('edit_input_ten :>> ', edit_input_ten[0]);
-    console.log('_id :>> ', _id);
   });
   
   $(".deleteButton").click(function(){
@@ -61,7 +57,6 @@ $(document).ready(function(){
   // fill parent id for add new
   $('.addNewSubCate').click(function(){
     const parent_id = $(this).closest('div').find('.parent_id');
-    console.log('parent_id tm :>> ', parent_id[0].innerHTML);
     $('#parent_id_submit')[0].value = parent_id[0].innerHTML;
   });
 
@@ -83,7 +78,6 @@ $(document).ready(function(){
     const parent_id = td[0].innerHTML;
     const _id = td[1].innerHTML;
     const SoKhoaHoc = +td[3].innerHTML;
-    console.log('parent_id :>> ', parent_id);
     const delete_input_parent_id2 = $('#delete_input_parent_id2');
     delete_input_parent_id2[0].value = parent_id;
     const delete_input_id = $('#delete_input_id2');

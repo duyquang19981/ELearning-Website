@@ -7,7 +7,11 @@ class Database{
     }
 
     _connect(){
-        mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true,useUnifiedTopology: true, useFindAndModify: false })
+        mongoose.connect('mongodb://127.0.0.1/my_database', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false, 
+            useCreateIndex: true, })
             .then(() => {console.log('connect mongodb successful')})
             .catch((err) => console.log('connect error'));
     }

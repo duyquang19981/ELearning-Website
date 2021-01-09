@@ -15,13 +15,13 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
   console.log('khoa hoc');
-  const searchkey = req.query.searchkey || null;
+  const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
   const perPage = 10;
   db._connect();
   let data = [];
   const admin = await Admin.findOne().lean();
-  if(searchkey===null){
+  if(searchkey===""){
     const numberOfData = await KhoaHoc.find().countDocuments();
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
     data = await KhoaHoc.find()
@@ -116,6 +116,7 @@ route.get('/', async (req,res)=>{
     tableList : admin.DSBangQL,
     KhoaHoc : data,
     searchkey : searchkey,
+    page : page,
     pages : pages,
     pagesNav : pagesNav
     });
@@ -125,13 +126,15 @@ route.get('/', async (req,res)=>{
 route.post('/delete', async (req,res )=>{
   console.log('del khoa hoc');
   const _id = req.body._id;
+  const searchkey = req.query.searchkey || "";
+  const page = req.query.page || 1;
   db._connect();
   KhoaHoc.findByIdAndRemove(_id,function (err) {
     if (err) return console.error(err);
     console.log(" delete KhoaHoc collection.");
   });
   db._disconnect;
-  res.redirect('/admin/manage-table/KhoaHoc');
+  res.redirect(`/admin/manage-table/KhoaHoc?searchkey=${searchkey}&page=${page}`);
 });
 
 

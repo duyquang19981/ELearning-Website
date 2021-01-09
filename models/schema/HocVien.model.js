@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 const HocVienSchema = new Schema({
     Ten: String,
     Mail: String,
@@ -22,6 +21,6 @@ const HocVienSchema = new Schema({
         ref: 'KhoaHoc'
     }]
 
-}, {collection:'HocVien'})
+}, {collection:'HocVien'});
 HocVienSchema.index({ 'Ten': 'text' });
 module.exports = mongoose.model('HocVien', HocVienSchema);

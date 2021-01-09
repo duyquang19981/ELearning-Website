@@ -74,7 +74,7 @@
 <div id="addRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form id="addForm" method="POST" action="GiangVien/add" onsubmit="validateForm(); return false;">
+			<form id="addForm" method="POST" action="GiangVien/add?searchkey={{searchkey}}&page={{page}}" onsubmit="validateAddForm(); return false;">
 				<div class="modal-header">						
 					<h4 class="modal-title">Add Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -108,7 +108,7 @@
 <div id="editRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form id="edit_form" method="POST" action="GiangVien/edit"  >
+			<form id="edit_form" method="POST" action="GiangVien/edit?searchkey={{searchkey}}&page={{page}}"  >
 				<div class="modal-header">						
 					<h4 class="modal-title">Edit Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -138,7 +138,7 @@
 <div id="deleteRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form name="deleteForm" method="POST" action="GiangVien/delete">
+			<form name="deleteForm" method="POST" action="GiangVien/delete?searchkey={{searchkey}}&page={{page}}">
 				<div class="modal-header">						
 					<h4 class="modal-title">Delete Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

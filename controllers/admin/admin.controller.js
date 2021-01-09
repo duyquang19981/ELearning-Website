@@ -2,6 +2,7 @@ const  express = require('express');
 const route = express.Router();
 const db = require('../../utils/db');
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const bodyParser = require('body-parser');
 const Admin = require('../../models/schema/Admin.model');
 const KhoaHoc = require('../../models/schema/KhoaHoc.model');
@@ -14,6 +15,7 @@ const crudTheLoai = require('./crudTheLoai');
 const crudKhoaHoc = require('./crudKhoaHoc');
 const crudGiangVien = require('./crudGiangVien');
 const crudHocVien = require('./crudHocVien');
+const crudThongKe = require('./crudThongKe');
 
 route.get('/', async (req,res )=>{
   console.log('go to admin');
@@ -112,9 +114,8 @@ route.get('/manage-table',  (req,res)=>{
       res.redirect('/admin/manage-table/TheLoai');
       break;
     case 4:
-      
-    
-      render_view = 'thongke-manage-table'
+      console.log('tyhong ke case');
+      res.redirect('/admin/manage-table/ThongKe');
       break; 
   
     default:
@@ -135,5 +136,5 @@ route.use('/manage-table/TheLoai', crudTheLoai);
 route.use('/manage-table/KhoaHoc', crudKhoaHoc);
 route.use('/manage-table/GiangVien', crudGiangVien);
 route.use('/manage-table/HocVien', crudHocVien);
-
+route.use('/manage-table/ThongKe', crudThongKe);
 module.exports = route;

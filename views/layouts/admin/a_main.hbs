@@ -21,8 +21,7 @@
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/custom_style.css">
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/admin-crud/admin-crud-giangvien.js"></script>
-    
+    <script src="js/admin-crud/function.js"></script>
 </head>
 
 <body id="page-top">
@@ -219,7 +218,7 @@
 <div id="addGiangVienRecord" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form id = "addForm" method="POST" action="/admin/manage-table/GiangVien/add" onsubmit="validateForm(); return false;">
+			<form id = "addForm2" method="POST" action="/admin/manage-table/GiangVien/add" onsubmit="validateAddForm2(); return false;">
 				<div class="modal-header">						
 					<h4 class="modal-title">Add Record</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -235,7 +234,7 @@
 					</div>
 					<div class="form-group">
 						<label>Tài khoản: </label>
-						<input id='username' name="username" type="text" class="form-control" pattern="^[a-z_-][a-z0-9_-]{5,17}$" title="Username độ dài 6-16 kí tự, được bao gồm _-, không có kí tự đặc biệt, bắt đầu bằng chữ." required maxlength="16">
+						<input id='username2' name="username" type="text" class="form-control" pattern="^[a-z_-][a-z0-9_-]{5,17}$" title="Username độ dài 6-16 kí tự, được bao gồm _-, không có kí tự đặc biệt, bắt đầu bằng chữ." required maxlength="16">
 						<p class="username-noti text-warning" style="visibility:hidden;"><small  >Tài khoản đã tồn tại hoặc không hợp lệ.</small></p>
 					</div>
 					
