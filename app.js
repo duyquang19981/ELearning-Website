@@ -11,6 +11,7 @@ const db = require('./utils/db');
 const GiangVien = require('./models/schema/GiangVien.model');
 const HocVien = require('./models/schema/HocVien.model');
 const Admin = require('./models/schema/Admin.model');
+const bcrypt = require('bcrypt');
 const passport = require('passport')
                 , LocalStrategy = require('passport-local').Strategy;
 passport.use('local', new LocalStrategy(
@@ -31,7 +32,7 @@ passport.use('local', new LocalStrategy(
           } 
         }
         if(!comparePassword(password,user.Password)){
-            return done(null, false, { message: 'Username or Pasword is incorect.'  });
+            return done(null, false, { message: ' Pasword is incorect.'  });
         }
         
         return done(null, user);

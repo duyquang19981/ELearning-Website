@@ -21,8 +21,17 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 
 
 route.get('/',async (req, res) => {
-    res.render('user/home');
-  });
+    if(req.isAuthenticated()){
+        console.log('req.user :>> ', req.user);
+        res.render('user/home',{
+            isAuthentication: req.isAuthenticated(),
+            user:req.user
+        });
+    }
+    res.render('user/home',{
+        
+    });
+});
 //   app.get('/login', async(req,res)=>{
 //     res.render('user/login',{
 //       layout : false,~
