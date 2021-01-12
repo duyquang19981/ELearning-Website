@@ -1,0 +1,127 @@
+
+<div class="main-content">
+    <div class="container " style="margin-top: 70px;">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="block info-block">
+                   
+                        {{!-- <form class="form form-edit-account" action="changeinfo" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="* Required Fields" autocomplete="off" novalidate="novalidate"> --}}
+                         <form class="form form-edit-account" action="changeinfo" method="post" id="form-validate" >
+                            <div  class="info-title">
+                                <span > Profile </span>    
+                            </div>
+                            <div class=" clearfix">
+                                <div class="col-md-3 avt-block">
+                                    <div class="user-big-avatar float-left white-background">
+                                        {{!-- <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg" id="avatar-image" class="avatar-customer"> --}}
+                                        {{!-- <img src="{{userinfo.Avt}}" id="avatar-image" class="avatar-customer" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'"> --}}
+                                        <span class="text-avatar" style="visibility: hidden;">DQ</span>
+                                        {{!-- <button class="btn btn-outline-info btn-change-avt" style="top:100px"><i class="fa fa-camera" aria-hidden="true"></i> Change</button> --}}
+                                    </div>
+                                </div>
+                            
+                                <div class="user-info col-md-8">
+                                    <div class="form-group row">
+                                        <label for="username" class="col-4 col-form-label">Username</label> 
+                                        <div class="col-8">
+                                            <input id="email" name="email" placeholder="Username" class="form-control here"  type="text" value="{{user.Username}}" required disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="name" class="col-4 col-form-label">Họ tên</label> 
+                                        <div class="col-8">
+                                            <input id="name"  name="hoten" placeholder="Name" class="form-control here" type="text" value = "{{user.Ten}}" required  >
+                                        </div>
+                                        <div class="custom-input-error">
+                                            <span class="custom-error-text"> </span>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group row">
+                                        <label for="diachi" class="col-4 col-form-label">E-mail</label> 
+                                        <div class="col-8">
+                                            <input id="diachi" name="diachi" placeholder=" Address" class="form-control " type="text" value="{{user.Mail}}" >
+                                        </div>
+                                    </div>
+                                  
+                                    
+            
+                                <!--Date picker -->
+                                  
+
+                                </div>
+                            </div>
+
+                            <div class="row btn-field">
+                                <button type="submit" class="btn btn-primary save-btn"> <span> Save </span> </button> 
+                                <button type="button" class="btn btn-outline-primary changepw-btn" onclick="window.location.href='changepw';"> <span> Change password </span> </button> 
+                            </div>
+                        
+                        </form>     
+                    
+                </div>
+
+             </div>
+        </div>
+    </div>
+            
+
+        </div>
+
+    </div>
+</div>
+
+{{!-- đổi mật khẩu --}}
+{{!-- <div class="change-password-mask"></div>
+<div class="change-password-wrap">
+    <div class="title">
+        Change Password
+    </div>
+    <form action="/changepass" method="POST" class =" change-pw-form">
+        <input type="text">
+    </form>
+</div> --}}
+<script>
+// Disable form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Get the forms we want to add validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+
+<script type="text/javascript">
+    (function() {
+        
+        'use strict';
+        console.log('GG123');
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            console.log('form: ', forms);
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+        })();
+</script>

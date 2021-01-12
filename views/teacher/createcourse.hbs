@@ -1,0 +1,49 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://cdn.tiny.cloud/1/vw6cg862gs7gx0ippt9ttr48wtzd5q49nr2rhy7ovs9ileuy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+      tinymce.init({
+        selector: '#mytextarea'
+      });
+    </script>
+<div class="modal-content">
+			<form id = "addCourseForm"  method="GET" action="/teacher/addCourse">
+				<div class="modal-header">						
+					<h4 class="modal-title">THÊM KHÓA HỌC</h4>
+					
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>Tên khóa học: </label>
+						<input name="tenkhoahoc" type="text" class="form-control" require  maxlength="100">
+					</div>
+          <div class="form-group">
+            <label>Thể loại: </label>
+						<select name = "_idTheLoai" class="form-select" >
+              {{#each theloai }}
+                <option value="{{_id}}">{{TenTheLoai}}</option>
+              {{/each}}
+            </select>
+					</div>
+					<div class="form-group">
+						<label>Học phí: </label>
+						<input name="hocphi" type="number" class="form-control" require min="0">
+					</div>
+					<div class="form-group">
+						<label>Khuyến mãi </label>
+						<input  name="khuyenmai"  type="number" class="form-control" max="100" min="0">
+					</div>
+          <div class="form-group">
+						<label>Mô tả ngắn </label>
+						<input  name="motangan"  type="text" class="form-control"  maxlength="100" >
+					</div>
+          <div class="form-group">
+            <label>Mô tả chi tiết </label>
+            <textarea name = "motachitiet" id="mytextarea"></textarea>
+          </div>
+				</div>
+				<div class="modal-footer">
+		
+					<input type="submit" class="btn btn-success" value="Thêm">
+				</div>
+			</form>
+		</div>
