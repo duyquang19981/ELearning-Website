@@ -21,19 +21,53 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 
 
 route.get('/',async (req, res) => {
+    //tao admin account
+    // db._connect();
+    // const admin = new Admin({
+    //     Username : 'admin',
+    //     Password : hashPassword('admin'),
+    //     DSBangQL :[
+    //         {TenBang: 'Khóa học'},
+    //         {TenBang: 'Giảng viên'},
+    //         {TenBang: 'Học viên'},
+    //         {TenBang: 'Thể loại'}
+    //     ]
+    // })
+    // await admin.save();
+    // db._disconnect();
+    // return 0;
     const theloai = [];
     if(req.isAuthenticated()){
+        const user = req.user;
+        console.log('user :>> ', user);
+        switch (user.Role) {
+            case 0:
+                return res.redirect('/admin');
+                break;
+            case 1:
+                return res.redirect('/teacher');
+                break;
+            case 2:
+                return res.render('user/home',{
+                    isAuthentication: req.isAuthenticated(),
+                    user:req.user,
+                    TheLoai:theloai,
+                    title:'Home|mELearning'
+                });
+                break;
+            
+            default:
+                break;
+        }
+
+
+    }
+    else{
         return res.render('user/home',{
-            isAuthentication: req.isAuthenticated(),
-            user:req.user,
             TheLoai:theloai,
             title:'Home|mELearning'
         });
     }
-    return res.render('user/home',{
-        TheLoai:theloai,
-        title:'Home|mELearning'
-    });
 });
 //   app.get('/login', async(req,res)=>{
 //     res.render('user/login',{
@@ -141,15 +175,12 @@ route.post('/login', passport.authenticate('local',{
         failureRedirect: '/login', 
         failureFlash: 'Invalid username or password.', 
         failureFlash: true}), (req, res) => {
-        console.log('post login');
-        console.log('req.session.returnTo :>> ', req.session.returnTo);
         if (req.session.returnTo) {
             returnTo = req.session.returnTo
             //delete req.session.returnTo
             return res.redirect(returnTo);
         }
         else{
-            console.log('this one');
             return res.redirect('/');
         }
     }
