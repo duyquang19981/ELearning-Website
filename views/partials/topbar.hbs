@@ -19,6 +19,10 @@
 								<div class="top_bar_login ml-auto">
 									{{#if isAuthentication}}
 											<div style="color: white; margin-top:10px">Xin chào, <a href="user/profile" class="question"><u>{{user.Ten}} </u></a></div>
+											<form id="logoutFrm" method="POST" action="/logout">
+													<input type="submit" class="btn btn-dark" value="Logout">
+											</form>
+										
 									{{else}}
 										<div class="login_button"><a href="/login">Register or Login</a></div>
 									{{/if}}

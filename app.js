@@ -59,10 +59,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 const session = require('express-session')
+app.set('trust proxy', 1 );
 app.use(session({
 	secret: "mysession",
 	cookie: {
-		maxAge: 600000 //đơn vị là milisecond
+    maxAge: 600000 //đơn vị là milisecond,
+     
+    
 	},
 	saveUninitialized: true,
 	resave: true

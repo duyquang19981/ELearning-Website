@@ -21,15 +21,18 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 
 
 route.get('/',async (req, res) => {
+    const theloai = [];
     if(req.isAuthenticated()){
-        console.log('req.user :>> ', req.user);
-        res.render('user/home',{
+        return res.render('user/home',{
             isAuthentication: req.isAuthenticated(),
-            user:req.user
+            user:req.user,
+            TheLoai:theloai,
+            title:'Home|mELearning'
         });
     }
-    res.render('user/home',{
-        
+    return res.render('user/home',{
+        TheLoai:theloai,
+        title:'Home|mELearning'
     });
 });
 //   app.get('/login', async(req,res)=>{
@@ -120,9 +123,7 @@ route.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('user/login',{
         layout : 'user/sign',
         title : 'Log In',
-        msg: req.flash('error'),
-        
-        
+        msg: req.flash('error'), 
     });
 });
 
@@ -141,12 +142,16 @@ route.post('/login', passport.authenticate('local',{
         failureFlash: 'Invalid username or password.', 
         failureFlash: true}), (req, res) => {
         console.log('post login');
+        console.log('req.session.returnTo :>> ', req.session.returnTo);
         if (req.session.returnTo) {
             returnTo = req.session.returnTo
-            delete req.session.returnTo
+            //delete req.session.returnTo
             return res.redirect(returnTo);
         }
-        return res.redirect('/');
+        else{
+            console.log('this one');
+            return res.redirect('/');
+        }
     }
 );
 
@@ -165,11 +170,6 @@ route.post('/register', async (req, res) => {
     }
     // const {topic} = req.body ;
     const { ten, username, password, mail } = req.body;
-
-    console.log('ten :>> ', ten);
-    console.log('username :>> ', username);
-    console.log('password :>> ', password);
-    console.log('mail :>> ', mail);
     // *Check data
     // *TODO
     try {
@@ -200,9 +200,11 @@ route.post('/register', async (req, res) => {
 
 });
 
-route.get('/logout', (req, res) => {
+route.post('/logout', (req, res) => {
+    console.log('log out post');
     req.logout();
-    res.redirect('/login');
+    console.log('req.header :>> ', req.header('Referer'));
+    res.redirect(req.header('Referer'));
 })
 
 
