@@ -9,7 +9,11 @@ const GiangVienSchema = new Schema({
     DSKhoaHocDay:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'KhoaHoc'
-    }]
+    }],
+    Role : {
+        type:Number,
+        default:1
+    }
 
 }, {collection:'GiangVien'})
 GiangVienSchema.index({ 'Ten': 'text' });

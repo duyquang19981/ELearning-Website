@@ -19,7 +19,11 @@ const HocVienSchema = new Schema({
     GioHang:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'KhoaHoc'
-    }]
+    }],
+    Role : {
+        type:Number,
+        default:2
+    }
 
 }, {collection:'HocVien'});
 HocVienSchema.index({ 'Ten': 'text' });
