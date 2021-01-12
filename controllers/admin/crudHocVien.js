@@ -72,7 +72,7 @@ route.post('/add', async (req,res)=>{
     Ten : ten,
     Mail: mail,
     Username : username,
-    Password : username,
+    Password : hashPassword(username),
     DSKhoaHocDK: [],
     WatchList : [],
     GioHang : []
@@ -129,5 +129,23 @@ route.get('/getcoursesofstudent', async(req,res)=>{
   }
   res.send({status:'Successed',  data:data});
 });
+const hashPassword = (myPassword) => {
+  const SALT_HASH = 10;
+  const hash = bcrypt.hashSync(myPassword, SALT_HASH);
+  return hash;
+}
 
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+res.redirect('/Login/');
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/');
+  }
+  next();
+}
 module.exports = route;

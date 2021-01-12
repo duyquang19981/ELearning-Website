@@ -100,5 +100,7 @@ app.use('/admin', express.static('public/admin'));
 app.use('/admin/manage-table',express.static('public/admin'));
 app.use('/admin',require('./controllers/admin/admin.controller'));
 
-
+app.use('/teacher',require('./controllers/teacher/teacher.controller'));
+app.use('/teacher', express.static('public/admin'));
+app.use('/teacher/profile',express.static('public/admin'));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

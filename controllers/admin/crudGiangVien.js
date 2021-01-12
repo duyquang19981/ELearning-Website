@@ -10,6 +10,7 @@ const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
 const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
+const bcrypt = require('bcrypt');
 
 route.get('/', async (req,res)=>{
   console.log('giang vien table');
@@ -71,7 +72,7 @@ route.post('/add', async (req,res)=>{
     Ten : ten,
     Mail: mail,
     Username : username,
-    Password : username,
+    Password : hashPassword(username),
     DSKhoaHocDay:[]
   });
   db._connect();
@@ -154,5 +155,25 @@ route.get('/checkUsernameExist', async(req,res)=>{
   }
 
 });
+
+const hashPassword = (myPassword) => {
+  const SALT_HASH = 10;
+  const hash = bcrypt.hashSync(myPassword, SALT_HASH);
+  return hash;
+}
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+res.redirect('/Login/');
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/');
+  }
+  next();
+}
 
 module.exports = route;

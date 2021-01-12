@@ -36,7 +36,10 @@ route.get('/',async (req, res) => {
     // await admin.save();
     // db._disconnect();
     // return 0;
-    const theloai = [];
+    db._connect();
+    
+    const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+    db._disconnect();
     if(req.isAuthenticated()){
         const user = req.user;
         console.log('user :>> ', user);

@@ -30,7 +30,7 @@ const KhoaHocSchema = new Schema({
     },
     CapNhatCuoi: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     TrangThai: Number,
     AnhDaiDien: String,
