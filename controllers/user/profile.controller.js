@@ -84,4 +84,105 @@ route.get('/mycourses', async (req,res)=>{
   });
 
 });
+
+route.get('/WatchList', async (req,res)=>{
+  console.log("go to profile/WatchList")
+  var userCourses = {};
+  var pageNumberRequest = req.query.page || 1;
+  var perPage = 3;
+  
+  db._connect();
+  const info = await HocVien.findOne({ "_id": _id}).lean();
+  const WatchList = await HocVien.findOne({ "_id": _id}).select('WatchList');
+  
+  const A_WatchList = WatchList.get('WatchList');
+  console.log(A_WatchList);
+  // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
+  const coursesList = await KhoaHoc.find({'_id':{$in: A_WatchList}}).lean();
+  console.log(coursesList);
+
+  let start = (pageNumberRequest - 1 ) * perPage;
+  let end = perPage * pageNumberRequest;
+  let coursesInPage = coursesList.slice(start,end);
+  let totalPage = parseInt(coursesList.length / perPage + 1);;
+  const pages = [];       // array of page and status
+  
+  for (let i = 0; i < totalPage; i++) {
+      pages[i] = {
+          value : i + 1 ,
+          isActive : (i+1) == pageNumberRequest,
+      }
+  }
+  const pagesNav = {};
+  if(pageNumberRequest > 1){
+      pagesNav.prev = Number(pageNumberRequest) - 1;
+  }
+  if(pageNumberRequest < totalPage){
+      pagesNav.next = Number(pageNumberRequest) + 1;
+  }
+
+
+  res.render('user/WatchList', {
+    layout: 'user/profile',
+    courses: coursesInPage,
+    pages:pages,
+    pagesNav : pagesNav,
+    userinfo:info,
+  });
+
+});
+
+route.get('/cart', async (req,res)=>{
+  console.log("go to profile/cart")
+  var userCourses = {};
+  var pageNumberRequest = req.query.page || 1;
+  var perPage = 8;
+  
+  db._connect();
+  const info = await HocVien.findOne({ "_id": _id}).lean();
+  const GioHang = await HocVien.findOne({ "_id": _id}).select('GioHang');
+  
+  const A_GioHang = GioHang.get('GioHang');
+  console.log(A_GioHang);
+  // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
+  const coursesList = await KhoaHoc.find({'_id':{$in: A_GioHang}}).lean();
+  let TongTien =0;
+  coursesList.forEach(function(cL) {
+    cL.ThanhTien = cL.HocPhiGoc*(1-cL.KhuyenMai/100);
+    TongTien = TongTien + cL.ThanhTien
+  });
+  console.log(coursesList);
+
+  let start = (pageNumberRequest - 1 ) * perPage;
+  let end = perPage * pageNumberRequest;
+  let coursesInPage = coursesList.slice(start,end);
+  let totalPage = parseInt(coursesList.length / perPage + 1);;
+  const pages = [];       // array of page and status
+  
+  for (let i = 0; i < totalPage; i++) {
+      pages[i] = {
+          value : i + 1 ,
+          isActive : (i+1) == pageNumberRequest,
+      }
+  }
+  const pagesNav = {};
+  if(pageNumberRequest > 1){
+      pagesNav.prev = Number(pageNumberRequest) - 1;
+  }
+  if(pageNumberRequest < totalPage){
+      pagesNav.next = Number(pageNumberRequest) + 1;
+  }
+
+
+  res.render('user/Cart', {
+    layout: 'user/profile',
+    usercart: coursesInPage,
+    pages:pages,
+    pagesNav : pagesNav,
+    userinfo:info,
+    totalprice:TongTien,
+  });
+
+});
+
 module.exports = route;

@@ -17,9 +17,9 @@
                     <div class="content account-nav-content" id="account-nav">
                         <ul class="nav items nav-list">
                             <li class="nav item"><a href="./">Profile</a></li>
-                            <li class="nav item current"><a href="mycourses"><strong>My courses</strong></a></li>
+                            <li class="nav item"><a href="mycourses">My courses</a></li>
                             <li class="nav item"><a href="cart">My cart</a></li>
-                            <li class="nav item"><a href="WatchList">WatchList</a></li>
+                            <li class="nav item current"><a href="WatchList"><strong>WatchList</strong></a></li>
                             {{!-- <li class="nav item"><a href="purhistory">Purchase history</a></li> --}}
                             <li class="nav item"><span class="delimiter"></span></li> 
                             <li class="nav item"><span class="delimiter"></span></li>
@@ -32,7 +32,7 @@
   					<div class="col-lg-12">
                         <div class="courses_container" style="margin-top:30px">
                             <div class="row courses_row">
-                                {{#each usercourses}}
+                                {{#each courses}}
                                 <div class="col-lg-4 course_col">
                                     <div class="course">
                                         <div class="course_image"><img src="{{this.AnhDaiDien}}" alt="hinh-anh"></div>
