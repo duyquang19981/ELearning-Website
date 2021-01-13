@@ -155,6 +155,40 @@ route.get('/mycourses', async (req,res)=>{
   
 });
 
+route.get('/detailcourse/:id', async (req,res)=>{
+  const _id_khoahoc = req.params.id;
+  const _id = req.user._id;
+  db._connect();
+  const user = await GiangVien.findById(_id).lean();
+  const khoahoc = await KhoaHoc.findById(_id_khoahoc).populate('TheLoai2','TenTheLoai').lean();
+  console.log('khoahoc :>> ', khoahoc);
+  db._disconnect();
+  res.render( 'teacher/editcourse' ,{
+    layout:'teacher/t_main',
+    title : 'Detail',
+    user : user,  
+    khoahoc : khoahoc,
+  });  
+
+});
+
+route.post('/detailcourse/:id/editCourse', async (req,res)=>{
+  console.log('edit coutse');
+
+  const {_id,ten,hocphi,khuyenmai,motangan,motachitiet} = req.body;
+  db._connect();
+  await KhoaHoc.findByIdAndUpdate(_id,{
+    TenKhoaHoc : ten,
+    HocPhiGoc : +hocphi,
+    KhuyenMai : +khuyenmai,
+    MoTaNgan : motangan,
+    MoTaChiTiet : motachitiet,
+    CapNhatCuoi : new Date(),
+  });
+  db._disconnect();
+  console.log('chinh sua khoa hoc xong');
+  res.redirect('../'+_id)
+});
 
 route.post('/changeinfo', async (req,res)=>{
   console.log('change');

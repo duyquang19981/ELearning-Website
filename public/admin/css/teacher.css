@@ -1,15 +1,19 @@
 .img-course{
-  max-width: 350px;
-  min-width: 350px;
-  max-height: 350px;
-  min-height: 350px;
+  max-width: 280px;
+  min-width: 280px;
+  max-height: 280px;
+  min-height: 280px;
 }
 .card-course{
-  max-width: 350px;
-  min-width: 350px;
-  max-height: 600px;
+  max-width: 280px;
+  min-width: 280px;
+  max-height: 500px;
 }
 a:hover{
   text-emphasis: none;
   text-decoration: none;
+}
+.form-title{
+  font-size: 20px;
+  font-weight: 500;
 }

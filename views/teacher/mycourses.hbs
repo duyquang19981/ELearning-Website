@@ -2,16 +2,18 @@
 		
 		<div class="contaier d-flex justify-content-around flex-wrap">
 			{{#each khoahoc}}
-			<div class="card card-course">
-				<img class="card-img-top img-course" src="{{AnhDaiDien}}" alt="Card image cap">
-				<div class="card-body">
-					<h5 class="card-title"><a href="detailcourse/{{_id}}">{{TenKhoaHoc}}</a></h5>
-					<p class="card-text">Thể loại: {{TheLoai2.TenTheLoai}}</p>
+			<a href="detailcourse/{{_id}}">
+				<div class="card card-course">
+					<img class="card-img-top img-course" src="{{AnhDaiDien}}" alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title">{{TenKhoaHoc}}</h5>
+						<p class="card-text">Thể loại: {{TheLoai2.TenTheLoai}}</p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted">Cập nhật cuối: {{CapNhatCuoi}}</small>
+					</div>
 				</div>
-				<div class="card-footer">
-					<small class="text-muted">Cập nhật cuối: {{CapNhatCuoi}}</small>
-				</div>
-			</div>
+			</a>
 			{{/each}}
 		</div>
 
