@@ -12,6 +12,8 @@ const GiangVien = require('./models/schema/GiangVien.model');
 const HocVien = require('./models/schema/HocVien.model');
 const Admin = require('./models/schema/Admin.model');
 const bcrypt = require('bcrypt');
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' })
 const passport = require('passport')
                 , LocalStrategy = require('passport-local').Strategy;
 passport.use('local', new LocalStrategy(
@@ -54,7 +56,8 @@ const comparePassword = (myPassword, hash) => {
 const TheLoaiCap1 = require('./models/schema/TheLoaiCap1.model');
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // parse application/json
 app.use(bodyParser.json());
 
@@ -63,9 +66,7 @@ app.set('trust proxy', 1 );
 app.use(session({
 	secret: "mysession",
 	cookie: {
-    maxAge: 600000 //đơn vị là milisecond,
-     
-    
+    // maxAge: 600000 //đơn vị là milisecond,
 	},
 	saveUninitialized: true,
 	resave: true
