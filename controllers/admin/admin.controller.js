@@ -132,6 +132,12 @@ route.get('/manage-table',  (req,res)=>{
   
 });
 
+route.get('/logout', (req, res) => {
+  console.log('log out teacjer');
+  req.logout();
+  res.redirect('/');
+});
+
 route.use('/manage-table/TheLoai', crudTheLoai);
 route.use('/manage-table/KhoaHoc', crudKhoaHoc);
 route.use('/manage-table/GiangVien', crudGiangVien);

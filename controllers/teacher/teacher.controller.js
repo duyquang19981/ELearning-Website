@@ -125,7 +125,11 @@ route.post('/changeinfo', async (req,res)=>{
 
 });
 
-
+route.get('/logout', (req, res) => {
+  console.log('log out teacjer');
+  req.logout();
+  res.redirect('/');
+});
 
 
 const hashPassword = (myPassword) => {
