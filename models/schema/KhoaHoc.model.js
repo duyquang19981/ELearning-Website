@@ -5,14 +5,14 @@ const Schema = mongoose.Schema;
 
 const KhoaHocSchema = new Schema({
     TenKhoaHoc: String,
-    IDTheLoaiCap2: {
+    TheLoai2: {
         type:mongoose.Schema.Types.ObjectId,
         ref: 'TheLoaiCap2'
     },
-    IDGiangVien: [{
+    GiangVien: {
         type:mongoose.Schema.Types.ObjectId,
         ref: 'GiangVien'
-    }],
+    },
     HocPhiGoc: {
         type:Number,
         min:0
@@ -60,4 +60,5 @@ const KhoaHocSchema = new Schema({
         default:0
     }
 }, {collection:'KhoaHoc'})
+KhoaHocSchema.index({ 'TenKhoaHoc': 'text' });
 module.exports = mongoose.model('KhoaHoc', KhoaHocSchema);

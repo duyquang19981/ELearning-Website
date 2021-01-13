@@ -17,7 +17,13 @@
 									</li>
 								</ul>
 								<div class="top_bar_login ml-auto">
-									<div class="login_button"><a href="#">Register or Login</a></div>
+									{{#if isAuthentication}}
+											<div style="color: white; margin-top:10px">Xin chào, <a href="user/profile" class="question"><u>{{user.Ten}} </u></a></div>
+									{{else}}
+										<div class="login_button"><a href="/login">Register or Login</a></div>
+									{{/if}}
+									
+									
 								</div>
 							</div>
 						</div>

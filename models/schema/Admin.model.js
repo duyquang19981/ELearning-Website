@@ -7,6 +7,10 @@ const AdminSchema = new Schema({
     DSBangQL: [{
         _id: mongoose.Schema.Types.ObjectId,
         TenBang:String
-    }]
+    }],
+    Role : {
+        type:Number,
+        default:0
+    }
 }, {collection:'Admin'})
 module.exports = mongoose.model('Admin', AdminSchema);

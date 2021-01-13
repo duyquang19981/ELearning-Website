@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 const HocVienSchema = new Schema({
     Ten: String,
     Mail: String,
@@ -11,7 +10,7 @@ const HocVienSchema = new Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref: 'KhoaHoc'
         },
-        TrangThai:Number
+        TrangThai:[{type: mongoose.Schema.Types.Number}]
     }],
     WatchList:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -20,7 +19,12 @@ const HocVienSchema = new Schema({
     GioHang:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'KhoaHoc'
-    }]
+    }],
+    Role : {
+        type:Number,
+        default:2
+    }
 
-}, {collection:'HocVien'})
+}, {collection:'HocVien'});
+HocVienSchema.index({ 'Ten': 'text' });
 module.exports = mongoose.model('HocVien', HocVienSchema);
