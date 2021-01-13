@@ -47,11 +47,8 @@ const KhoaHocSchema = new Schema({
         PhanHoi:String
     }],
     DeCuong:[{
-        TenChuong: String,
-        DSBaiHoc:[{ 
-            TenBaiHoc:String, 
-            Video: String
-        }]
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Chuong'
     }],
     DiemDanhGia:{
         type:Number,

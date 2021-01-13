@@ -10,6 +10,7 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
+const Chuong  =require('../../models/schema/Chuong.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
 const photosfiles = require('../../models/schema/photos.files.model');
 const photoschunks = require('../../models/schema/photos.chunks.model');
@@ -21,6 +22,10 @@ const multer = require("multer");
 
 
 route.get('/', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
   const _id = req.user._id;
   db._connect();
   const user = await GiangVien.findById(_id).lean();
@@ -35,6 +40,10 @@ route.get('/', async (req,res )=>{
 });
 
 route.get('/profile', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
   const _id = req.user._id;
   db._connect();
   const user = await GiangVien.findById(_id).lean();
@@ -50,6 +59,10 @@ route.get('/profile', async (req,res )=>{
 
 
 route.get('/createCourse', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
   console.log('tạo khóa học');
   const _id = req.user._id;
   db._connect();
@@ -69,6 +82,10 @@ route.get('/createCourse', async (req,res)=>{
 });
 
 route.post('/addCourse', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
   console.log('get add course');
   const user = req.user;
   //console.log('user :>> ', user);
@@ -117,6 +134,10 @@ route.post('/addCourse', async (req,res)=>{
 });
 
 route.get('/mycourses', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
   console.log('tds khoa hoc giang vien');
   const _id = req.user._id;
   db._connect();
@@ -156,6 +177,10 @@ route.get('/mycourses', async (req,res)=>{
 });
 
 route.get('/detailcourse/:id', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
   const _id_khoahoc = req.params.id;
   const _id = req.user._id;
   db._connect();
@@ -174,7 +199,10 @@ route.get('/detailcourse/:id', async (req,res)=>{
 
 route.post('/detailcourse/:id/editCourse', async (req,res)=>{
   console.log('edit coutse');
-
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
   const {_id,ten,hocphi,khuyenmai,motangan,motachitiet} = req.body;
   db._connect();
   await KhoaHoc.findByIdAndUpdate(_id,{
@@ -208,6 +236,73 @@ route.post('/changeinfo', async (req,res)=>{
     res.redirect(`./profile`);
   });
 
+});
+
+route.get('/reference/:id', async(req,res)=>{
+  console.log(' vo ref ne');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  const _id = req.user._id;
+  const id_khoahoc = req.params.id;
+  db._connect();
+  const user = await GiangVien.findById(_id).lean();
+  const khoahoc = await KhoaHoc.findById(id_khoahoc).populate('DeCuong').lean();
+  console.log('khoahoc :>> ', khoahoc);
+  db._disconnect();
+  res.render('teacher/reference',{
+    title:"Change Password" ,
+    layout : 'teacher/t_main',
+    user : user,
+    khoahoc : khoahoc,
+  });
+});
+
+route.post('/reference/add', async(req,res)=>{
+  console.log(' vo add reff');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  const _id = req.user._id;
+  const id_khoahoc = req.body._idkhoahoc;
+  const tenchuong = req.body.tenchuong;
+  db._connect();
+  const chuong = new Chuong({
+    TenChuong:tenchuong,
+    beLongTo : id_khoahoc,
+    DSBaiHoc :[]
+  })
+  try{
+    await chuong.save();
+  }catch(err){
+    console.log('err :>> ', err);
+    return res.redirect('./'+ id_khoahoc);
+  }
+  console.log('add chuong');
+  const khoahoc = await KhoaHoc.findByIdAndUpdate(id_khoahoc, 
+    {$push: {DeCuong: chuong._id}, CapNhatCuoi:new Date()});
+  console.log('add chuong to khoa hoc');
+  db._disconnect();
+  res.redirect('./'+id_khoahoc);
+});
+
+
+route.post('/reference/edit', async(req,res)=>{
+  console.log(' vo edit reff');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  const _id = req.user._id;
+  const id_khoahoc = req.body._idkhoahoc;
+  const tenchuong = req.body.tenchuong;
+  db._connect();
+  const khoahoc = await KhoaHoc.findByIdAndUpdate(id_khoahoc, {$push: {DeCuong: {$each: [{TenChuong:tenchuong , DSBaiHoc:[]}]}}});
+  console.log('add chuong');
+  db._disconnect();
+  res.redirect('./id_khoahoc');
 });
 
 route.get("/changepw", async (req,res)=>{ 
@@ -251,7 +346,7 @@ route.post("/postchangepw2", async (req, res) => {
 );
 
 route.get('/logout', (req, res) => {
-  console.log('log out teacjer');
+  console.log('log out teacher');
   req.logout();
   res.redirect('/');
 });

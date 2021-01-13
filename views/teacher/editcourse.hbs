@@ -4,12 +4,18 @@
     
 
 	<div class="modal-content">
+     {{#if khoahoc}}
+       <div>
+          <a href="/teacher/reference/{{khoahoc._id}}"><button style="margin-top: 15px; margin-left:15px" class="btn btn-lg btn-info">Đề cương</button></a>
+        </div>
 			<form id = "editCourse"  method="POST" action="/teacher/detailcourse/{{khoahoc._id}}/editCourse" >
 				<div class="modal-header">						
 					<h4 class="modal-title">THÔNG TIN KHÓA HỌC</h4>
+
 				</div>
 				<div class="modal-body">	
-          {{#if khoahoc}}
+         
+           
             <div class="form-group">
               <input class="form-control " type="text"   style="display:none" name="_id" value="{{khoahoc._id}}" require>
               <label class = "form-title">Tên khóa học: </label>
@@ -23,15 +29,15 @@
               <input name="hocphi" type="number" class="form-control" require min="0" value="{{khoahoc.HocPhiGoc}}">
             </div>
             <div class="form-group">
-              <label class = "form-title">Khuyến mãi </label>
+              <label class = "form-title">Khuyến mãi: </label>
               <input  name="khuyenmai"  type="number" class="form-control" max="100" min="0" value="{{khoahoc.KhuyenMai}}">
             </div>
             <div class="form-group">
-              <label class = "form-title">Mô tả ngắn </label>
+              <label class = "form-title">Mô tả ngắn: </label>
               <input  name="motangan"  type="text" class="form-control"  maxlength="100" value="{{khoahoc.MoTaNgan}}" >
             </div>
             <div class="form-group">
-              <label class = "form-title">Mô tả chi tiết </label>
+              <label class = "form-title">Mô tả chi tiết: </label>
               <textarea name = "motachitiet" id="mytextarea" >{{khoahoc.MoTaChiTiet}}</textarea>
             </div>
             <div class="form-group">
@@ -51,6 +57,7 @@
 				</div>
 			</form>
 		</div>
+    
 
 	<script src="https://cdn.tiny.cloud/1/vw6cg862gs7gx0ippt9ttr48wtzd5q49nr2rhy7ovs9ileuy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
