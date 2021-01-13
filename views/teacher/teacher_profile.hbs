@@ -24,13 +24,13 @@
                                     <div class="form-group row">
                                         <label for="username" class="col-4 col-form-label">Username</label> 
                                         <div class="col-8">
-                                            <input id="email" name="email" placeholder="Username" class="form-control here"  type="text" value="{{user.Username}}" required disabled>
+                                            <input id="email"  placeholder="Username" class="form-control here"  type="text" value="{{user.Username}}" required disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="name" class="col-4 col-form-label">Họ tên</label> 
                                         <div class="col-8">
-                                            <input id="name"  name="hoten" placeholder="Name" class="form-control here" type="text" value = "{{user.Ten}}" required  >
+                                            <input id="name" name="ten" placeholder="Name" class="form-control here" type="text" value = "{{user.Ten}}" required maxlength="30" >
                                         </div>
                                         <div class="custom-input-error">
                                             <span class="custom-error-text"> </span>
@@ -40,7 +40,7 @@
                                     <div class="form-group row">
                                         <label for="diachi" class="col-4 col-form-label">E-mail</label> 
                                         <div class="col-8">
-                                            <input id="diachi" name="diachi" placeholder=" Address" class="form-control " type="text" value="{{user.Mail}}" >
+                                            <input id="mail" type="email" name="mail" placeholder=" Address" class="form-control " type="text" value="{{user.Mail}}" maxlength="30">
                                         </div>
                                     </div>
                                   

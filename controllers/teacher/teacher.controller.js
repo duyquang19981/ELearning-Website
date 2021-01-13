@@ -18,10 +18,12 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 // const crudThongKe = require('./crudThongKe');
 
 route.get('/', async (req,res )=>{
-  const user = req.user;
+  const _id = req.user._id;
+  db._connect();
+  const user = await GiangVien.findById(_id).lean();
+  db._disconnect();
   console.log('go to teacher');
   console.log('user :>> ', user);
-  db._connect();
   res.render('teacher/dashboard',{
     layout:'teacher/t_main',
     title : '',
@@ -30,10 +32,12 @@ route.get('/', async (req,res )=>{
 });
 
 route.get('/profile', async (req,res )=>{
-  const user = req.user;
+  const _id = req.user._id;
+  db._connect();
+  const user = await GiangVien.findById(_id).lean();
+  db._disconnect();
   console.log('go to teacher profile');
   console.log('user :>> ', user);
-  db._connect();
   res.render('teacher/teacher_profile',{
     layout:'teacher/t_main',
     title : 'Profile',
@@ -41,11 +45,12 @@ route.get('/profile', async (req,res )=>{
   });
 });
 
+
 route.get('/createCourse', async (req,res)=>{
   console.log('tạo khóa học');
-  const user = req.user;
-  console.log('user :>> ', user);
+  const _id = req.user._id;
   db._connect();
+  const user = await GiangVien.findById(_id);
   const data = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   console.log('data :>> ', data);
   db._disconnect();
@@ -100,33 +105,28 @@ route.get('/addCourse', async (req,res)=>{
 });
 
 route.post('/changeinfo', async (req,res)=>{
-
+  console.log('change');
   if (!req.isAuthenticated()){
       
       res.redirect('/Login/');
       return; 
   }
-  const _id = req.user._id ;
+  const _id = req.user._id;
+  const { ten, mail} = req.body;
   db._connect(); 
-
-  // DOB = DOB.replace(/\//g,'-');
-
-  const update = {
-      HoTen : req.body.hoten,
-      DiaChi : req.body.diachi,
-      NgaySinh : toDate,
-      SDT : req.body.SDT,
-  };
-  let doc = await GiangVien.findByIdAndUpdate({_id:_id}, update,function(err){
-      if(err){
-          res.json({kq:0, ErrMgs:err});
-      }else{
-          res.redirect('./');
-      }
+  const gv = await GiangVien.findById(_id);
+  console.log('gv :>> ', gv);
+  db._connect();
+  GiangVien.findByIdAndUpdate(_id,{Ten:ten, Mail:mail},function (err,doc) {
+    if (err) return console.error(err);
+    db._disconnect;
+    res.redirect(`./profile`);
   });
-  
-  db._disconnect();
+
 });
+
+
+
 
 const hashPassword = (myPassword) => {
   const SALT_HASH = 10;
@@ -147,9 +147,5 @@ function checkNotAuthenticated(req, res, next) {
   }
   next();
 }
-// route.use('/manage-table/TheLoai', crudTheLoai);
-// route.use('/manage-table/KhoaHoc', crudKhoaHoc);
-// route.use('/manage-table/GiangVien', crudGiangVien);
-// route.use('/manage-table/HocVien', crudHocVien);
-// route.use('/manage-table/ThongKe', crudThongKe);
+
 module.exports = route;
