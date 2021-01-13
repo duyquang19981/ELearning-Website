@@ -307,6 +307,22 @@ route.post('/reference/edit', async(req,res)=>{
   res.redirect('./'+chuong.beLongTo);
 });
 
+route.post('/reference/delete', async(req,res)=>{
+  console.log(' vo delete reff');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  const _id = req.user._id;
+  const id_chuong = req.body.id_chuong;
+  console.log('id_chuong :>> ', id_chuong);
+  db._connect();
+  const chuong = await Chuong.findByIdAndRemove(id_chuong);
+  console.log('delete chuong');
+  db._disconnect();
+  res.redirect('./'+chuong.beLongTo);
+});
+
 route.get("/changepw", async (req,res)=>{ 
   if (!req.isAuthenticated()){
       res.redirect('/login');
@@ -319,7 +335,6 @@ route.get("/changepw", async (req,res)=>{
       title:"Change Password" ,
       layout : 'teacher/t_main',
       user : user,
-      isAuthentication: req.isAuthenticated()
   });
   db._disconnect();
 });
