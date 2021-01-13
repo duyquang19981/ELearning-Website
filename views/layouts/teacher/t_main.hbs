@@ -22,7 +22,9 @@
     <link href = "css/user.css" rel = "stylesheet" type ='text/css' media ="all"/>
     <link href="MDB-Free_4.19.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="MDB-Free_4.19.2/css/mdb.min.css">
-	<script src="MDB-Free_4.19.2/js/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 </head>
 
 <body id="page-top">
@@ -87,7 +89,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="teacher/createCourse" >Tạo khóa học</a>
+                        <a class="collapse-item" href="/teacher/createCourse" >Tạo khóa học</a>
                     </div>
                 </div>
             </li>
@@ -208,43 +210,11 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="teacher/logout">Logout</a>
+                    <a class="btn btn-primary" href="/teacher/logout">Logout</a>
                 </div>
             </div>
         </div>
     </div>
-<div id="addGiangVienRecord" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<form id = "addForm2" method="POST" action="/admin/manage-table/GiangVien/add" onsubmit="validateAddForm2(); return false;">
-				<div class="modal-header">						
-					<h4 class="modal-title">Add Record</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body">					
-					<div class="form-group">
-						<label>Tên: </label>
-						<input name="ten" type="text" class="form-control" required maxlength="30">
-					</div>
-					<div class="form-group">
-						<label>Mail: </label>
-						<input name="mail" type="email" class="form-control" required maxlength="30">
-					</div>
-					<div class="form-group">
-						<label>Tài khoản: </label>
-						<input id='username2' name="username" type="text" class="form-control" pattern="^[a-z_-][a-z0-9_-]{5,17}$" title="Username độ dài 6-16 kí tự, được bao gồm _-, không có kí tự đặc biệt, bắt đầu bằng chữ." required maxlength="16">
-						<p class="username-noti text-warning" style="visibility:hidden;"><small  >Tài khoản đã tồn tại hoặc không hợp lệ.</small></p>
-					</div>
-					
-				</div>
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Add">
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

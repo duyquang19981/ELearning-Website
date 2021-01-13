@@ -16,6 +16,8 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 // const crudGiangVien = require('./crudGiangVien');
 // const crudHocVien = require('./crudHocVien');
 // const crudThongKe = require('./crudThongKe');
+const bcrypt = require('bcrypt');
+
 
 route.get('/', async (req,res )=>{
   const _id = req.user._id;
@@ -125,6 +127,46 @@ route.post('/changeinfo', async (req,res)=>{
 
 });
 
+route.get("/changepw", async (req,res)=>{ 
+  if (!req.isAuthenticated()){
+      res.redirect('/login');
+      return; 
+  }
+  const _id =  req.user._id ;
+  db._connect(); 
+  var user = await GiangVien.findById(_id).lean();
+  res.render('teacher/changepw',{
+      title:"Change Password" ,
+      layout : 'teacher/t_main',
+      user : user,
+      isAuthentication: req.isAuthenticated()
+  });
+  db._disconnect();
+});
+
+route.post("/postchangepw2", async (req, res) => {
+  db._connect(); 
+  var ID = req.query.id;  
+  var curpw = req.query.curpw;
+  var newpw  = req.query.newpw;
+  var user = await GiangVien.findById(ID);
+  if(!comparePassword(curpw,user.Password)){
+      res.send('incorrect');
+      return;
+  }else{console.log("dung");}
+  var changepw = await GiangVien.findByIdAndUpdate(ID,{Password:hashPassword(newpw)},function(err){
+      if(err){
+          console.log('Err: ', err);
+          res.send('failed');
+      }
+      else{
+          res.send('successed');
+      }
+  });
+  db._disconnect();
+}
+);
+
 route.get('/logout', (req, res) => {
   console.log('log out teacjer');
   req.logout();
@@ -151,5 +193,8 @@ function checkNotAuthenticated(req, res, next) {
   }
   next();
 }
+const comparePassword = (myPassword, hash) => {
+  return bcrypt.compareSync(myPassword, hash);
+};
 
 module.exports = route;

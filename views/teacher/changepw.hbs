@@ -1,0 +1,151 @@
+
+
+<div class="main-content">
+  
+    <div class="container ">
+        <div class="row">
+            
+
+            <div class="col-md-9">
+                <div class="block info-block">
+                   
+                        {{!-- <form class="form form-edit-account" action="changeinfo" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="* Required Fields" autocomplete="off" novalidate="novalidate"> --}}
+                         <form class="form form-edit-account" id="form-validate" >
+                            <div  class="info-title">
+                                <span > Change Password </span>    
+                            </div>
+                            <div class=" clearfix">
+                                <div class="user-info col-md-8">
+                                     <div class="form-group row">
+                                        <label for="curpw" class="col-4 col-form-label">Curent Password</label> 
+                                        <div class="col-8">
+                                            <input id="curpw" name="curpw" placeholder="Enter current password" class="form-control here"  type="password" value="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="newpw" class="col-4 col-form-label">New Password</label> 
+                                        <div class="col-8">
+                                            <input id="newpw"  name="newpw" placeholder="Enter new password" class="form-control here" type="password" value = "" required  >
+                                        </div>
+                                        <div class="custom-input-error">
+                                            <span class="custom-error-text"> </span>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group row">
+                                        <label for="retype" class="col-4 col-form-label">Re-type</label> 
+                                        <div class="col-8">
+                                            <input id="confirm" name="confirm" placeholder=" Re-type New Password" class="form-control " type="password" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>     
+                        <div class="noti">
+                               <div class= "noti-content">&nbsp;</div>
+                        </div>
+                        <div class="row btn-field">
+                            <a style="" href="/teacher/profile"> <button class="btn btn-danger back-btn"  > <span> Back </span> </button> </a>
+                            <button class="btn btn-primary save-btn" onclick="changepw('{{user._id}}')" > <span> Save </span> </button> 
+        
+                        </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+            
+                {{!-- s --}}
+            
+                {{!--  --}}
+</div>
+
+
+
+<script>
+// Disable form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Get the forms we want to add validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();  
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+
+<script type="text/javascript">
+        function changepw(id){
+        // xoa div khoi trang web
+        var  newpw_block = document.getElementById('newpw');
+        var  curpw_block =  document.getElementById('curpw');
+        var  confirm_block = document.getElementById('confirm');
+        var curpw = curpw_block.value;
+        var newpw = newpw_block.value;
+        var conf = confirm_block.value;
+        var noti = document.getElementsByClassName('noti-content');
+        noti[0].innerHTML = 'Waiting...';
+        if(curpw.length < 1){
+            noti[0].classList.remove('noti-content-successful');
+            noti[0].innerHTML = 'Current password is required!';
+            
+            return;
+        }
+        if(newpw.length < 6){
+            noti[0].classList.remove('noti-content-successful');
+            noti[0].innerHTML = 'New password is at least 6 characters';
+            
+            return;
+        }
+        if(newpw != conf){
+            noti[0].classList.remove('noti-content-successful');    
+            noti[0].innerHTML = 'Your new password does not match confirmation.';
+            return;
+        }
+        var xhttp = new XMLHttpRequest();
+        xhttp.open('POST','postchangepw2?id=' + id + '&curpw='+curpw+'&newpw='+newpw,'true');
+     // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
+        xhttp.onreadystatechange = function(){
+
+            if(this.readyState == 4 && this.status == 200){
+               //alert(this.responseText);
+            
+                
+                var resText = this.responseText;
+                if(resText =='successed'){
+                    noti[0].innerHTML = 'Your changes have been successfully saved.';
+                    noti[0].classList.add('noti-content-successful');
+                    Swal.fire(
+                        'Successfully!',
+                        'Your password is changed!',
+                        'success'
+                    )
+                }
+                else if(resText =='failed') {
+                    noti[0].innerHTML = 'Failed to change password.';
+                    noti[0].classList.remove('noti-content-successful');
+                }
+                else if(resText == 'incorrect'){
+                    noti[0].innerHTML = 'Your password was incorrect.';
+                    noti[0].classList.remove('noti-content-successful');
+                    
+                }
+                
+            }
+
+        }
+
+    }
+</script>
