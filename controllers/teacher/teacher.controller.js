@@ -296,13 +296,15 @@ route.post('/reference/edit', async(req,res)=>{
     return; 
   }
   const _id = req.user._id;
-  const id_khoahoc = req.body._idkhoahoc;
+  const id_chuong = req.body.id_chuong;
   const tenchuong = req.body.tenchuong;
+  console.log('id_chuong :>> ', id_chuong);
+  console.log('tenchuong :>> ', tenchuong);
   db._connect();
-  const khoahoc = await KhoaHoc.findByIdAndUpdate(id_khoahoc, {$push: {DeCuong: {$each: [{TenChuong:tenchuong , DSBaiHoc:[]}]}}});
-  console.log('add chuong');
+  const chuong = await Chuong.findByIdAndUpdate(id_chuong, {TenChuong:tenchuong});
+  console.log('edit chuong');
   db._disconnect();
-  res.redirect('./id_khoahoc');
+  res.redirect('./'+chuong.beLongTo);
 });
 
 route.get("/changepw", async (req,res)=>{ 

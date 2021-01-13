@@ -41,15 +41,9 @@
 					{{#if khoahoc.DeCuong}}
 						{{#each khoahoc.DeCuong }}
 							<tr>
-								{{!-- <td>
-									<span class="custom-checkbox">
-										<input type="checkbox" id="checkbox1" name="options[]" value="1">
-										<label for="checkbox1"></label>
-									</span>
-								</td> --}}
+								
 								<td style="display:none;">{{_id}}</td>
 								<td>{{TenChuong}}</td>
-
 								<td>
 									<a  href="#table_{{@index}}" ><i style="color: rgb(31, 183, 243);" class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Detail"></i></a>
 									<a  href="#editRecord"  class="editButton edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -102,8 +96,8 @@
 				<div class="modal-body">					
 					<div class="form-group">
 						<label>Tên chương</label>
-						<input id="edit_input_id"  name="_id" type="hidden"  required>
-						<input id="edit_input_ten" name="tentheloai" type="text" class="form-control" required maxlength="100">
+						<input id="edit_input_id"  name="id_chuong" type="hidden"  required>
+						<input id="edit_input_ten" name="tenchuong" type="text" class="form-control" required maxlength="100">
 					</div>
 					
 				</div>
@@ -152,7 +146,7 @@
 							<h2>{{TenChuong}}</h2>
 						</div>
 						<div class="col-sm-6">
-							<p class="parent_id" style="display:none;">{{_idChuong}}</p>
+							<p class="parent_id" style="display:none;">{{_id}}</p>
 							<a href="#addRecord2" class="addNewSubCate btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Record</span></a>
 							<a disabled href="#deleteRecord2" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
 						</div>
@@ -210,7 +204,7 @@
 					<div class="form-group">
 						<label>Tên bài học:</label>
 						<input id="parent_id_submit" name="parent_id" type="text" class="form-control" style="display:none">
-						<input name="tentheloai" type="text" class="form-control" required maxlength="30">
+						<input name="tenchuong" type="text" class="form-control" required maxlength="30">
 					</div>
 					
 				</div>
@@ -235,7 +229,7 @@
 					<div class="form-group">
 						<label>Tên bài học</label>
 						<input id="edit_input_id2" style="display:none" name="_id" type="text"  required>
-						<input id="edit_input_ten2"name="tentheloai" type="text" class="form-control" required maxlength="100">
+						<input id="edit_input_ten2"name="tenchuong" type="text" class="form-control" required maxlength="100">
 					</div>
 					
 				</div>
