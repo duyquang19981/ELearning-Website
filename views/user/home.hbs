@@ -59,7 +59,7 @@
 								
 								<!-- Hamburger -->
 
-								<div class="shopping_cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+								<div class="shopping_cart"><a href="/user/profile/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></div>
 								
 								<div class="hamburger menu_mm">
 									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
@@ -101,164 +101,71 @@
 	<!-- Home -->
 
 	<div class="home">
+		<div class="home_title"><i class="fa fa-thumbs-up"></i> Best Courses:</div>
 		{{>home_slider}}
-	</div>
+
 
 		<!-- Home Slider Nav -->
-
 		<div class="home_slider_nav home_slider_prev"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
 		<div class="home_slider_nav home_slider_next"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
 	</div>
 
-	<!-- Features -->
-
-	<div class="features">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<h2 class="section_title">Welcome To mELearning</h2>
-						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu. Vestibulum feugiat, sapien ultrices fermentum congue, quam velit venenatis sem</p></div>
+	<!--New Courses -->
+	<div class="home_title"><i class="fa fa-star" aria-hidden="true"></i> New Courses:</div>
+	<div id ="owl-1" class="owl-carousel owl-theme">
+		{{#each newest }}
+			<div class="item">
+				<div class="course">
+					<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
+					<div class="course_body">
+						<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>
+						<div class="course_teacher"></div>
+						<div class="course_text">
+							<p>{{this.MoTaNgan}}</p>
+						</div>
+					</div>
+					<div class="course_footer">
+						<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
+							<div class="course_info">
+								<i class="fa fa-star" aria-hidden="true"></i>
+								<span>{{this.DiemDanhGia}} Ratings</span>
+							</div>
+							<div class="course_price ml-auto">{{this.HocPhiGoc}}$</div>						
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row features_row">
-				
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_1.png" alt=""></div>
-						<h3 class="feature_title">The Experts</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_2.png" alt=""></div>
-						<h3 class="feature_title">Book & Library</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_3.png" alt=""></div>
-						<h3 class="feature_title">Best Courses</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_4.png" alt=""></div>
-						<h3 class="feature_title">Award & Reward</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-			</div>
-		</div>
+		{{/each}}
 	</div>
 
-	<!-- Popular Courses -->
-
-	<div class="courses">
-		<div class="section_background parallax-window" data-parallax="scroll" data-image-src="images/courses_background.jpg" data-speed="0.8"></div>
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<h2 class="section_title">Những khóa học nổi bật</h2>
+	<!--Most View -->
+	<div class="home_title"><i class="fa fa-star" aria-hidden="true"></i> Most Viewed Courses:</div>
+	<div id ="owl-2" class="owl-carousel owl-theme">
+		{{#each mostView }}
+			<div class="item">
+				<div class="course">
+					<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
+					<div class="course_body">
+						<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>
+						<div class="course_teacher"></div>
+						<div class="course_text">
+							<p>{{this.MoTaNgan}}</p>
+						</div>
+					</div>
+					<div class="course_footer">
+						<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
+							<div class="course_info">
+								<i class="fa fa-star" aria-hidden="true"></i>
+								<span>{{this.DiemDanhGia}} Ratings</span>
+							</div>
+							<div class="course_price ml-auto">{{this.HocPhiGoc}}$</div>						
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row courses_row">
-				
-				<!-- Course -->
-				<div class="col-lg-4 course_col">
-					<div class="course">
-						<i class="fas fa-h1">Khóa học nổi bật</i>
-						<div class="course_image"><img src={{trending.AnhDaiDien}} alt=""></div>
-						<div class="course_body">
-							<h3 class="course_title"><a href="course.html">{{trending.TenKhoaHoc}}</a></h3>
-							<div class="course_teacher"></div>
-							<div class="course_text">
-								<p>{{trending.MoTaNgan}}</p>
-							</div>
-						</div>
-						<div class="course_footer">
-							<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-								<div class="course_info">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>{{trending.DiemDanhGia}} Ratings</span>
-								</div>
-								<div class="course_price ml-auto">{{trending.HocPhiGoc}}$</div>						
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Course -->
-				<div class="col-lg-4 course_col">
-					<div class="course">
-						<i class="fas fa-h1">Khóa học được xem nhiều nhất</i>
-						<div class="course_image"><img src={{mostView.AnhDaiDien}} alt=""></div>
-						<div class="course_body">
-							<h3 class="course_title"><a href="course.html">{{mostView.TenKhoaHoc}}</a></h3>
-							<div class="course_teacher"></div>
-							<div class="course_text">
-								<p>{{mostView.MoTaNgan}}</p>
-							</div>
-						</div>
-						<div class="course_footer">
-							<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-								<div class="course_info">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>{{mostView.DiemDanhGia}} Ratings</span>
-								</div>
-								<div class="course_price ml-auto">{{mostView.HocPhiGoc}}$</div>						
-							</div>
-						</div>
-					</div>
-				</div>
-
-				
-				<!-- Course -->
-				<div class="col-lg-4 course_col">
-					<div class="course">
-						<i class="fas fa-h1">Khóa học mới nhất</i>
-						<div class="course_image"><img src={{newest.AnhDaiDien}} alt=""></div>
-						<div class="course_body">
-							<h3 class="course_title"><a href="course.html">{{newest.TenKhoaHoc}}</a></h3>
-							<div class="course_teacher"></div>
-							<div class="course_text">
-								<p>{{newest.MoTaNgan}}</p>
-							</div>
-						</div>
-						<div class="course_footer">
-							<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-								<div class="course_info">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>{{newest.DiemDanhGia}} Ratings</span>
-								</div>
-								<div class="course_price ml-auto">{{newest.HocPhiGoc}}$</div>						
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-			<div class="row">
-				<div class="col">
-					<div class="courses_button trans_200"><a href="#">view all courses</a></div>
-				</div>
-			</div>
-		</div>
+		{{/each}}
 	</div>
+
 
 	<!-- Counter -->
 
@@ -617,3 +524,39 @@
 <script src="plugins/easing/easing.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
+
+<script>
+$('#owl-1').owlCarousel({
+    loop:false,
+    margin:20,
+    nav:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items:4
+        }
+    }
+})
+
+$('#owl-2').owlCarousel({
+    loop:false,
+    margin:20,
+    nav:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items:4
+        }
+    }
+})
+</script>

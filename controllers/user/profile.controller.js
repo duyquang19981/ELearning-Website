@@ -1,7 +1,15 @@
-const  express = require('express');
+const express = require('express');
 const route = express.Router();
+const path = require('path');
+const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+const passport = require('passport')
+    , LocalStrategy = require('passport-local').Strategy;
+
+
 const db = require('../../utils/db');
-const mongoose = require('mongoose');
+const mongoose=require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const bodyParser = require('body-parser');
 const Admin = require('../../models/schema/Admin.model');
 const KhoaHoc = require('../../models/schema/KhoaHoc.model');
@@ -9,21 +17,28 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
-const ThongKe = require('../../models/schema/ThongKe.model');
-const { validate } = require('../../models/schema/Admin.model');
-const _id = '5ffa03261194ed6e97dc81f4';
-route.get('/', async (req,res )=>{
-  console.log('go to profile');
 
+// const _id = '5ffa03261194ed6e97dc81f4';
+route.get('/', async (req,res )=>{
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  const _id =  req.user._id ;
+  console.log('go to profile');
   db._connect();
-  const info =await HocVien.findOne({ "_id": _id}).lean();
+  const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   // console.log(info);
   res.render('user/info', {
     layout: 'user/profile',
-    userinfo:info,
+    userinfo: userinfo,
   });
 });
-route.post('/changeinfo', async (req,res)=>{
+
+route.post('/changeinfo',  async (req,res)=>{
+
+
   const uTen = req.body.hoten;
   const uMail = req.body.email;
   // console.log(Ten);
@@ -41,13 +56,21 @@ route.post('/changeinfo', async (req,res)=>{
   });
 });
 route.get('/mycourses', async (req,res)=>{
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  const _id =  req.user._id ;
+
+
   console.log("go to profile/mycourses")
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 3;
   
   db._connect();
-  const info = await HocVien.findOne({ "_id": _id}).lean();
+  const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   const DSKhoaHocDK = await HocVien.findOne({ "_id": _id}).select('DSKhoaHocDK.KhoaHoc');
   const mycourses = DSKhoaHocDK.get('DSKhoaHocDK');
   let A_mycourses = mycourses.map(x=>x.KhoaHoc);
@@ -80,19 +103,26 @@ route.get('/mycourses', async (req,res)=>{
     usercourses: coursesInPage,
     pages:pages,
     pagesNav : pagesNav,
-    userinfo:info,
+    userinfo:userinfo,
   });
 
 });
 
-route.get('/WatchList', async (req,res)=>{
+route.get('/WatchList',  async (req,res)=>{
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  const _id =  req.user._id ;
+
   console.log("go to profile/WatchList")
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 3;
   
   db._connect();
-  const info = await HocVien.findOne({ "_id": _id}).lean();
+  const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   const WatchList = await HocVien.findOne({ "_id": _id}).select('WatchList');
   
   const A_WatchList = WatchList.get('WatchList');
@@ -127,19 +157,26 @@ route.get('/WatchList', async (req,res)=>{
     courses: coursesInPage,
     pages:pages,
     pagesNav : pagesNav,
-    userinfo:info,
+    userinfo: userinfo,
   });
 
 });
 
-route.get('/cart', async (req,res)=>{
+route.get('/cart',  async (req,res)=>{
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  const _id =  req.user._id ;
+
   console.log("go to profile/cart")
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 8;
   
   db._connect();
-  const info = await HocVien.findOne({ "_id": _id}).lean();
+  const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   const GioHang = await HocVien.findOne({ "_id": _id}).select('GioHang');
   
   const A_GioHang = GioHang.get('GioHang');
@@ -179,7 +216,7 @@ route.get('/cart', async (req,res)=>{
     usercart: coursesInPage,
     pages:pages,
     pagesNav : pagesNav,
-    userinfo:info,
+    userinfo: userinfo,
     totalprice:TongTien,
   });
 

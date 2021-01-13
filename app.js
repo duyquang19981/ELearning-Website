@@ -21,7 +21,7 @@ passport.use('local', new LocalStrategy(
     },
     async function (username, password, done) {
         db._connect();
-        var user =  await HocVien.findOne({ Username: username });
+        let user =  await HocVien.findOne({ Username: username });
         if(user == null){
           user =  await GiangVien.findOne({ Username: username });
           if(user==null){
@@ -32,7 +32,7 @@ passport.use('local', new LocalStrategy(
           } 
         }
         if(!comparePassword(password,user.Password)){
-            return done(null, false, { message: ' Pasword is incorect.'  });
+            return done(null, false, { message: ' Password is incorect.'  });
         }
         
         return done(null, user);
@@ -88,22 +88,13 @@ app.engine('.hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 app.use(express.static('./public'));
-<<<<<<< HEAD
-// app.get('/',async (req, res) => {
-//   res.render('user/home');
-// });
-app.use('/',require('./controllers/user/home.controller'));
 app.use('/user/profile', express.static('public'));
 app.use('/user/profile',require('./controllers/user/profile.controller'));
-app.use('/admin',express.static('public/admin'));
-=======
-
-
 
 app.use('/',require('./controllers/user/Home.controllers'));
 app.use('/', express.static('public/admin'))
 app.use('/admin', express.static('public/admin'));
->>>>>>> dq_dev
+
 app.use('/admin/manage-table',express.static('public/admin'));
 app.use('/admin',require('./controllers/admin/admin.controller'));
 

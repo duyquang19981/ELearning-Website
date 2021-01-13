@@ -1,63 +1,27 @@
-<div class="home_slider_container">
-			
-			<!-- Home Slider -->
-			<div class="owl-carousel owl-theme home_slider">
-				
-				<!-- Home Slider Item -->
-				<div class="owl-item">
-					<div class="home_slider_background" style="background-image:url({{trending.AnhDaiDien}}) ;background-size: contain;"></div>
-					<div class="home_slider_content">
-						<div class="container">
-							<div class="row">
-								<div class="col text-center">
-									<div class="home_slider_title">{{trending.TenKhoaHoc}}</div>
-									<div class="home_slider_subtitle">Khóa học nổi bật</div>
-									<div class="home_slider_form_container">
-										<p>{{trending.MoTaNgan}}</p>
-										<div class="courses_button trans_100"><a href="#">view more ...</a></div>
-									</div>
-								</div>
+<div class="home_slider_container">	
+	<!-- Home Slider -->
+	<div class="owl-carousel owl-theme home_slider">
+		{{#each bestCourse }}	
+		<!-- Home Slider Item -->
+		<div class="owl-item">
+			<div class="home_slider_background" style="background-image:url({{this.AnhDaiDien}}) ;background-size: contain;"></div>
+			<div class="home_slider_content">
+				<div class="container">
+					<div class="row">
+						<div class="col text-center">
+							<div class="home_slider_title">{{this.TenKhoaHoc}}</div>
+							<div class="home_slider_subtitle">{{this.MoTaNgan}}</div>
+							<div class="home_slider_price"><i class="fa fa-star" aria-hidden="true"></i>{{this.DiemDanhGia}}</div>
+							<div class="home_slider_price"><i class="fa fa-dollar" aria-hidden="true"></i>{{this.HocPhiGoc}}</div>					
+							<div class="home_slider_form_container">								
+								<div class="courses_button trans_100"><a href="#">view more ...</a></div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<!-- Home Slider Item -->
-				<div class="owl-item">
-					<div class="home_slider_background" style="background-image:url({{mostView.AnhDaiDien}}) ;background-size: contain;"></div>
-					<div class="home_slider_content">
-						<div class="container">
-							<div class="row">
-								<div class="col text-center">
-									<div class="home_slider_title">{{mostView.TenKhoaHoc}}</div>
-									<div class="home_slider_subtitle">Khóa học được xem nhiều nhất</div>
-									<div class="home_slider_form_container">
-										<p>{{mostView.MoTaNgan}}</p>
-										<div class="courses_button trans_100"><a href="#">view more ...</a></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Home Slider Item -->
-				<div class="owl-item">
-					<div class="home_slider_background" style="background-image:url({{newest.AnhDaiDien}}) ;background-size: contain;"></div>
-					<div class="home_slider_content">
-						<div class="container">
-							<div class="row">
-								<div class="col text-center">
-									<div class="home_slider_title">{{newest.TenKhoaHoc}}</div>
-									<div class="home_slider_subtitle">Khóa học mới nhất</div>
-									<div class="home_slider_form_container">
-										<p>{{newest.MoTaNgan}}</p>
-										<div class="courses_button trans_100"><a href="#">view more ...</a></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
 			</div>
+		</div>
+		{{/each}}
+		
+	</div>
+</div>
