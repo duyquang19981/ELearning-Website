@@ -11,6 +11,10 @@ const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
+
+const upload = require("../../middleware/upload");
+
+
 // const crudTheLoai = require('./crudTheLoai');
 // const crudKhoaHoc = require('./crudKhoaHoc');
 // const crudGiangVien = require('./crudGiangVien');
@@ -69,12 +73,26 @@ route.get('/createCourse', async (req,res)=>{
   
 });
 
-route.get('/addCourse', async (req,res)=>{
+route.post('/addCourse', async (req,res)=>{
   console.log('get add course');
   const user = req.user;
   console.log('user :>> ', user);
   const {tenkhoahoc, _idTheLoai, hocphi, khuyenmai, motangan, motachitiet} = req.query;
   db._connect();
+  var file;
+  //img
+  try {
+    await upload(req, res);
+    console.log(req.file);
+    if (req.file == undefined) {
+      return res.send(`You must select a file.`); ;
+    }
+      console.log(`File has been uploaded.`);
+      file = req.file;
+  } catch (error) {
+      console.log(error);
+      return res.send(`Error when trying upload image: ${error}`);
+  }
   const khoahoc = new KhoaHoc({ 
     TenKhoaHoc : tenkhoahoc,
     TheLoaiCap2 : mongoose.Types.ObjectId(_idTheLoai),
@@ -84,12 +102,13 @@ route.get('/addCourse', async (req,res)=>{
     MoTaNgan : motangan,
     MoTaChiTiet : motachitiet,
     TrangThai : 1,
-    AnhDaiDien: 'sfsfsf',
+    AnhDaiDien: mongoose.Types.ObjectId(file.id),
     DSHocVien : [],
     DeCuong : [],
-    DiemDanhGia: 2,
-    LuoiXem : 5
+    DiemDanhGia: 0,
+    LuoiXem : 0
   });
+  
   await khoahoc.save();
   console.log('save Khoa hoc');
   db._disconnect();

@@ -33,7 +33,10 @@ const KhoaHocSchema = new Schema({
         default: new Date()
     },
     TrangThai: Number,
-    AnhDaiDien: String,
+    AnhDaiDien: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'photo.files'
+    },
     DSHocVien_DanhGia:[{
         idHocVien:ObjectID,
         DiemDanhGia:{
