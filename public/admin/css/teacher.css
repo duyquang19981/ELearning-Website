@@ -1,0 +1,15 @@
+.img-course{
+  max-width: 350px;
+  min-width: 350px;
+  max-height: 350px;
+  min-height: 350px;
+}
+.card-course{
+  max-width: 350px;
+  min-width: 350px;
+  max-height: 600px;
+}
+a:hover{
+  text-emphasis: none;
+  text-decoration: none;
+}
