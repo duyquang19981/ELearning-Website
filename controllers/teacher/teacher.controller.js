@@ -315,12 +315,47 @@ route.post('/reference/delete', async(req,res)=>{
   }
   const _id = req.user._id;
   const id_chuong = req.body.id_chuong;
-  console.log('id_chuong :>> ', id_chuong);
   db._connect();
   const chuong = await Chuong.findByIdAndRemove(id_chuong);
   console.log('delete chuong');
   db._disconnect();
   res.redirect('./'+chuong.beLongTo);
+});
+
+route.post('/reference/addLesson', async(req,res)=>{
+  console.log(' vo add lesson');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  const _id = req.user._id;
+
+  db._connect();
+  var file;
+  //video
+    upload(req, res, async function(error){
+      if (error) {
+        console.log(error);
+        return res.send(`Error when trying upload image: ${error}`);
+      }
+      else{
+        const {tenbaihoc, id_chuong} = req.body;
+        console.log('tenbaihoc :>> ', tenbaihoc);
+        console.log('req.body :>> ', req.body.id_chuong);
+        console.log('id_tenchuong :>> ', id_chuong);
+        if (req.file == undefined) {
+          return res.send(`You must select a file.`); ;
+        }
+        console.log(`File has been uploaded.`);
+        file = req.file;  
+        console.log('file :>> ', file);
+        const chuong = await Chuong.findByIdAndUpdate(id_chuong, {$push:{ DSBaiHoc:{ $each:[{Video:file.id,TenBaiHoc:tenbaihoc}]}}});
+        console.log('chuong qrqwr:>> ', chuong);
+          //luu khoa hoc
+          db._disconnect();
+          res.redirect('./'+ chuong.beLongTo);
+      }
+    });
 });
 
 route.get("/changepw", async (req,res)=>{ 
