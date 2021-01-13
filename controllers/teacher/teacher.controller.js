@@ -11,18 +11,13 @@ const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const ThongKe = require('../../models/schema/ThongKe.model');
-const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
-
-const upload = require("../../middleware/upload");
-
-
-// const crudTheLoai = require('./crudTheLoai');
-// const crudKhoaHoc = require('./crudKhoaHoc');
-// const crudGiangVien = require('./crudGiangVien');
-// const crudHocVien = require('./crudHocVien');
-// const crudThongKe = require('./crudThongKe');
+const photosfiles = require('../../models/schema/photos.files.model');
+const photoschunks = require('../../models/schema/photos.chunks.model');
 const bcrypt = require('bcrypt');
+
+const GridFsStorage = require("multer-gridfs-storage");
+const upload = require("../../middleware/upload");
+const multer = require("multer");
 
 
 route.get('/', async (req,res )=>{
@@ -71,7 +66,6 @@ route.get('/createCourse', async (req,res)=>{
     theloai : theloai,
     user : user
   })
-  
 });
 
 route.post('/addCourse', async (req,res)=>{
@@ -88,13 +82,6 @@ route.post('/addCourse', async (req,res)=>{
       }
       else{
         const {tenkhoahoc, _idTheLoai, hocphi, khuyenmai, motangan, motachitiet} = req.body;
-        // console.log('rqe.file', req.file);
-        //   console.log('tenkhoahoc :>> ', tenkhoahoc);
-        //     console.log('_idTheLoai :>> ', _idTheLoai);
-        //     console.log('motangan :>> ', motangan);
-        //     console.log('khuyenmai :>> ', khuyenmai);
-        //     console.log('motachitiet :>> ', motachitiet);
-        // console.log('req.body b=nene  :>> ', req.body);
         if (req.file == undefined) {
           return res.send(`You must select a file.`); ;
         }
@@ -102,7 +89,7 @@ route.post('/addCourse', async (req,res)=>{
         file = req.file;  
         const khoahoc = new KhoaHoc({ 
             TenKhoaHoc : tenkhoahoc,
-            TheLoaiCap2 : mongoose.Types.ObjectId(_idTheLoai),
+            TheLoai2 : mongoose.Types.ObjectId(_idTheLoai),
             GiangVien : mongoose.Types.ObjectId(user._id),
             HocPhiGoc : hocphi,
             KhuyenMai : khuyenmai,
@@ -115,6 +102,7 @@ route.post('/addCourse', async (req,res)=>{
             DiemDanhGia: 0,
             LuoiXem : 0
           });
+         
           //luu khoa hoc
           await khoahoc.save();
           console.log('save Khoa hoc');
@@ -132,18 +120,38 @@ route.get('/mycourses', async (req,res)=>{
   console.log('tds khoa hoc giang vien');
   const _id = req.user._id;
   db._connect();
-  const user = await GiangVien.findById(_id).populate('DSKhoaHocDay').lean();
-  console.log('user :>> ', user);
-  db._disconnect();
-  // var theloai = [];
-  // data.forEach(element => {
-  //   theloai = theloai.concat(element.TheLoaiCon);
-  // });
-  res.render( 'teacher/mycourses' ,{
-    layout:'teacher/t_main',
-    title : 'My courses',
-    user : user,  
-  })
+  const user = await GiangVien.findById(_id).lean();
+  const khoahoc = await KhoaHoc.find({GiangVien : user._id})
+  .populate('TheLoai2', 'TenTheLoai')
+  .lean();
+  var i = 0;
+  for (const item of khoahoc) {
+    const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+    const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+    if(!data_chunks || data_chunks.length === 0){               
+      db._disconnect();      
+      return res.send('No data found~');
+    }
+    let fileData = [];          
+    for(let i=0; i<data_chunks.length;i++){            
+      //This is in Binary JSON or BSON format, which is stored               
+      //in fileData array in base64 endocoded string format               
+      fileData.push(data_chunks[i].data.toString('base64'));          
+    }
+    //Display the chunks using the data URI format          
+    let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+          + fileData.join('');  
+    khoahoc[i].AnhDaiDien = finalFile;
+    i++;   
+  }
+  db._disconnect();  
+    res.render( 'teacher/mycourses' ,{
+      layout:'teacher/t_main',
+      title : 'My courses',
+      user : user,  
+      khoahoc : khoahoc,
+    }) ;  
+  
   
 });
 
@@ -159,7 +167,6 @@ route.post('/changeinfo', async (req,res)=>{
   const { ten, mail} = req.body;
   db._connect(); 
   const gv = await GiangVien.findById(_id);
-  console.log('gv :>> ', gv);
   db._connect();
   GiangVien.findByIdAndUpdate(_id,{Ten:ten, Mail:mail},function (err,doc) {
     if (err) return console.error(err);
@@ -212,7 +219,7 @@ route.post("/postchangepw2", async (req, res) => {
 route.get('/logout', (req, res) => {
   console.log('log out teacjer');
   req.logout();
-  res.redirect('/createCourse');
+  res.redirect('/');
 });
 
 
