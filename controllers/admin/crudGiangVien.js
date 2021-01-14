@@ -148,14 +148,7 @@ if(+req.user.Role !=0){
 });
 
 route.get('/getnumberofcourse', async(req,res)=>{
-  if (!req.isAuthenticated()){
-    res.redirect('/login');
-    return; 
-}
-if(+req.user.Role !=0){
-  res.redirect('/');
-  return;
-}
+
   db._connect();
   const _id = req.query._id;
   const data = await GiangVien.findById(_id);
@@ -169,10 +162,7 @@ route.get('/getcoursesofteacher', async(req,res)=>{
     res.redirect('/login');
     return; 
 }
-if(+req.user.Role !=0){
-  res.redirect('/');
-  return;
-}
+
   console.log('get course of teacher');
   const _id = req.query._id;
   db._connect();
@@ -189,14 +179,6 @@ if(+req.user.Role !=0){
 });
 
 route.get('/checkUsernameExist', async(req,res)=>{
-  if (!req.isAuthenticated()){
-    res.redirect('/login');
-    return; 
-}
-if(+req.user.Role !=0){
-  res.redirect('/');
-  return;
-}
   console.log('check username exist');
   db._connect();
   const username = req.query.username;
