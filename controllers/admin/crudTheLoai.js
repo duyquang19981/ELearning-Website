@@ -13,9 +13,17 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
   console.log('the loai1');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   db._connect();
   const admin = await Admin.findOne().lean();
-  const TheLoai1 = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+  const TheLoai1 = await TheLoaiCap1.find().populate({path:'TheLoaiCon', populate:{path:'DSKhoaHoc'}}).lean();    
   res.render(`admin/theloai1-manage-table`,{
     layout:'admin/a_main',
     tableList : admin.DSBangQL,
@@ -25,6 +33,14 @@ route.get('/', async (req,res)=>{
 }); 
 
 route.post('/add1', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const TenTheLoai = req.body.tentheloai;
   const theloai = new TheLoaiCap1({
     TenTheLoai : TenTheLoai,
@@ -36,12 +52,20 @@ route.post('/add1', async (req,res)=>{
   theloai.save(function (err) {
     if (err) return console.error(err);
     console.log(" saved to TheLoaiCap1 collection.");
-    db._disconnect;
+    db._disconnect();
     res.redirect('/admin/manage-table/TheLoai');
   });
 });
 
 route.post('/edit1', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const TenTheLoai = req.body.tentheloai;
   const _id = req.body._id;
   db._connect();
@@ -49,13 +73,21 @@ route.post('/edit1', async (req,res )=>{
     if (err) return console.error(err);
     console.log(" edit TheLoaiCap1 collection.");
     
-    db._disconnect;
+    db._disconnect();
     res.redirect('/admin/manage-table/TheLoai');
   });
 
 });
 
 route.post('/delete1', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('del1');
   const _id = req.body._id;
   db._connect();
@@ -67,7 +99,7 @@ route.post('/delete1', async (req,res )=>{
     });
   }
   
-  db._disconnect;
+  db._disconnect();
 
   res.redirect('/admin/manage-table/TheLoai');
 });
@@ -76,6 +108,14 @@ route.post('/delete1', async (req,res )=>{
 
 
 route.post('/add2', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const TenTheLoai = req.body.tentheloai;
   const parent_id = req.body.parent_id;
   const theloai2 = new TheLoaiCap2({
@@ -86,25 +126,40 @@ route.post('/add2', async (req,res)=>{
   db._connect();
   await theloai2.save();
   await TheLoaiCap1.findByIdAndUpdate(parent_id, {$push:{TheLoaiCon:theloai2._id}});
-  db._disconnect;
+  db._disconnect();
   res.redirect('/admin/manage-table/TheLoai');
 });
 
-
 route.post('/edit2', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const TenTheLoai = req.body.tentheloai;
   const {_id} = req.body;
   db._connect();
   TheLoaiCap2.findByIdAndUpdate(_id,{TenTheLoai:TenTheLoai},function (err) {
     if (err) return console.error(err);
     console.log(" edit TheLoaiCap2 collection.");
-    db._disconnect;
+    db._disconnect();
     res.redirect('/admin/manage-table/TheLoai');
   });
 
 });
 
 route.post('/delete2', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const {_id} = req.body;
   const parent_id = req.body.parent_id;
   db._connect();
@@ -113,7 +168,7 @@ route.post('/delete2', async (req,res )=>{
     await TheLoaiCap2.findByIdAndRemove(_id);
     await TheLoaiCap1.findByIdAndUpdate(parent_id,{$pull:{TheLoaiCon:_id}});
   }
-  db._disconnect;
+  db._disconnect();
   res.redirect('/admin/manage-table/TheLoai');
 });
 

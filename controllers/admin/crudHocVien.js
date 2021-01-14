@@ -13,6 +13,14 @@ const ThongKe = require('../../models/schema/ThongKe.model');
 const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('hoc vien table');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -65,6 +73,14 @@ route.get('/', async (req,res)=>{
 }); 
 
 route.post('/add', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const {ten,username,mail} = req.body;
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -87,6 +103,14 @@ route.post('/add', async (req,res)=>{
 });
 
 route.post('/edit', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const {_id, ten, mail} = req.body;
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -101,6 +125,14 @@ route.post('/edit', async (req,res )=>{
 });
 
 route.post('/delete', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('del hoc vien');
   const _id = req.body._id;
   const searchkey = req.query.searchkey || "";
@@ -116,6 +148,14 @@ route.post('/delete', async (req,res )=>{
 });
 
 route.get('/getcoursesofstudent', async(req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('get course of student');
   const _id = req.query._id;
   db._connect();

@@ -26,6 +26,10 @@ route.get('/', async (req,res )=>{
     res.redirect('/login');
     return; 
 }
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
   db._connect();
   const user = await GiangVien.findById(_id).lean();
@@ -43,6 +47,10 @@ route.get('/profile', async (req,res )=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
 }
   const _id = req.user._id;
   db._connect();
@@ -62,6 +70,10 @@ route.get('/createCourse', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
 }
   console.log('tạo khóa học');
   const _id = req.user._id;
@@ -88,7 +100,11 @@ route.post('/addCourse', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   console.log('get add course');
   const user = req.user;
   db._connect();
@@ -153,7 +169,11 @@ route.get('/mycourses', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   console.log('tds khoa hoc giang vien');
   const _id = req.user._id;
   db._connect();
@@ -196,7 +216,11 @@ route.get('/detailcourse/:id', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id_khoahoc = req.params.id;
   const _id = req.user._id;
   db._connect();
@@ -218,7 +242,11 @@ route.post('/detailcourse/:id/editCourse', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const {_id,ten,hocphi,khuyenmai,motangan,motachitiet} = req.body;
   db._connect();
   await KhoaHoc.findByIdAndUpdate(_id,{
@@ -239,7 +267,11 @@ route.post('/detailcourse/:id/deleteCourse', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const {_id, id_theloai} = req.body;
   db._connect();
   const khoahoc = await KhoaHoc.findByIdAndDelete(_id);
@@ -274,10 +306,13 @@ route.post('/detailcourse/:id/deleteCourse', async (req,res)=>{
 route.post('/changeinfo', async (req,res)=>{
   console.log('change');
   if (!req.isAuthenticated()){
-      
-      res.redirect('/Login/');
-      return; 
-  }
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
   const { ten, mail} = req.body;
   db._connect(); 
@@ -296,7 +331,11 @@ route.get('/reference/:id', async(req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
   const id_khoahoc = req.params.id;
   db._connect();
@@ -317,7 +356,11 @@ route.post('/reference/add', async(req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
   const id_khoahoc = req.body._idkhoahoc;
   const tenchuong = req.body.tenchuong;
@@ -347,7 +390,11 @@ route.post('/reference/edit', async(req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
   const id_chuong = req.body.id_chuong;
   const tenchuong = req.body.tenchuong;
@@ -365,7 +412,11 @@ route.post('/reference/delete', async(req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
   const id_chuong = req.body.id_chuong;
   db._connect();
@@ -380,7 +431,11 @@ route.post('/reference/addLesson', async(req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id = req.user._id;
 
   db._connect();
@@ -408,9 +463,13 @@ route.post('/reference/addLesson', async(req,res)=>{
 
 route.get("/changepw", async (req,res)=>{ 
   if (!req.isAuthenticated()){
-      res.redirect('/login');
-      return; 
-  }
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   const _id =  req.user._id ;
   db._connect(); 
   var user = await GiangVien.findById(_id).lean();
@@ -424,6 +483,14 @@ route.get("/changepw", async (req,res)=>{
 
 route.post("/postchangepw2", async (req, res) => {
   db._connect(); 
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=1){
+  res.redirect('/');
+  return;
+}
   var ID = req.query.id;  
   var curpw = req.query.curpw;
   var newpw  = req.query.newpw;

@@ -19,6 +19,14 @@ const crudThongKe = require('./crudThongKe');
 
 route.get('/', async (req,res )=>{
   console.log('go to admin');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   db._connect();
   // const admin = new Admin({
   //   Username : 'admin',
@@ -38,57 +46,16 @@ route.get('/', async (req,res )=>{
   });
 });
 
-
-// route.get('/manage-table/:index', async (req,res)=>{
-//   db._connect();
-//   const index = +req.params.index;
-//   const admin = await Admin.findOne().lean();
-//   let tableName = admin.DSBangQL[index].TenBang;
-//   let TheLoai1, render_view;
-
-//   switch (index) {
-//     case 0:
-//       TheLoai1 = await KhoaHoc.find().lean();
-//       render_view = 'khoahoc-manage-table'
-//       break;
-//     case 1:
-//       TheLoai1 = await GiangVien.find().lean();
-//       render_view = 'giangvien-manage-table'
-//       break;
-//     case 2:
-//       TheLoai1 = await HocVien.find().lean();
-//       render_view = 'hocvien-manage-table'
-//       break; 
-//     case 3:
-//       TheLoai1 = await TheLoaiCap1.find().lean();
-//       render_view = 'theloai1-manage-table'
-//       break;
-//     case 4:
-//       TheLoai1 = await ThongKe.find().lean();
-//       render_view = 'thongke-manage-table'
-//       break; 
-  
-//     default:
-
-//       render_view = '123';
-//       break;
-//   }
-//   // result = [
-//   //   {_id: '1fasfs', TenTheLoai:'Mang may tinh', SoKhoaHoc:10},
-//   //   {_id: '12fasfwfw', TenTheLoai:'Mang12h', SoKhoaHoc:10},
-//   //   {_id: '1àasdwfqwf', TenTheLoai:'Mang 124inh', SoKhoaHoc:12},
-//   //   {_id: '1qưeqwr3r3t', TenTheLoai:'Mang m124tinh', SoKhoaHoc:140},
-//   // ];
-//   console.log('render_view :>> ', render_view);
-//   res.render(`admin/${render_view}`,{
-//     layout:'admin/a_main',
-//     tableList : admin.DSBangQL,
-//     result : result
-//   });
-//   db._disconnect();
-// });
 route.get('/manage-table',  (req,res)=>{
   console.log('manaage');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const index = +req.query.index;
   switch (index) {
     case 0:
@@ -123,12 +90,6 @@ route.get('/manage-table',  (req,res)=>{
       render_view = '123';
       break;
   }
-  // result = [
-  //   {_id: '1fasfs', TenTheLoai:'Mang may tinh', SoKhoaHoc:10},
-  //   {_id: '12fasfwfw', TenTheLoai:'Mang12h', SoKhoaHoc:10},
-  //   {_id: '1àasdwfqwf', TenTheLoai:'Mang 124inh', SoKhoaHoc:12},
-  //   {_id: '1qưeqwr3r3t', TenTheLoai:'Mang m124tinh', SoKhoaHoc:140},
-  // ];
   
 });
 

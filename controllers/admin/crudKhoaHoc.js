@@ -17,7 +17,11 @@ route.get('/', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('khoa hoc');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -71,7 +75,11 @@ route.post('/delete', async (req,res )=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-  }
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('del khoa hoc');
   const _id = req.body._id;
   const id_theloai = req.body.id_theloai;

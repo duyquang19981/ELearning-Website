@@ -13,6 +13,14 @@ const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 const bcrypt = require('bcrypt');
 
 route.get('/', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('giang vien table');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -25,7 +33,7 @@ route.get('/', async (req,res)=>{
     //get all data
     const numberOfData = await GiangVien.find().countDocuments();
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
-    data = await GiangVien.find()
+    data = await GiangVien.find().populate('DSKhoaHocDay')
     .skip(perPage*(page-1))
     .limit(perPage)
     .lean();
@@ -33,7 +41,7 @@ route.get('/', async (req,res)=>{
   else{
     const numberOfData = await GiangVien.find({$text: { $search: searchkey }}).count();
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
-    data = await GiangVien.find({$text: { $search: searchkey }})
+    data = await GiangVien.find({$text: { $search: searchkey }}).populate('DSKhoaHocDay')
     .skip(perPage*(page-1))
     .limit(perPage)
     .lean();
@@ -65,6 +73,14 @@ route.get('/', async (req,res)=>{
 }); 
 
 route.post('/add', async (req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const {ten,username,mail} = req.body;
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -85,6 +101,14 @@ route.post('/add', async (req,res)=>{
 });
 
 route.post('/edit', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   const {_id, ten, mail} = req.body;
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -100,6 +124,14 @@ route.post('/edit', async (req,res )=>{
 });
 
 route.post('/delete', async (req,res )=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('del giang vien');
   const _id = req.body._id;
   const searchkey = req.query.searchkey || "";
@@ -116,6 +148,14 @@ route.post('/delete', async (req,res )=>{
 });
 
 route.get('/getnumberofcourse', async(req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   db._connect();
   const _id = req.query._id;
   const data = await GiangVien.findById(_id);
@@ -125,6 +165,14 @@ route.get('/getnumberofcourse', async(req,res)=>{
 });
 
 route.get('/getcoursesofteacher', async(req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('get course of teacher');
   const _id = req.query._id;
   db._connect();
@@ -141,6 +189,14 @@ route.get('/getcoursesofteacher', async(req,res)=>{
 });
 
 route.get('/checkUsernameExist', async(req,res)=>{
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+}
+if(+req.user.Role !=0){
+  res.redirect('/');
+  return;
+}
   console.log('check username exist');
   db._connect();
   const username = req.query.username;

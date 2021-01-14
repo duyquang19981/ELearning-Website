@@ -82,15 +82,16 @@ $(document).ready(function(){
     delete_input_parent_id2[0].value = parent_id;
     const delete_input_id = $('#delete_input_id2');
     delete_input_id[0].value = _id;
-    const noti = $('.noti');
+    const noti = $('.noti-2');
     if(SoKhoaHoc>0){
+      console.log('go');
       noti[0].innerHTML = `There are some available courses. Category can't be deleted!`;
       $('#deleteButton2').attr('disabled', 'disabled');
       $('.text-warning').css('display','none');
     }
     else{
       noti[0].innerHTML = `Are you sure you want to delete these Records?`;
-      $('.text-warning').css('display','none');
+      $('.text-warning').css('display','inline');
     }
   });
 
