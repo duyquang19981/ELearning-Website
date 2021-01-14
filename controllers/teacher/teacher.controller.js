@@ -66,13 +66,15 @@ route.get('/createCourse', async (req,res)=>{
   console.log('tạo khóa học');
   const _id = req.user._id;
   db._connect();
-  const user = await GiangVien.findById(_id);
+  const user = await GiangVien.findById(_id).lean();
   const data = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   db._disconnect();
   var theloai = [];
-  data.forEach(element => {
-    theloai = theloai.concat(element.TheLoaiCon);
-  });
+  for (const item of data) {
+  
+    theloai = theloai.concat(item.TheLoaiCon);
+
+  }
   res.render( 'teacher/createcourse' ,{
     layout:'teacher/t_main',
     title : 'Create course',
@@ -82,13 +84,13 @@ route.get('/createCourse', async (req,res)=>{
 });
 
 route.post('/addCourse', async (req,res)=>{
+  db._connect();
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-}
+  }
   console.log('get add course');
   const user = req.user;
-  //console.log('user :>> ', user);
   db._connect();
   var file;
   //img
@@ -119,15 +121,29 @@ route.post('/addCourse', async (req,res)=>{
             DiemDanhGia: 0,
             LuoiXem : 0
           });
-         
+      
           //luu khoa hoc
           await khoahoc.save();
           console.log('save Khoa hoc');
-          console.log('khoahoc._id :>> ', khoahoc._id);
           await GiangVien.findByIdAndUpdate(user._id, {$push:{DSKhoaHocDay:khoahoc._id}} );
           console.log('save khoa hoc to giang vien');
+          const theloai2 = await TheLoaiCap2.findByIdAndUpdate(_idTheLoai, {$push:{DSKhoaHoc:khoahoc._id}});
+          await TheLoaiCap2.findByIdAndUpdate(_idTheLoai,{SoKhoaHoc : (+theloai2.SoKhoaHoc + 1)})
+          console.log('cap nhat so luong khoa hoc 2');
+          const theloai1 = await TheLoaiCap1.find();
+          var temp;
+          for (const item of theloai1) {
+            
+            var found = item.TheLoaiCon.indexOf(theloai2._id);
+            if(found>=0){
+              temp = item;
+              break;
+            }
+          }
+          await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc + 1});
+          console.log('cap nhat so luong khoa hoc 1');
           db._disconnect();
-          res.redirect('./')
+          res.redirect('./mycourses')
       }
     });
 
@@ -186,7 +202,7 @@ route.get('/detailcourse/:id', async (req,res)=>{
   db._connect();
   const user = await GiangVien.findById(_id).lean();
   const khoahoc = await KhoaHoc.findById(_id_khoahoc).populate('TheLoai2','TenTheLoai').lean();
-  console.log('khoahoc :>> ', khoahoc);
+  //console.log('khoahoc :>> ', khoahoc);
   db._disconnect();
   res.render( 'teacher/editcourse' ,{
     layout:'teacher/t_main',
@@ -217,6 +233,39 @@ route.post('/detailcourse/:id/editCourse', async (req,res)=>{
   console.log('chinh sua khoa hoc xong');
   res.redirect('../'+_id)
 });
+
+route.post('/detailcourse/:id/deleteCourse', async (req,res)=>{
+  console.log('delete coutse');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  const {_id, id_theloai} = req.body;
+  db._connect();
+  await KhoaHoc.findByIdAndDelete(_id);
+  console.log('xoa khoa hoc');
+  const theloai2 = await TheLoaiCap2.findById(id_theloai).lean();
+  await TheLoaiCap2.findByIdAndUpdate(id_theloai,{SoKhoaHoc:+theloai2.SoKhoaHoc + 1});
+  console.log('cap nhat so khoa hoc 2');
+  const theloai1 = await TheLoaiCap1.find();
+  var temp;
+  for (const item of theloai1) {
+    var found = item.TheLoaiCon.indexOf(id_theloai);
+    if(found>=0){
+      temp = item;
+      break;
+    }
+  }
+  
+  await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc + 1});
+  console.log('cap nhat so luong khoa hoc 1');
+  db._disconnect();
+  console.log('xoa khoa hoc xong');
+  res.redirect('/teacher/mycourses');
+});
+
+
+
 
 route.post('/changeinfo', async (req,res)=>{
   console.log('change');
@@ -340,17 +389,12 @@ route.post('/reference/addLesson', async(req,res)=>{
       }
       else{
         const {tenbaihoc, id_chuong} = req.body;
-        console.log('tenbaihoc :>> ', tenbaihoc);
-        console.log('req.body :>> ', req.body.id_chuong);
-        console.log('id_tenchuong :>> ', id_chuong);
         if (req.file == undefined) {
           return res.send(`You must select a file.`); ;
         }
         console.log(`File has been uploaded.`);
         file = req.file;  
-        console.log('file :>> ', file);
         const chuong = await Chuong.findByIdAndUpdate(id_chuong, {$push:{ DSBaiHoc:{ $each:[{Video:file.id,TenBaiHoc:tenbaihoc}]}}});
-        console.log('chuong qrqwr:>> ', chuong);
           //luu khoa hoc
           db._disconnect();
           res.redirect('./'+ chuong.beLongTo);
