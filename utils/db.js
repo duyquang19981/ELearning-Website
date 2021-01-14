@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const dbName = 'my_database';
-const uri = `mongodb+srv://duyquang:1234@cluster0.029na.mongodb.net/${dbName}?retryWrites=true&w=majority`
+const uri =  process.env.DATABASE_URL || `mongodb+srv://duyquang:1234@cluster0.029na.mongodb.net/${dbName}?ssl=true` 
 class Database{
 
     constructor(){
