@@ -125,7 +125,7 @@ route.post('/addCourse', async (req,res)=>{
           //luu khoa hoc
           await khoahoc.save();
           console.log('save Khoa hoc');
-          await GiangVien.findByIdAndUpdate(user._id, {$push:{DSKhoaHocDay:khoahoc._id}} );
+          await GiangVien.findByIdAndUpdate(user._id, {$pull:{DSKhoaHocDay:khoahoc._id}} );
           console.log('save khoa hoc to giang vien');
           const theloai2 = await TheLoaiCap2.findByIdAndUpdate(_idTheLoai, {$push:{DSKhoaHoc:khoahoc._id}});
           await TheLoaiCap2.findByIdAndUpdate(_idTheLoai,{SoKhoaHoc : (+theloai2.SoKhoaHoc + 1)})
@@ -143,7 +143,7 @@ route.post('/addCourse', async (req,res)=>{
           await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc + 1});
           console.log('cap nhat so luong khoa hoc 1');
           db._disconnect();
-          res.redirect('./mycourses')
+          res.redirect('/teacher/mycourses')
       }
     });
 
@@ -242,23 +242,27 @@ route.post('/detailcourse/:id/deleteCourse', async (req,res)=>{
   }
   const {_id, id_theloai} = req.body;
   db._connect();
-  await KhoaHoc.findByIdAndDelete(_id);
+  const khoahoc = await KhoaHoc.findByIdAndDelete(_id);
   console.log('xoa khoa hoc');
-  const theloai2 = await TheLoaiCap2.findById(id_theloai).lean();
-  await TheLoaiCap2.findByIdAndUpdate(id_theloai,{SoKhoaHoc:+theloai2.SoKhoaHoc + 1});
+  const theloai2 = await TheLoaiCap2.findById(id_theloai);
+  await TheLoaiCap2.findByIdAndUpdate(id_theloai,{SoKhoaHoc:+theloai2.SoKhoaHoc - 1});
   console.log('cap nhat so khoa hoc 2');
+  await TheLoaiCap2.findByIdAndUpdate(id_theloai, {$pull:{DSKhoaHoc:khoahoc._id}});
+  console.log('xoa khoa hoc khoi ds');
+  
   const theloai1 = await TheLoaiCap1.find();
   var temp;
   for (const item of theloai1) {
-    var found = item.TheLoaiCon.indexOf(id_theloai);
+    var found = item.TheLoaiCon.indexOf(theloai2._id);
+
     if(found>=0){
+
       temp = item;
       break;
     }
   }
-  
-  await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc + 1});
-  console.log('cap nhat so luong khoa hoc 1');
+  await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc - 1});
+  console.log('cap nhat so luong khoa hoc -1');
   db._disconnect();
   console.log('xoa khoa hoc xong');
   res.redirect('/teacher/mycourses');
