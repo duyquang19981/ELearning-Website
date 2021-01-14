@@ -2,6 +2,9 @@
   "name": "do-an",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "15.5"
+  },
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
