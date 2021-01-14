@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
-const dbName = 'finalweb';
-const uri = process.env.MONGODB_URL || `mongodb+srv://bintech:1234@dbbintech-zalgy.gcp.mongodb.net/${dbName}`
+const dbName = 'my_database';
+const uri = process.env.MONGODB_URL || `mongodb+srv://duyquang:1234@cluster0.029na.mongodb.net/${dbName}?retryWrites=true&w=majority`
 class Database{
-    constructor(){
-        
-    }
 
+    constructor(){
+    }
+    
     _connect(){
-        mongoose.connect('mongodb://127.0.0.1/my_database', {
+        mongoose.connect(uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false, 
             useCreateIndex: true, })
-            .then(() => {console.log('connect mongodb successful')})
-            .catch((err) => console.log('connect error'));
+            .then(() => {
+                console.log('connect mongodb successful');
+            })
+            .catch((err) =>{ console.log('connect error'); console.log('err :>> ', err);});
     }
 
     _disconnect(db){
