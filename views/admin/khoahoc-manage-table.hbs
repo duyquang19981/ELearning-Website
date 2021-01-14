@@ -50,6 +50,7 @@
 								<td>{{TheLoai2.TenTheLoai}}</td>
 								<td>{{GiangVien.Ten}}</td>
 								<td>{{DiemDanhGia}}</td>
+								<td style="display:none;">{{TheLoai2._id}}</td>
 								<td>
 									<a  href="#detailRecord{{@index}}" data-toggle="modal"><i style="color: rgb(31, 183, 243);" class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Detail"></i></a>
 									<a  href="#deleteRecord" class="deleteButton delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -89,6 +90,7 @@
 							Thể loại:
 						</div>
 						<div class="content-data">
+							
 							{{TheLoai2.TenTheLoai}}
 						</div>
 						<div class="title" >
@@ -164,7 +166,8 @@
 					<p class="text-warning"><small >This action cannot be undone.</small></p>
 				</div>
 				<div class="modal-footer">
-					<input id="delete_input_id" name="_id" type="text" style="display: none;">
+					<input id="delete_input_id" name="_id" type="text" style="display: none;" required>
+					<input id="delete_input_id_theloai" name="id_theloai" type="text" style="display: none;" required>
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
 					<input id="deleteButton" type="submit" class="btn btn-danger" value="Delete"  >
 				</div>
