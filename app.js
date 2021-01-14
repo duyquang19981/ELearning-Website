@@ -107,4 +107,6 @@ app.use('/teacher/profile',express.static('public/admin'));
 app.use('/teacher/detailcourse',express.static('public/admin'));
 app.use('/teacher/reference',express.static('public/admin'));
 
+require('./middleware/error.mdw')(app);
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
