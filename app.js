@@ -91,6 +91,9 @@ app.use(express.static('./public'));
 app.use('/user/profile', express.static('public'));
 app.use('/user/profile',require('./controllers/user/profile.controller'));
 
+//app.use('/user/course', express.static('public'));
+app.use('/user/course',require('./controllers/user/course.controller'));
+
 app.use('/',require('./controllers/user/Home.controllers'));
 app.use('/', express.static('public/admin'))
 app.use('/admin', express.static('public/admin'));

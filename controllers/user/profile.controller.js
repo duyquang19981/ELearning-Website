@@ -2,6 +2,7 @@ const express = require('express');
 const route = express.Router();
 const path = require('path');
 const bcrypt = require('bcrypt');
+
 // const jwt = require('jsonwebtoken');
 const passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
@@ -33,6 +34,7 @@ route.get('/', async (req,res )=>{
   res.render('user/info', {
     layout: 'user/profile',
     userinfo: userinfo,
+    isAuthentication: req.isAuthenticated(),
   });
 });
 
@@ -104,6 +106,7 @@ route.get('/mycourses', async (req,res)=>{
     pages:pages,
     pagesNav : pagesNav,
     userinfo:userinfo,
+    isAuthentication: req.isAuthenticated(),
   });
 
 });
@@ -158,6 +161,7 @@ route.get('/WatchList',  async (req,res)=>{
     pages:pages,
     pagesNav : pagesNav,
     userinfo: userinfo,
+    isAuthentication: req.isAuthenticated(),
   });
 
 });
@@ -170,7 +174,8 @@ route.get('/cart',  async (req,res)=>{
   }
   const _id =  req.user._id ;
 
-  console.log("go to profile/cart")
+  console.log("go to profile/cart");
+  console.log (_id);
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 8;
@@ -218,8 +223,37 @@ route.get('/cart',  async (req,res)=>{
     pagesNav : pagesNav,
     userinfo: userinfo,
     totalprice:TongTien,
+    isAuthentication: req.isAuthenticated(),
   });
 
 });
+const https = require('https');
+route.get('/delCourse', async (req,res)=>{
+  db._connect(); 
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  console.log('go to delCourse');
+  const id_user = req.user._id;
+  const id_course = req.query.idcourse;
+  const userinfo = await HocVien.findOne({ "_id": id_user}).lean();
+  var course = await KhoaHoc.findOne({ "_id": id_course}).lean();
+  await HocVien.findOneAndUpdate({_id:id_user},{$pull:{GioHang: id_course}}, function(err){
+      if(err){
+          console.log('err' + err);
+          res.send({status:'Failed',  subtractValue:0});
+      }
+      else{
+          console.log('removed ');   
+          res.send({status:'Successed',  subtractValue:course.Gia});
+      }
+  });
+  
+  db._disconnect();
+});
+
+
 
 module.exports = route;

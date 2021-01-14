@@ -41,9 +41,7 @@ const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 route.get('/', async (req, res) => {
     
     db._connect();
-
-
-
+      
     const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
     // cheapest.map(async (course) => {
     //     course.Gia = course.Gia / 1000;
