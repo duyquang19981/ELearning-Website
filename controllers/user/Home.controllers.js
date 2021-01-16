@@ -242,5 +242,21 @@ route.get('/category', async(req,res)=>{
 
 });
 
+route.post('/createComment', async (req, res) => {
 
+        db._connect();
+        const data = req.body;
+        //console.log(data);
+        KhoaHoc.findOneAndUpdate({_id:data.KhoaHoc},{$push:{DSHocVien_DanhGia: {idHocVien: data.User_id,NgayDang:data.NgayPost,DiemDanhGia :data.DiemDanhGia, PhanHoi:data.PhanHoi}}}, function(err){
+            if(err){
+                console.log('err' + err);
+                res.send({status:'Failed'});
+            }
+            else{
+                console.log('added');   
+                res.send({status:'Successed'});
+            }
+        });
+
+});
 module.exports = route;

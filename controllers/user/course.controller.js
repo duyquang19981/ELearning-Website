@@ -34,12 +34,18 @@ route.get('/:courseid/lectureslist', async (req,res)=>{
     db._connect(); 
     const course = await KhoaHoc.findById(courseID).lean();
     const userinfo = await HocVien.findOne({ "_id": _id}).lean();
-    
+    const DanhGia = course.DSHocVien_DanhGia;
+    for ( i in DanhGia){
+        // DanhGia[i]=DanhGia[i].toObject();
+        let TacGia = await HocVien.findOne({"_id":DanhGia[i].idHocVien}).select('Ten -_id').lean();
+        DanhGia[i].TacGia = TacGia;
+    };
     res.render('user/lectureslist',{
         title: "Lectureslist",
         layout: 'user/course',
         course :course,
         userinfo: userinfo,
+        DanhGia: DanhGia,
         isAuthentication: req.isAuthenticated()
     })
     db._disconnect();
