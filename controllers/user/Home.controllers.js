@@ -17,7 +17,6 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
-const ThongKe = require('../../models/schema/ThongKe.model');
 
 
 route.get('/',async (req, res) => {
@@ -82,44 +81,44 @@ route.get('/',async (req, res) => {
 route.get('/', async (req, res) => {
     
     db._connect();
-    const cheapest = await KhoaHoc.find({}).sort({Gia: 1}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-    cheapest.map(async (course) => {
-        course.Gia = course.Gia / 1000;
-        var mydate = new Date(course.NgayDang);
-        course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-        course.totalStudent = Math.floor(Math.random() * 20) + 10;
-    });
+      
+    const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
+    // cheapest.map(async (course) => {
+    //     course.Gia = course.Gia / 1000;
+    //     let mydate = new Date(course.NgayDang);
+    //     course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    //     course.totalStudent = Math.floor(Math.random() * 20) + 10;
+    // });
 
-    const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-    newest.map(async (course) => {
-        course.Gia = course.Gia / 1000;
-        var mydate = new Date(course.NgayDang);
-        course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-        course.totalStudent = Math.floor(Math.random() * 20) + 10;
-    });
+    const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
+    // newest.map(async (course) => {
+    //     course.Gia = course.Gia / 1000;
+    //     let mydate = new Date(course.NgayDang);
+    //     course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    //     course.totalStudent = Math.floor(Math.random() * 20) + 10;
+    // });
 
-    const bestCourse = await KhoaHoc.find({}).sort({Rating:-1}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-    bestCourse.map(async (course) => {
-        course.Gia = course.Gia / 1000;
-        var mydate = new Date(course.NgayDang);
-        course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-        course.totalStudent = Math.floor(Math.random() * 20) + 10;
-    });
-
+    const bestCourse = await KhoaHoc.find({}).sort({DiemDanhGia:-1}).limit(4).lean();
+    // bestCourse.map(async (course) => {
+    //     course.Gia = course.Gia / 1000;
+    //     let mydate = new Date(course.NgayDang);
+    //     course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    //     course.totalStudent = Math.floor(Math.random() * 20) + 10;
+    // });
+    console.log(bestCourse);
     if(req.isAuthenticated()){
-        const linhvucfollow = await ChucNang.findOne({belongTo: req.user._id});
-        let khoaHocLQ = await KhoaHoc.find({LinhVuc: linhvucfollow.LinhVuc[0]}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-        if(!khoaHocLQ.length){
-            khoaHocLQ = await KhoaHoc.find({}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-        }
+        // const linhvucfollow = await ChucNang.findOne({belongTo: req.user._id});
+        // let khoaHocLQ = await KhoaHoc.find({LinhVuc: linhvucfollow.LinhVuc[0]}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
+        // if(!khoaHocLQ.length){
+        //     khoaHocLQ = await KhoaHoc.find({}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
+        // }
 
         db._disconnect();
-        return res.render('homepage', { cheapest, newest, bestCourse, isAuthentication: req.isAuthenticated(), khoaHocLQ});
+        return res.render('user/home', { mostView, newest,bestCourse, isAuthentication: req.isAuthenticated()});
     }else{
         db._disconnect();
-        return res.render('homepage', { cheapest, newest, bestCourse, isAuthentication: req.isAuthenticated()});
+        return res.render('user/home', { mostView, newest, bestCourse, isAuthentication: req.isAuthenticated()});
     }
-    
     
 });
 
@@ -279,5 +278,21 @@ route.get('/category', async(req,res)=>{
 
 });
 
+route.post('/createComment', async (req, res) => {
 
+        db._connect();
+        const data = req.body;
+        //console.log(data);
+        KhoaHoc.findOneAndUpdate({_id:data.KhoaHoc},{$push:{DSHocVien_DanhGia: {idHocVien: data.User_id,NgayDang:data.NgayPost,DiemDanhGia :data.DiemDanhGia, PhanHoi:data.PhanHoi}}}, function(err){
+            if(err){
+                console.log('err' + err);
+                res.send({status:'Failed'});
+            }
+            else{
+                console.log('added');   
+                res.send({status:'Successed'});
+            }
+        });
+
+});
 module.exports = route;

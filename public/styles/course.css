@@ -1273,7 +1273,7 @@ section
 }
 .comments_container
 {
-	margin-top: 80px;
+	margin-top: 10px;
 }
 .comment_item
 {
@@ -1304,10 +1304,10 @@ section
 	content: '-';
 	margin-left: 6px;
 }
-.comment_author a
+.comment_author 
 {
 	font-family: 'Roboto Slab', serif;
-	font-size: 18px;
+	font-size: 22px;
 	font-weight: 700;
 	color: #384158;
 	-webkit-transition: all 200ms ease;
@@ -1316,7 +1316,7 @@ section
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.comment_author a:hover
+.comment_author :hover
 {
 	color: #dd5270;
 }

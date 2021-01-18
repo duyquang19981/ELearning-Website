@@ -1,0 +1,159 @@
+<div class="main-content">
+    <div class="container " style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-md-3"> 
+                <div class="block account-nav">
+                    <div class="quick-user-info clearfix">
+                        <div class="user-avatar float-left white-background">
+                            {{!-- <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg" id="avatar-image" class="avatar-customer"> --}}
+                            <img src="{{userinfo.Avt}}" id="avatar-image" class="" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
+                            <span class="text-avatar" style="visibility: hidden;">DQ</span>
+                        </div>
+                        <div class="user-name-and-role">
+                            <span class="user-name">{{userinfo.Ten}}</span> 
+                            <span class="sub-title">&lrm;Học viên</span>
+                        </div>
+                    </div>
+                    <div class="content account-nav-content" id="account-nav">
+                        <ul class="nav items nav-list">
+                            <li class="nav item"><a href="./">Profile</a></li>
+                            <li class="nav item"><a href="mycourses">My courses</a></li>
+                            <li class="nav item current"><a href="cart"><strong>My cart</strong></a></li>
+                            <li class="nav item"><a href="WatchList">WatchList</a></li>
+                            {{!-- <li class="nav item"><a href="purhistory">Purchase history</a></li> --}}
+                            <li class="nav item"><span class="delimiter"></span></li> 
+                            <li class="nav item"><span class="delimiter"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 cart-list">
+
+                {{#each usercart}}
+                    <div class="row course-in-cart"  id= "course-{{@index}}" >
+                        {{!-- --}}
+                        <div class="course-img">
+                            <a href="/course/{{_id}}">
+                                <div >
+                                    {{!-- <img class='img-in-cart' src="images/course_4.jpg" alt="hinh-anh">  --}}
+                                    <img class='img-in-cart' src="{{AnhDaiDien}}" alt="hinh-anh"> 
+                                </div>
+                            </a>    
+                        </div>
+                        <div class="course-info">
+                            <a href="/course/{{_id}}" class="course-name">
+                                {{TenKhoaHoc}}
+                            </a>
+                            <p> Học phí gốc: {{HocPhiGoc}} VND<p>
+                        </div>                      
+                        <div class="prize"> {{KhuyenMai}} % OFF</div>
+                        <div class="prize">
+                            <p><i class="fa fa-dollar" aria-hidden="true"></i>Thành tiền:</p>
+                            <p ><strong>{{ThanhTien}} VND</strong></p> 
+                        </div>
+                        <div class="del-btn">
+                            <button class="btn btn-danger"  onclick="deleteCourseInCart({{@index}},'{{_id}}')"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+                        </div>
+                    </div>
+                {{/each}}
+                <div class="row pagination_row">
+                    <div class="col">
+                        <div class="pagination_container d-flex flex-row align-items-center justify-content-center">
+                            <ul class="pagination_list">
+                                {{#if pagesNav.prev}}
+                                    <li class=""><a href="?page={{pagesNav.prev}}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {{else}}
+                                    <li class="no-hover"><a href="" class="disabled"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {{/if}}
+
+                                    {{#each pages}}
+                                    {{#if isActive}}
+                                            <li> <a href="#" class = "active disabled">{{value}}</a>   </li>
+                                    {{else}}
+                                            <li> <a href="?page={{value}}">{{value}}</a></li>
+                                    {{/if}}
+                                {{/each}}   
+
+                                    {{#if pagesNav.next}}
+                                    <li class=""><a href="?page={{pagesNav.next}}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                {{else}}
+                                    <li class="no-hover"><a href="" class="disabled"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                {{/if}}
+                                
+                            </ul>
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-lg-2"> 
+                <div class="block cart-info">
+                    <div class="prize-label"><i class="fa fa-dollar" ></i> Total: </div>
+                    <div class="prize"><span id = "prize-value">{{totalprice}}</span> VND</div>
+                    <div class="ckeckout-button">         
+                        <button type="submit" form="cart-form" class= "btn btn-danger" style=" width: 100%;">THANH TOÁN</button> 
+                        <form method="POST" action="paymentchoose" id="cart-form">
+                            <input type="hidden" name="type" id="" value="1">
+                            <input type="hidden" name="prodname" id="" value="Giỏ Hàng {{usercart.length}} Khóa học">
+                            <input type="hidden" name="totalprice" id="" value="{{totalprice}}">                         
+                        </form>
+                    </div>
+                </div>
+            </div>         
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMcontentloaded', function(){
+
+    }, false);
+
+    function deleteCourseInCart(index, id){
+    
+        // xoa div khoi trang web
+        if(!window.confirm('Do you want to delete this course?')){
+            return;
+        }
+        const  course_div_id = 'course-' + index;
+        const course_block = document.getElementById(course_div_id);
+        course_block.classList.add('course-remove');
+        setTimeout(function(){
+            course_block.remove();
+        },
+        1000);  
+        var xhttp = new XMLHttpRequest();
+        xhttp.open('GET', 'delCourse?idcourse=' + id,'true');
+        //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                let res = JSON.parse(this.response);
+                console.log(res);
+                if(res.status == "Successed"){
+                    console.log('Xoa thanh cong');
+                    let prize_val = document.getElementById('prize-value');
+                    let prize = Number(prize_val.outerText);
+                    let new_total_prize = prize - res.subtractValue;
+                    prize_val.outerText = new_total_prize;
+                    let lengthCarrt = localStorage.getItem('cartItem');
+                    localStorage.setItem('cartItem', lengthCarrt - 1);
+                    let cart = document.querySelector('.shopping_cart_mount');
+                    cart.innerHTML = lengthCarrt - 1;
+                }
+                else{
+                    alert('Xoa khong thanh cong');
+                }  
+               
+           }
+
+        }
+    }
+     
+</script>
+
+

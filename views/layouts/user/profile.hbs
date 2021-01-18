@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>mELearning</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="mELearning project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="stylesheet" href="styles/user2.css">
+<link rel="stylesheet" href="styles/courses.css">
+
+	<!-- mdbootstrap -->
+	<link href="MDB-Free_4.19.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="MDB-Free_4.19.2/css/mdb.min.css">
+
+	<script src="./MDB-Free_4.19.2/js/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	{{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
+	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+	{{!-- -- --}}
+
+	{{!-- form valid --}}
+	{{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> --}}
+	{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	{{!--  --}}
+	
+</head>
+<body>
+	{{#if isAuthentication}}
+	<script>
+		window.onload = login_func;
+	</script>
+	{{/if}}
+	<header class="header">
+		
+		{{>topbar}}
+
+		<!-- Header Content -->
+		<div class="header_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="header_content d-flex flex-row align-items-center justify-content-start">
+							<div class="logo_container">
+								<a href="#">
+									<div class="logo_text"><span>mE</span>Learning</div>
+								</a>
+							</div>
+							<nav class="main_nav_contaner ml-auto">
+								<ul class="main_nav">
+										
+									<li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+									<li><a href="/user/profile">My Profile</a></li>
+									<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Categories  </a>
+												<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
+												<li><a class="dropdown-item" href="#"> Dropdown item 2 &raquo </a>
+													<ul class="submenu dropdown-menu">
+														<li><a class="dropdown-item" href="">Submenu item 1</a></li>
+														<li><a class="dropdown-item" href="">Submenu item 2</a></li>
+														<li><a class="dropdown-item" href="">Submenu item 3 &raquo </a>
+															<ul class="submenu dropdown-menu">
+																<li><a class="dropdown-item" href="">Multi level 1</a></li>
+																<li><a class="dropdown-item" href="">Multi level 2</a></li>
+															</ul>
+														</li>
+														<li><a class="dropdown-item" href="">Submenu item 4</a></li>
+														<li><a class="dropdown-item" href="">Submenu item 5</a></li>
+												</ul>
+												</li>
+												<li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
+												<li><a class="dropdown-item" href="#"> Dropdown item 4 </a>
+												</ul>
+									</li>
+
+									<li>
+										<form class="form-inline md-form mr-auto mb-4">
+											<input class="form-control mr-md-2 search-input" type="text" placeholder="Search" aria-label="Search">
+											<button class="btn purple-gradient btn-rounded btn-md my-0" type="submit">Search</button>
+										</form>
+									</li>
+									
+								</ul>
+								
+								<!-- Hamburger -->
+
+								<div class="shopping_cart"><a href="/user/profile/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> My Cart</a></div>
+								
+								<div class="hamburger menu_mm">
+									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+								</div>
+							</nav>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+		<div class="search">
+			<form action="#" class="header_search_form menu_mm">
+				<input type="search" class="search_input menu_mm" placeholder="Search" required="required">
+				<button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
+					<i class="fa fa-search menu_mm" aria-hidden="true"></i>
+				</button>
+			</form>
+		</div>
+		<nav class="menu_nav">
+			<ul class="menu_mm">
+				<li class="menu_mm"><a href="index.html">Home</a></li>
+				<li class="menu_mm"><a href="#">About</a></li>
+				<li class="menu_mm"><a href="#">Courses</a></li>
+				<li class="menu_mm"><a href="#">Blog</a></li>
+				<li class="menu_mm"><a href="#">Page</a></li>
+				<li class="menu_mm"><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+	</div>
+	
+
+	{{{body}}}   
+		<!-- Footer -->
+	{{>footer}}
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
+<script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/easing/easing.js"></script>
+<script src="plugins/masonry/masonry.js"></script>
+<script src="plugins/video-js/video.min.js"></script>
+<script src="plugins/parallax-js-master/parallax.min.js"></script>
+<script src="js/blog.js"></script>
+</body>
+</html>

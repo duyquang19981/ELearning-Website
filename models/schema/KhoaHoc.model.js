@@ -38,13 +38,17 @@ const KhoaHocSchema = new Schema({
         // ref: 'photos.files'
     },
     DSHocVien_DanhGia:[{
-        idHocVien:ObjectID,
+        idHocVien:{
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'HocVien'
+        },
         DiemDanhGia:{
             type:Number,
             min:0,
             max:5
         },
-        PhanHoi:String
+        PhanHoi:String,
+        NgayDang: Date
     }],
     DeCuong:[{
         type:mongoose.Schema.Types.ObjectId,

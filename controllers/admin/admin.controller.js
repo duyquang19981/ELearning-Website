@@ -10,12 +10,11 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
-const ThongKe = require('../../models/schema/ThongKe.model');
+
 const crudTheLoai = require('./crudTheLoai');
 const crudKhoaHoc = require('./crudKhoaHoc');
 const crudGiangVien = require('./crudGiangVien');
 const crudHocVien = require('./crudHocVien');
-const crudThongKe = require('./crudThongKe');
 
 route.get('/', async (req,res )=>{
   console.log('go to admin');
@@ -29,14 +28,14 @@ if(+req.user.Role !=0){
 }
   db._connect();
   // const admin = new Admin({
-  //   Username : 'admin',
-  //   DSBangQL : [
-  //     {TenBang: 'Khóa học'},
-  //     {TenBang: 'Giảng viên'},
-  //     {TenBang: 'Học viên'},
-  //     {TenBang: 'Thể loại'},
-  //     {TenBang: 'Thống kê'},
-  //   ]
+    // Username : 'admin',
+    // DSBangQL : [
+    //   {TenBang: 'Khóa học'},
+    //   {TenBang: 'Giảng viên'},
+    //   {TenBang: 'Học viên'},
+    //   {TenBang: 'Thể loại'},
+    //   {TenBang: 'Thống kê'},
+    // ]
   // });
   // await admin.save();
   const admin = await Admin.findOne().lean();
@@ -103,5 +102,5 @@ route.use('/manage-table/TheLoai', crudTheLoai);
 route.use('/manage-table/KhoaHoc', crudKhoaHoc);
 route.use('/manage-table/GiangVien', crudGiangVien);
 route.use('/manage-table/HocVien', crudHocVien);
-route.use('/manage-table/ThongKe', crudThongKe);
+
 module.exports = route;
