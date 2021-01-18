@@ -5,9 +5,13 @@
   min-height: 230px;
 }
 .card-course{
+  margin-top: 10px;
+margin-bottom: 15px;
   max-width: 280px;
   min-width: 280px;
-  max-height: 500px;
+  max-height: 450px;
+  min-height: 450px;
+
 }
 a:link{
   text-decoration: none!important;
@@ -15,4 +19,5 @@ a:link{
 .form-title{
   font-size: 19px;
   font-weight: 500;
+  
 }

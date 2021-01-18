@@ -10,8 +10,9 @@ const ChuongSchema = new Schema({
         ref:'KhoaHoc'
     },
     DSBaiHoc:[{ 
-        TenBaiHoc:String, 
-        Video:{ type: mongoose.Schema.Types.ObjectID}
+        type: mongoose.Schema.Types.ObjectID,
+        ref:'BaiHoc'
+        
     }]
 }, {collection:'Chuong'});
 module.exports = mongoose.model('Chuong', ChuongSchema);

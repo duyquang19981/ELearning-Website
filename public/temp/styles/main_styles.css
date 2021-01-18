@@ -116,14 +116,8 @@ p a:hover::after
 {
 	opacity: 0.2;
 }
-::selection
-{
-	
-}
-p::selection
-{
-	
-}
+
+
 h1{font-size: 48px;}
 h2{font-size: 36px;}
 h3{font-size: 24px;}
@@ -139,15 +133,7 @@ h1, h2, h3, h4, h5, h6
 	color: #384158;
 	margin-bottom: 0;
 }
-h1::selection, 
-h2::selection, 
-h3::selection, 
-h4::selection, 
-h5::selection, 
-h6::selection
-{
-	
-}
+
 .form-control
 {
 	color: #db5246;
@@ -883,7 +869,7 @@ section
     -o-appearance: none;
     appearance: none;
     -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-	-webkit-user-select: none;
+	-webkit-user-select: all;
 	background-image: url(../images/down.png);
 	background-position: center right;
 	background-repeat: no-repeat;
@@ -1254,7 +1240,7 @@ section
     -o-appearance: none;
     appearance: none;
     -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-	-webkit-user-select: none;
+	-webkit-user-select: all;
 	background-image: url(../images/down.png);
 	background-position: center right;
 	background-repeat: no-repeat;

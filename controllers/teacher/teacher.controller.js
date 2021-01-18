@@ -6,14 +6,17 @@ const mongoosePaginate = require('mongoose-paginate');
 const bodyParser = require('body-parser');
 const Admin = require('../../models/schema/Admin.model');
 const KhoaHoc = require('../../models/schema/KhoaHoc.model');
+const BaiHoc = require('../../models/schema/BaiHoc.model');
 const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const Chuong  =require('../../models/schema/Chuong.model');
-const ThongKe = require('../../models/schema/ThongKe.model');
+// const ThongKe = require('../../models/schema/ThongKe.model');
 const photosfiles = require('../../models/schema/photos.files.model');
 const photoschunks = require('../../models/schema/photos.chunks.model');
+const fsfiles = require('../../models/schema/fs.files.model');
+const fschunks = require('../../models/schema/fs.chunks.model');
 const bcrypt = require('bcrypt');
 
 const GridFsStorage = require("multer-gridfs-storage");
@@ -340,8 +343,10 @@ if(+req.user.Role !=1){
   const id_khoahoc = req.params.id;
   db._connect();
   const user = await GiangVien.findById(_id).lean();
-  const khoahoc = await KhoaHoc.findById(id_khoahoc).populate('DeCuong').lean();
-  console.log('khoahoc :>> ', khoahoc);
+  const khoahoc = await KhoaHoc.findById(id_khoahoc)
+  .populate({path:'DeCuong', populate: { path: 'DSBaiHoc' }})
+  .lean();
+  // console.log('khoahoc :>> ', khoahoc);
   db._disconnect();
   res.render('teacher/reference',{
     title:"Change Password" ,
@@ -408,7 +413,7 @@ if(+req.user.Role !=1){
 });
 
 route.post('/reference/delete', async(req,res)=>{
-  console.log(' vo delete reff');
+  console.log(' vo delete chuong');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -453,12 +458,96 @@ if(+req.user.Role !=1){
         }
         console.log(`File has been uploaded.`);
         file = req.file;  
-        const chuong = await Chuong.findByIdAndUpdate(id_chuong, {$push:{ DSBaiHoc:{ $each:[{Video:file.id,TenBaiHoc:tenbaihoc}]}}});
+        const lesson = new BaiHoc({
+          TenBaiHoc : tenbaihoc,
+          Video:file.id
+        });
+        try{
+          await lesson.save();
+          console.log('save new baihoc');
+        } catch(err) {console.log('err :>> ', err)};
+        
+        const chuong = await Chuong.findByIdAndUpdate(id_chuong, {$push:{ DSBaiHoc: lesson._id}});
           //luu khoa hoc
           db._disconnect();
           res.redirect('./'+ chuong.beLongTo);
       }
     });
+});
+
+route.post('/reference/editLesson', async(req,res)=>{
+  console.log(' vo edit reff editLesson ');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  if(+req.user.Role !=1){
+    res.redirect('/');
+    return;
+  }
+  const {_id, parent_id: id_chuong, tenbaihoc} = req.body;
+  console.log('id_baihoc :>> ', _id);
+  console.log('id_chuong :>> ', id_chuong);
+  console.log('tenbaihoc :>> ', tenbaihoc);
+  db._connect();
+  const chuong = await Chuong.findById(id_chuong);
+  try {
+    const baihoc = await BaiHoc.findByIdAndUpdate(_id,{TenBaiHoc:tenbaihoc});
+  } catch (error) {
+    console.log('error :>> ', error);
+  }
+
+  console.log('edit ten bai hoc ');
+  // console.log('chuong :>> ', chuong);
+  db._disconnect();
+  res.redirect('./'+chuong.beLongTo);
+});
+
+route.post('/reference/deleteLesson', async(req,res)=>{
+  console.log(' vo delete baihoc');
+  if (!req.isAuthenticated()){
+    res.redirect('/login');
+    return; 
+  }
+  if(+req.user.Role !=1){
+    res.redirect('/');
+  return;
+  }
+  const {_id, parent_id: id_chuong} = req.body;
+  console.log('_id :>> ', _id);
+  console.log('id_chuong :>> ', id_chuong);
+  db._connect();
+  var baihoc;
+  try {
+    baihoc = await BaiHoc.findByIdAndRemove(_id);
+  } catch (error) {
+    console.log('error :>> ', error);
+    return;
+  }
+  var chuong;
+  try {
+    chuong = await Chuong.findByIdAndUpdate(id_chuong, {$pull:{ DSBaiHoc: _id}});
+  } catch (error) {
+    console.log('error :>> ', error);
+    return;
+  }
+  var file;
+  try {
+    file = await fsfiles.findByIdAndDelete(baihoc.Video);
+  } catch (error) {
+    console.log('error :>> ', error);
+    return;
+  }
+
+  try {
+    await fschunks.deleteMany({files_id:file._id});
+  } catch (error) {
+    console.log('error :>> ', error);
+    return;
+  }
+  console.log('delete bai hoc');
+  db._disconnect();
+  res.redirect('./'+chuong.beLongTo);
 });
 
 route.get("/changepw", async (req,res)=>{ 
