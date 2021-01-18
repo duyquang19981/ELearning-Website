@@ -2,6 +2,7 @@ desktop.ini
 public/admin/*.html
 test.html
 multilevel
+package-lock.json
 # Logs
 logs
 *.log
@@ -106,3 +107,5 @@ dist
 
 # TernJS port file
 .tern-port
+
+package-lock.json
