@@ -104,6 +104,8 @@ app.use('/', express.static('public/admin'));
 app.use('/admin', express.static('public/admin'));
 app.use('/category1', express.static('public/admin'));
 app.use('/category1', express.static('public'));
+app.use('/category2', express.static('public/admin'));
+app.use('/category2', express.static('public'));
 app.use('/admin/manage-table',express.static('public/admin'));
 app.use('/admin',require('./controllers/admin/admin.controller'));
 
