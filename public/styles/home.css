@@ -37,3 +37,14 @@
   width: 250px !important;
   background-color: red;
 }
+/* my style */
+.courses-title{
+  margin: 10px 0px;
+}
+.new-courses-wrap{
+  height: 500px;
+}
+.course_body{
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}

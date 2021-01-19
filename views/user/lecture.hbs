@@ -1,0 +1,78 @@
+
+{{!-- trang bài học --}}
+<script src="../scripts/custom.js"> </script>
+{{!-- videojs --}}
+<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+
+<div class="container-fluid lecture-wrap" style="margin-top: 160px;">
+    <div class="row">
+        
+        <div class="col-md-3 side-bar">
+            <div class="row lectureslist-sidebar">
+                <div style="font-size: 18px; color: rgb(104, 102, 102)">
+                    Nội dung khóa học: <p style="font-weight: 500; font-size:20px;color:rgba(0, 0, 0, 0.808)">{{khoahoc.TenKhoaHoc}}</p>
+                </div>
+                <ul class="list-group leclist-sidebar">
+                    {{#if check_login_and_permission}}
+                        {{#each chuong}}
+                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương {{@index}}:  {{TenChuong}}</li>     
+                            {{#each DSBaiHoc}} 
+                                {{#if active}}
+                                    <li class="list-group-item lecture-active" > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</li>        
+                                {{else}}    
+                                    <li><a  href="/user/course/{{../../khoahoc._id}}/lecture/{{_id}}" class="list-group-item list-group-item-action " > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</a></li>   
+                                {{/if}}
+                            {{/each}}
+                        {{/each}}
+                    {{else}}
+                    
+                        {{#with chuong_trial}}
+                        <h1>chung  trial</h1>
+                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương {{@index}}:  {{TenChuong}}</li>     
+                            {{#each DSBaiHoc}} 
+                                {{#if active}}
+                                    <li class="list-group-item lecture-active" > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</li>        
+                                {{else}}    
+                                    <li><a  href="/user/course/{{../../khoahoc._id}}/lecture/{{_id}}" class="list-group-item list-group-item-action " > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</a></li>   
+                                {{/if}}
+                            {{/each}}
+                        {{/with}}
+                        {{#each chuong_no_permission}}
+                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương {{@index}}:  {{TenChuong}}</li>     
+                            {{#each DSBaiHoc}} 
+                                
+                                    <li><div style="display: inline-block; " class = "lesson-index">Bài học {{@index}}: <span style="color: black;">{{TenBaiHoc}}</span></div></li>   
+                            
+                            {{/each}}
+                        {{/each}}
+                    {{/if}}
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9 video-wrap"  >
+            <div style="color: rgb(51, 35, 40); font-size:22px; font-weight:500" >
+                {{baihoc.TenBaiHoc}}
+                <hr>
+            </div>
+            <div class = "video-div" style="margin-top: 0px;">
+                <video
+                    id="my-video"
+                    class="video-js"
+                    controls
+                    preload="auto"
+                    width="1090"
+                    height="550"
+                    poster="./images/logo-melearning.png"
+                    data-setup="{}"
+                >
+                    <source src="{{baihoc.Video}}" type="video/mp4" />
+                    <source src="{{baihoc.Video}}" type="video/webm" />
+                </video>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>

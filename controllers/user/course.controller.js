@@ -59,17 +59,18 @@ route.get('/:courseid/lectureslist', async (req,res)=>{
 
 route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
     console.log('go to');
-    // const user_id = req.user._id || -1;
-    const user_id = '6005a1620da9e151e81a5224';
+    const user_id = req.user._id || -1;
+    // const user_id = '6005a1620da9e151e81a5224';
     const course_id = req.params.courseid;
     const lecture_id = req.params.lectureid;
     console.log('lecture_id :>> ', lecture_id);
     db._connect();
+    const user = await HocVien.findById(user_id).lean();
     var khoahoc, chuong, baihoc;
     try {
         khoahoc = await KhoaHoc.findById(course_id)
         .populate({path:'DeCuong', populate : {path:'DSBaiHoc'}}).lean();
-        //console.log('khoahoc :>> ', khoahoc);
+    
     
     } catch (error) {
         console.log('error :>> ', error);
@@ -80,21 +81,27 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
     } catch (error) {
         console.log('error :>> ', error);
     }
-    var check_login_and_permission = 0;
-   
+    var check_login_and_permission = false;
     if(user_id != -1){          // had login
-        var found =  khoahoc.DSHocVien.indexOf(user_id);
+        var found =  -1;
+        for ( i of khoahoc.DSHocVien){
+            if(i==user_id){
+                found = 1;
+                break;
+            }
+        }
         if(found>=0){
-            check_login_and_permission = 1;
-            // console.log('object :>> ', object);
+            check_login_and_permission = true;
             console.log('permiss');
         }
+        else {
+            console.log('not found');
+        }
     }
-
+    console.log('check_login :>> ', check_login_and_permission);
     var chuong_trial, chuong_no_permission;
-    if(check_login_and_permission === 0 ){
+    if(check_login_and_permission === false ){
         chuong_trial = chuong[0];
-        // var isActive = chuong_trial.DSBaiHoc.indexOf(lecture_id);
         for(i of chuong_trial.DSBaiHoc){
             if(i._id==lecture_id){
                 i.active = true;
@@ -111,7 +118,6 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         }
     }
     //retrive vid
-    
     const data_video = await fsfiles.findById(baihoc.Video).lean(); 
     const data_chunks = await fschunks.find({files_id : data_video._id}).lean();
     if(!data_chunks || data_chunks.length === 0){               
@@ -126,8 +132,7 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
     let finalFile = 'data:' + data_video.contentType + ';base64,' 
         + fileData.join('');  
     baihoc.Video = finalFile;
-    //console.log('baihoc :>> ', baihoc);
-    console.log('khoahoc :>> ', khoahoc);
+
     db._disconnect();
     res.render('user/lecture',{
         title: "Lecture",
@@ -138,7 +143,7 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         chuong_trial,
         chuong,
         baihoc,
-        // user: userinfo,
+        user: userinfo,
         isAuthentication: req.isAuthenticated()
     })
     

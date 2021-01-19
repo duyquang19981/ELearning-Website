@@ -1,0 +1,63 @@
+<header class="header">
+		
+		{{>topbar}}
+
+		<!-- Header Content -->
+		<div class="header_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="header_content d-flex flex-row align-items-center justify-content-start">
+							<div class="logo_container">
+								<a href="/">
+									<div class="logo_text"><span>mE</span>Learning</div>
+								</a>
+							</div>
+							<nav class="main_nav_contaner ml-auto">
+								<ul class="main_nav">
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">  Categories  </a>
+												<ul class="dropdown-menu">
+                          {{#each theloai}}
+                            <li>
+                              <a class="dropdown-item" href="/categoty1/{{_id}}"> {{TenTheLoai}}  &raquo</a>
+                              <ul class="submenu dropdown-menu">
+                              {{#each TheLoaiCon}}
+                                <li><a class="dropdown-item" href="/categoty2/{{_id}}">{{TenTheLoai}}</a></li>
+                                
+                              {{/each}}
+                              </ul>
+                            </li>
+
+                          {{/each}}
+                        
+												</ul>
+										</li>
+									<li class="active"><a href="#">Home</a></li>
+								
+									<li><a href="courses.html">My Courses</a></li>
+									<li>
+										<form class="form-inline md-form mr-auto mb-4">
+											<input class="form-control mr-md-2 search-input" type="text" placeholder="Search" aria-label="Search">
+											<button class="btn purple-gradient btn-rounded btn-md my-0" type="submit">Search</button>
+										</form>
+									</li>
+									
+								</ul>
+								
+								<!-- Hamburger -->
+                
+								<a href="/user/profile/cart"><div class="shopping_cart" style="font-style: 25px;"><i  class="fa fa-shopping-cart" aria-hidden="true"></i></div></a>
+								
+								<div class="hamburger menu_mm">
+									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+								</div>
+							</nav>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</header>

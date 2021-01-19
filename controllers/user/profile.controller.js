@@ -39,9 +39,12 @@ route.get('/', async (req,res )=>{
   db._connect();
   const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   // console.log(info);
+  const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   res.render('user/info', {
     layout: 'user/profile',
+    //layout: 'user/profile',
     user: userinfo,
+    theloai,
     isAuthentication: req.isAuthenticated(),
   });
 });
@@ -85,6 +88,7 @@ route.get('/mycourses', async (req,res)=>{
   
   db._connect();
   let data = [];
+  const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   const hocvien = await HocVien.findById(_id).populate('DSKhoaHocDK').lean();
   console.log('hocvien :>> ', hocvien);
   var start = (page - 1 ) * perPage;
@@ -132,6 +136,7 @@ route.get('/mycourses', async (req,res)=>{
     pages:pages,
     pagesNav : pagesNav,
     user : hocvien,
+    theloai,
     isAuthentication: req.isAuthenticated(),
   });
 
@@ -157,17 +162,16 @@ route.get('/WatchList',  async (req,res)=>{
   db._connect();
   const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   const WatchList = await HocVien.findOne({ "_id": _id}).select('WatchList');
-  
+  const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   const A_WatchList = WatchList.get('WatchList');
   console.log(A_WatchList);
   // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
   const coursesList = await KhoaHoc.find({'_id':{$in: A_WatchList}}).lean();
-  console.log(coursesList);
-
+  
   let start = (pageNumberRequest - 1 ) * perPage;
   let end = perPage * pageNumberRequest;
   let coursesInPage = coursesList.slice(start,end);
-  let totalPage = parseInt(coursesList.length / perPage + 1);;
+  let totalPage = parseInt(Math.ceil(coursesList.length / perPage));
   const pages = [];       // array of page and status
   
   for (let i = 0; i < totalPage; i++) {
@@ -183,14 +187,32 @@ route.get('/WatchList',  async (req,res)=>{
   if(pageNumberRequest < totalPage){
       pagesNav.next = Number(pageNumberRequest) + 1;
   }
-
+  var i=0;
+  for (const item of coursesInPage) {
+    const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+    const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+    if(!data_chunks || data_chunks.length === 0){               
+      db._disconnect();      
+      return res.send('No data found~');
+    }
+    let fileData = [];          
+    for(let i=0; i<data_chunks.length;i++){                   
+      fileData.push(data_chunks[i].data.toString('base64'));          
+    }
+    //Display the chunks using the data URI format          
+    let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+          + fileData.join('');  
+    coursesInPage[i].AnhDaiDien = finalFile;
+    i++;   
+  }
 
   res.render('user/WatchList', {
     layout: 'user/profile',
     courses: coursesInPage,
     pages:pages,
     pagesNav : pagesNav,
-    userinfo: userinfo,
+    user: userinfo,
+    theloai,
     isAuthentication: req.isAuthenticated(),
   });
 
@@ -215,6 +237,7 @@ route.get('/cart',  async (req,res)=>{
   var perPage = 8;
   
   db._connect();
+  const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   const userinfo = await HocVien.findOne({ "_id": _id}).lean();
   const GioHang = await HocVien.findOne({ "_id": _id}).select('GioHang');
   
@@ -273,6 +296,7 @@ route.get('/cart',  async (req,res)=>{
     pages:pages,
     pagesNav : pagesNav,
     user: userinfo,
+    theloai,
     totalprice:TongTien,
     isAuthentication: req.isAuthenticated(),
   });
@@ -280,12 +304,13 @@ route.get('/cart',  async (req,res)=>{
 });
 const https = require('https');
 route.get('/delCourse', async (req,res)=>{
-  db._connect(); 
+  
   if (!req.isAuthenticated()){
         
     res.redirect('/login');
     return; 
   }
+  db._connect(); 
   console.log('go to delCourse');
   const id_user = req.user._id;
   const id_course = req.query.idcourse;
@@ -302,6 +327,75 @@ route.get('/delCourse', async (req,res)=>{
       }
   });
   
+  db._disconnect();
+});
+
+//add cart and wl
+route.get('/addtocart', async (req,res)=>{
+  console.log('go to addto cart');
+  if (!req.isAuthenticated()){    
+    res.redirect('/login');
+    return; 
+  }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  }
+  db._connect();
+  const id_user = req.user._id;
+  const khoahoc_id = req.query.khoahoc_id;
+  console.log('khoahoc_id :>> ', khoahoc_id);
+  const hocvien = await HocVien.findById(id_user);
+  for(i of hocvien.GioHang){
+    console.log('i :>> ', i);
+    if(i == khoahoc_id){
+      res.send('existed');
+      db._disconnect();
+      return;
+    }
+  }
+  try {
+    await HocVien.findByIdAndUpdate(id_user, {$push:{GioHang: khoahoc_id}});
+    console.log('them gio hang ');   
+    res.send('successed');
+  } catch (error) {
+    console.log('err ' + error);
+    res.send('failed');
+  }
+  db._disconnect();
+});
+
+
+route.get('/addtowl', async (req,res)=>{
+  console.log('go to addto watch list');
+  if (!req.isAuthenticated()){    
+    res.redirect('/login');
+    return; 
+  }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  }
+  db._connect();
+  const id_user = req.user._id;
+  const khoahoc_id = req.query.khoahoc_id;
+  const hocvien = await HocVien.findById(id_user);
+  for(i of hocvien.WatchList){
+    console.log('i :>> ', i);
+    if(i == khoahoc_id){
+      res.send('existed');
+      db._disconnect();
+      return;
+    }
+  }
+  try {
+    await HocVien.findByIdAndUpdate(id_user, {$push:{WatchList: khoahoc_id}});
+    console.log('them watch list ');   
+    res.send('successed');
+  } catch (error) {
+    console.log('err ' + error);
+    res.send('failed');
+  }
   db._disconnect();
 });
 

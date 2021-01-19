@@ -12,7 +12,7 @@ $(document).ready(function() {
     if ($(window).width() < 992) {
 	  	$('.dropdown-menu a').click(function(e){
 	  		e.preventDefault();
-	        if($(this).next('.submenu').length){
+				if($(this).next('.sumenu').length){
 	        	$(this).next('.submenu').toggle();
 	        }
 	        $('.dropdown').on('hide.bs.dropdown', function () {

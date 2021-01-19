@@ -17,7 +17,12 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
-
+const Chuong  =require('../../models/schema/Chuong.model');
+// const ThongKe = require('../../models/schema/ThongKe.model');
+const photosfiles = require('../../models/schema/photos.files.model');
+const photoschunks = require('../../models/schema/photos.chunks.model');
+const fsfiles = require('../../models/schema/fs.files.model');
+const fschunks = require('../../models/schema/fs.chunks.model');
 
 route.get('/',async (req, res) => {
     //tao admin account
@@ -38,6 +43,72 @@ route.get('/',async (req, res) => {
     db._connect();
     
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+    const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
+    const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
+    const bestCourse = await KhoaHoc.find({}).sort({DiemDanhGia:-1}).limit(4).lean();
+    //best course
+    var i = 0;
+    for (const item of bestCourse) {
+        const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+        const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+        if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+        return res.send('No data found~');
+        }
+        let fileData = [];          
+        for(let i=0; i<data_chunks.length;i++){            
+        //This is in Binary JSON or BSON format, which is stored               
+        //in fileData array in base64 endocoded string format               
+        fileData.push(data_chunks[i].data.toString('base64'));          
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+            + fileData.join('');  
+            bestCourse[i].AnhDaiDien = finalFile;
+        i++;   
+    }
+    //newest
+    i=0;
+    for (const item of newest) {
+        const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+        const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+        if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+        return res.send('No data found~');
+        }
+        let fileData = [];          
+        for(let i=0; i<data_chunks.length;i++){            
+        //This is in Binary JSON or BSON format, which is stored               
+        //in fileData array in base64 endocoded string format               
+        fileData.push(data_chunks[i].data.toString('base64'));          
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+            + fileData.join('');  
+            newest[i].AnhDaiDien = finalFile;
+        i++;   
+    }
+    //most view
+    i=0;
+    for (const item of mostView) {
+        const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+        const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+        if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+        return res.send('No data found~');
+        }
+        let fileData = [];          
+        for(let i=0; i<data_chunks.length;i++){            
+        //This is in Binary JSON or BSON format, which is stored               
+        //in fileData array in base64 endocoded string format               
+        fileData.push(data_chunks[i].data.toString('base64'));          
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+            + fileData.join('');  
+            mostView[i].AnhDaiDien = finalFile;
+        i++;   
+    }
     db._disconnect();
     if(req.isAuthenticated()){
         const user = req.user;
@@ -53,7 +124,8 @@ route.get('/',async (req, res) => {
                 return res.render('user/home',{
                     isAuthentication: req.isAuthenticated(),
                     user:req.user,
-                    TheLoai:theloai,
+                    theloai:theloai,
+                    mostView, newest, bestCourse,
                     title:'Home|mELearning'
                 });
                 break;
@@ -61,58 +133,26 @@ route.get('/',async (req, res) => {
             default:
                 break;
         }
-
-
     }
     else{
         return res.render('user/home',{
-            TheLoai:theloai,
+            mostView, newest, bestCourse,
+            theloai:theloai,
             title:'Home|mELearning'
         });
     }
 });
-//   app.get('/login', async(req,res)=>{
-//     res.render('user/login',{
-//       layout : false,~
 
-//     });
-//   });
 
 route.get('/', async (req, res) => {
     
     db._connect();
-      
+    
     const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
-    // cheapest.map(async (course) => {
-    //     course.Gia = course.Gia / 1000;
-    //     let mydate = new Date(course.NgayDang);
-    //     course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-    //     course.totalStudent = Math.floor(Math.random() * 20) + 10;
-    // });
-
     const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
-    // newest.map(async (course) => {
-    //     course.Gia = course.Gia / 1000;
-    //     let mydate = new Date(course.NgayDang);
-    //     course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-    //     course.totalStudent = Math.floor(Math.random() * 20) + 10;
-    // });
-
     const bestCourse = await KhoaHoc.find({}).sort({DiemDanhGia:-1}).limit(4).lean();
-    // bestCourse.map(async (course) => {
-    //     course.Gia = course.Gia / 1000;
-    //     let mydate = new Date(course.NgayDang);
-    //     course.NgayDang = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-    //     course.totalStudent = Math.floor(Math.random() * 20) + 10;
-    // });
     console.log(bestCourse);
     if(req.isAuthenticated()){
-        // const linhvucfollow = await ChucNang.findOne({belongTo: req.user._id});
-        // let khoaHocLQ = await KhoaHoc.find({LinhVuc: linhvucfollow.LinhVuc[0]}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-        // if(!khoaHocLQ.length){
-        //     khoaHocLQ = await KhoaHoc.find({}).limit(6).populate('GiaoVien', 'TenGiaoVien').lean();
-        // }
-
         db._disconnect();
         return res.render('user/home', { mostView, newest,bestCourse, isAuthentication: req.isAuthenticated()});
     }else{

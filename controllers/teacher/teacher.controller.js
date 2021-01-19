@@ -204,6 +204,7 @@ if(+req.user.Role !=1){
     khoahoc[i].AnhDaiDien = finalFile;
     i++;   
   }
+  console.log('khoahoc[0] :>> ', khoahoc[0]);
   db._disconnect();  
     res.render( 'teacher/mycourses' ,{
       layout:'teacher/t_main',
@@ -486,9 +487,6 @@ route.post('/reference/editLesson', async(req,res)=>{
     return;
   }
   const {_id, parent_id: id_chuong, tenbaihoc} = req.body;
-  console.log('id_baihoc :>> ', _id);
-  console.log('id_chuong :>> ', id_chuong);
-  console.log('tenbaihoc :>> ', tenbaihoc);
   db._connect();
   const chuong = await Chuong.findById(id_chuong);
   try {
@@ -587,7 +585,8 @@ if(+req.user.Role !=1){
   if(!comparePassword(curpw,user.Password)){
       res.send('incorrect');
       return;
-  }else{console.log("dung");}
+  }
+  else{console.log("dung");}
   var changepw = await GiangVien.findByIdAndUpdate(ID,{Password:hashPassword(newpw)},function(err){
       if(err){
           console.log('Err: ', err);

@@ -1,27 +1,60 @@
-<div class="home_slider_container">	
-	<!-- Home Slider -->
-	<div class="owl-carousel owl-theme home_slider">
-		{{#each bestCourse }}	
-		<!-- Home Slider Item -->
-		<div class="owl-item">
-			<div class="home_slider_background" style="background-image:url({{this.AnhDaiDien}}) ;background-size: contain;"></div>
-			<div class="home_slider_content">
-				<div class="container">
-					<div class="row">
-						<div class="col text-center">
-							<div class="home_slider_title">{{this.TenKhoaHoc}}</div>
-							<div class="home_slider_subtitle">{{this.MoTaNgan}}</div>
-							<div class="home_slider_price"><i class="fa fa-star" aria-hidden="true"></i>{{this.DiemDanhGia}}</div>
-							<div class="home_slider_price"><i class="fa fa-dollar" aria-hidden="true"></i>{{this.HocPhiGoc}}</div>					
-							<div class="home_slider_form_container">								
-								<div class="courses_button trans_100"><a href="#">view more ...</a></div>
+<div class="home_slider_container">
+			
+			<!-- Home Slider -->
+			<div class="owl-carousel owl-theme home_slider">
+				
+				<!-- Home Slider Item -->
+				<div class="owl-item">
+					<div class="home_slider_background" style="background-image:url(images/banner.jpg); background-size: contain;"></div>
+					<div class="home_slider_content">
+						<div class="container">
+							<div class="row">
+								<div class="col text-center">
+									<div class="home_slider_title">The Premium System Education</div>
+									<div class="home_slider_subtitle">Future Of Education Technology</div>
+									<div class="home_slider_form_container">
+									
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
+				<!-- Home Slider Item -->
+				<div class="owl-item">
+					<div class="home_slider_background" style="background-image:url(images/banner1.jpg) ;background-size: contain;"></div>
+					<div class="home_slider_content">
+						<div class="container">
+							<div class="row">
+								<div class="col text-center">
+									<div class="home_slider_title">For The Creatives</div>
+									<div class="home_slider_subtitle">You can learn everything</div>
+									<div class="home_slider_form_container">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Home Slider Item -->
+				<div class="owl-item">
+					<div class="home_slider_background" style="background-image:url(images/banner2.jpg); background-size: contain;"></div>
+					<div class="home_slider_content">
+						<div class="container">
+							<div class="row">
+								<div class="col text-center">
+									<div class="home_slider_title">Premium Courses</div>
+									<div class="home_slider_subtitle">You only have to know one thing</div>
+									<div class="home_slider_form_container">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
-		</div>
-		{{/each}}
-		
-	</div>
-</div>

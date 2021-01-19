@@ -16,11 +16,11 @@ route.get('/', async (req,res)=>{
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
-}
-if(+req.user.Role !=0){
-  res.redirect('/');
-  return;
-}
+  }
+  if(+req.user.Role !=0){
+    res.redirect('/');
+    return;
+  }
   console.log('khoa hoc');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
