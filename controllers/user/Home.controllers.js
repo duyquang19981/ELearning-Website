@@ -17,7 +17,8 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
-
+const DanhGia = require('../../models/schema/DanhGia.model');
+const Chuong = require('../../models/schema/Chuong.model');
 
 route.get('/',async (req, res) => {
     //tao admin account
@@ -283,16 +284,85 @@ route.post('/createComment', async (req, res) => {
         db._connect();
         const data = req.body;
         //console.log(data);
-        KhoaHoc.findOneAndUpdate({_id:data.KhoaHoc},{$push:{DSHocVien_DanhGia: {idHocVien: data.User_id,NgayDang:data.NgayPost,DiemDanhGia :data.DiemDanhGia, PhanHoi:data.PhanHoi}}}, function(err){
+        //let check =0;
+        const courseID =data.KhoaHoc;
+        const _id =data.User_id;
+        const check = await DanhGia.countDocuments({"idKhoaHoc":courseID,"idHocVien":_id}).exec();
+        console.log(check);
+        if(!check){
+        
+            const danhgia = new DanhGia({ 
+                idKhoaHoc: data.KhoaHoc,
+                idHocVien: data.User_id,
+                NgayDang: data.NgayPost,
+                DiemDanhGia: data.DiemDanhGia,
+                PhanHoi: data.PhanHoi,
+            });
+        
+            //luu khoa hoc
+            danhgia.save( function(err){
+                if(err){
+                    console.log('err' + err);
+                    res.send({status:'Add Cmt Failed'});
+                }
+                else{
+                    console.log('added');   
+                    res.send({status:'Add Cmt Successed'});
+                }
+            });
+        }else{
+            DanhGia.findOneAndUpdate({"idKhoaHoc":courseID,"idHocVien":_id},{PhanHoi:data.PhanHoi,DiemDanhGia:data.DiemDanhGia,NgayDang:data.NgayPost},function(err){
             if(err){
                 console.log('err' + err);
-                res.send({status:'Failed'});
+                res.send({status:'Update Cmt Failed'});
             }
             else{
                 console.log('added');   
-                res.send({status:'Successed'});
+                res.send({status:'Update Cmt Successed'});
             }
         });
+        }
+            //cap nhat lai DiemDanhGia
+            const list_DanhGia = await DanhGia.find({"idKhoaHoc":data.KhoaHoc}).lean();
+            let newRating =0;
+            for (i in list_DanhGia){
+                newRating+=list_DanhGia[i].DiemDanhGia;
+            }
+            console.log(list_DanhGia);
+            newRating=newRating/(list_DanhGia.length);
+            KhoaHoc.findByIdAndUpdate({"_id":data.KhoaHoc},{DiemDanhGia:newRating},function(err){
+                if(err){
+                    console.log('err' + err);
+                }
+                else{
+                    console.log('added');   
+                }
+            });   
 
 });
+
+route.post('/addtoCart', async (req, res) => {
+    if(!req.user){
+        return res.status(401).send({success: false, msg:"You must be login"});
+    }
+    
+        db._connect();
+        const course = req.body.Course_id;
+        const user = req.body.User_id;
+        const UserInfo = HocVien.findOne({_id:user}).lean();
+        let check = UserInfo.GioHang.includes(course);
+        console.log(check);
+        if(check){
+            return res.status(409).send({success: true, msg:"Course has been already in cart"});
+        }
+        let check2 =UserInfo.DSKhoaHocDK.includes(course);
+        if(check){
+            return res.status(409).send({success: true, msg:"Course was bought"});
+        }
+        await HocVien.findOneAndUpdate({_id:user},{$push:{GioHang: course}});
+        return res.status(200).send({success: true, msg:"Course was added", mount: GioHang.length});
+        db._disconnect();
+
+    
+})
 module.exports = route;

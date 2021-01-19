@@ -11,6 +11,7 @@ const db = require('./utils/db');
 const GiangVien = require('./models/schema/GiangVien.model');
 const HocVien = require('./models/schema/HocVien.model');
 const Admin = require('./models/schema/Admin.model');
+const DanhGia = require('./models/schema/DanhGia.model');
 const bcrypt = require('bcrypt');
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' })
