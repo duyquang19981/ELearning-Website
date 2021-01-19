@@ -14,6 +14,11 @@
 				<div class="col">
 					<div class="section_title_container text-center">
 						<h2 class="section_title">Kết quả tìm kiếm: </h2>
+            <div style="width:660px; margin-top:20px;" class="d-flex justify-content-around">
+              <div style="font-size: 20px;"><a href="?searchkey={{searchkey}}&sortby=1">Giá tăng dần</a></div>
+
+              <div style="font-size: 20px;"><a href="?searchkey={{searchkey}}&sortby=2">Điểm đánh giá giảm dần</a></div>
+            </div>
 					</div>
 				</div>
 			</div>
@@ -55,8 +60,9 @@
         <div class="col">
             <div class="pagination_container d-flex flex-row align-items-center justify-content-center">
                 <ul class="pagination_list">
+                
                     {{#if pagesNav.prev}}
-                        <li class=""><a href="?page={{pagesNav.prev}}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                        <li class=""><a href="?searchkey={{searchkey}}&sortby={{sortby}}&page={{pagesNav.prev}}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
                     {{else}}
                         <li class="no-hover"><a href="" class="disabled"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
                     {{/if}}
@@ -65,12 +71,12 @@
                         {{#if isActive}}
                                 <li> <a href="#" class = "active disabled">{{value}}</a>   </li>
                         {{else}}
-                                <li> <a href="?page={{value}}">{{value}}</a></li>
+                                <li> <a href="?searchkey={{../searchkey}}&sortby={{../sortby}}&page={{value}}">{{value}}</a></li>
                         {{/if}}
                     {{/each}}   
 
                         {{#if pagesNav.next}}
-                        <li class=""><a href="?page={{pagesNav.next}}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                        <li class=""><a href="?searchkey={{searchkey}}&sortby={{sortby}}&page={{pagesNav.next}}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
                     {{else}}
                         <li class="no-hover"><a href="" class="disabled"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
                     {{/if}}

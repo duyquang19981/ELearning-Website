@@ -371,24 +371,71 @@ route.get('/search', async (req, res) => {
     }
     const searchkey = req.query.searchkey || "";
     const page = req.query.page || 1;
+    const sortby = req.query.sortby || 0;
     const perPage = 3;
- 
     let data = [];
     if(searchkey===""){
-        const numberOfData = await KhoaHoc.find().countDocuments();
-        totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
-        data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
-        .skip(perPage*(page-1))
-        .limit(perPage)
-        .lean();
+        if(+sortby === 0)
+        {
+            console.log('all no sort');
+            const numberOfData = await KhoaHoc.find().countDocuments();
+            totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+            data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+            .skip(perPage*(page-1))
+            .limit(perPage)
+            .lean();
+        }
+        else if(+sortby === 1){  //gia tang dan
+            console.log('all sortby gia tang');
+            const numberOfData = await KhoaHoc.find().countDocuments();
+            totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+            data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+            .skip(perPage*(page-1))
+            .limit(perPage)
+            .sort({HocPhiGoc:1})
+            .lean();
+        }    
+        else if(+sortby === 2){  //diem giam
+            console.log('all sortby diem giam');
+            const numberOfData = await KhoaHoc.find().countDocuments();
+            totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+            data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+            .skip(perPage*(page-1))
+            .limit(perPage)
+            .sort({DiemDanhGia:-1})
+            .lean();
+        }    
     }
     else{
-        const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
-        totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
-        data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
-        .skip(perPage*(page-1))
-        .limit(perPage)
-        .lean();
+        if(+sortby === 0){
+            console.log('key no sort');
+            const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
+            totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+            data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+            .skip(perPage*(page-1))
+            .limit(perPage)
+            .lean();
+        }
+        else if(+sortby === 1){
+            console.log('key sortby gia tang');
+            const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
+            totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+            data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+            .skip(perPage*(page-1))
+            .limit(perPage)
+            .sort({HocPhiGoc:1})
+            .lean();
+        }
+        else if(+sortby === 2){
+            console.log('key sortby diem giam');
+            const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
+            totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+            data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+            .skip(perPage*(page-1))
+            .limit(perPage)
+            .sort({DiemDanhGia:-1})
+            .lean();
+        }
     }
     const pages = [];       // array of page and status
     for (let i = 0; i < totalPages; i++) {
@@ -427,6 +474,7 @@ route.get('/search', async (req, res) => {
         isAuthentication: req.isAuthenticated(),
         khoahoc : data,
         searchkey : searchkey,
+        sortby : sortby,
         page : page,
         pages : pages,
         theloai,
