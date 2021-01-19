@@ -2,15 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const HocVienSchema = new Schema({
     Ten: String,
-    Mail: String,
+    Mail: String,   
     Username: String,
     Password: String,
     DSKhoaHocDK:[{
-        KhoaHoc:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref: 'KhoaHoc'
-        },
-        TrangThai:[{type: mongoose.Schema.Types.Number}]
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'KhoaHoc'
     }],
     WatchList:[{
         type:mongoose.Schema.Types.ObjectId,

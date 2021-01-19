@@ -18,6 +18,10 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
+const photosfiles = require('../../models/schema/photos.files.model');
+const photoschunks = require('../../models/schema/photos.chunks.model');
+const fsfiles = require('../../models/schema/fs.files.model');
+const fschunks = require('../../models/schema/fs.chunks.model');
 
 // const _id = '5ffa03261194ed6e97dc81f4';
 route.get('/', async (req,res )=>{
@@ -26,6 +30,10 @@ route.get('/', async (req,res )=>{
     res.redirect('/login');
     return; 
   }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  }
   const _id =  req.user._id ;
   console.log('go to profile');
   db._connect();
@@ -33,22 +41,25 @@ route.get('/', async (req,res )=>{
   // console.log(info);
   res.render('user/info', {
     layout: 'user/profile',
-    userinfo: userinfo,
+    user: userinfo,
     isAuthentication: req.isAuthenticated(),
   });
 });
 
 route.post('/changeinfo',  async (req,res)=>{
-
-
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  }
+  const _id = req.user._id;
   const uTen = req.body.hoten;
   const uMail = req.body.email;
-  // console.log(Ten);
-  // console.log(Mail);
-  // console.log(_id);
   db._connect();
-  // const hocvien = await HocVien.findById(_id)
-  // console.log('hoc vien', hocvien);
   HocVien.findByIdAndUpdate(_id,{Ten:uTen,Mail:uMail},function(err){
     if(err){
         res.json({kq:0, ErrMgs:err});
@@ -63,49 +74,64 @@ route.get('/mycourses', async (req,res)=>{
     res.redirect('/login');
     return; 
   }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  } 
   const _id =  req.user._id ;
-
-
   console.log("go to profile/mycourses")
-  var userCourses = {};
-  var pageNumberRequest = req.query.page || 1;
+  const page = req.query.page || 1;
   var perPage = 3;
   
   db._connect();
-  const userinfo = await HocVien.findOne({ "_id": _id}).lean();
-  const DSKhoaHocDK = await HocVien.findOne({ "_id": _id}).select('DSKhoaHocDK.KhoaHoc');
-  const mycourses = DSKhoaHocDK.get('DSKhoaHocDK');
-  let A_mycourses = mycourses.map(x=>x.KhoaHoc);
-  const coursesList = await KhoaHoc.find({'_id':{$in: A_mycourses}}).lean();
-  console.log(coursesList);
-
-  let start = (pageNumberRequest - 1 ) * perPage;
-  let end = perPage * pageNumberRequest;
-  let coursesInPage = coursesList.slice(start,end);
-  let totalPage = parseInt(coursesList.length / perPage + 1);;
+  let data = [];
+  const hocvien = await HocVien.findById(_id).populate('DSKhoaHocDK').lean();
+  console.log('hocvien :>> ', hocvien);
+  var start = (page - 1 ) * perPage;
+  var end = perPage * page;
+  var coursesInPage = hocvien.DSKhoaHocDK.slice(start,end);
+  const numberOfData = coursesInPage.length;
+  console.log('numberOfData :>> ', numberOfData);
+  totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+  var i=0;
+  for (const item of coursesInPage) {
+    const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+    const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+    if(!data_chunks || data_chunks.length === 0){               
+      db._disconnect();      
+      return res.send('No data found~');
+    }
+    let fileData = [];          
+    for(let i=0; i<data_chunks.length;i++){                   
+      fileData.push(data_chunks[i].data.toString('base64'));          
+    }
+    //Display the chunks using the data URI format          
+    let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+          + fileData.join('');  
+    coursesInPage[i].AnhDaiDien = finalFile;
+    i++;   
+  }
   const pages = [];       // array of page and status
-  
-  for (let i = 0; i < totalPage; i++) {
+  for (let i = 0; i < totalPages; i++) {
       pages[i] = {
           value : i + 1 ,
-          isActive : (i+1) == pageNumberRequest,
+          isActive : (i+1) == page,
       }
   }
   const pagesNav = {};
-  if(pageNumberRequest > 1){
-      pagesNav.prev = Number(pageNumberRequest) - 1;
+  if(page > 1){
+      pagesNav.prev = Number(page) - 1;
   }
-  if(pageNumberRequest < totalPage){
-      pagesNav.next = Number(pageNumberRequest) + 1;
+  if(page < totalPages){
+      pagesNav.next = Number(page) + 1;
   }
-
 
   res.render('user/mycourses', {
     layout: 'user/profile',
     usercourses: coursesInPage,
     pages:pages,
     pagesNav : pagesNav,
-    userinfo:userinfo,
+    user : hocvien,
     isAuthentication: req.isAuthenticated(),
   });
 
@@ -117,6 +143,10 @@ route.get('/WatchList',  async (req,res)=>{
     res.redirect('/login');
     return; 
   }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  } 
   const _id =  req.user._id ;
 
   console.log("go to profile/WatchList")
@@ -172,6 +202,10 @@ route.get('/cart',  async (req,res)=>{
     res.redirect('/login');
     return; 
   }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  } 
   const _id =  req.user._id ;
 
   console.log("go to profile/cart");
@@ -194,7 +228,24 @@ route.get('/cart',  async (req,res)=>{
     TongTien = TongTien + cL.ThanhTien
   });
   console.log(coursesList);
-
+  var i=0;
+  for (const item of coursesList) {
+    const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+    const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+    if(!data_chunks || data_chunks.length === 0){               
+      db._disconnect();      
+      return res.send('No data found~');
+    }
+    let fileData = [];          
+    for(let i=0; i<data_chunks.length;i++){                   
+      fileData.push(data_chunks[i].data.toString('base64'));          
+    }
+    //Display the chunks using the data URI format          
+    let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+          + fileData.join('');  
+          coursesList[i].AnhDaiDien = finalFile;
+    i++;   
+  }
   let start = (pageNumberRequest - 1 ) * perPage;
   let end = perPage * pageNumberRequest;
   let coursesInPage = coursesList.slice(start,end);
@@ -221,7 +272,7 @@ route.get('/cart',  async (req,res)=>{
     usercart: coursesInPage,
     pages:pages,
     pagesNav : pagesNav,
-    userinfo: userinfo,
+    user: userinfo,
     totalprice:TongTien,
     isAuthentication: req.isAuthenticated(),
   });

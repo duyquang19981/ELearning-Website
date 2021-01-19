@@ -6,11 +6,11 @@
                     <div class="quick-user-info clearfix">
                         <div class="user-avatar float-left white-background">
                             {{!-- <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg" id="avatar-image" class="avatar-customer"> --}}
-                            <img src="{{userinfo.Avt}}" id="avatar-image" class="" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
+                            <img src="{{user.Avt}}" id="avatar-image" class="" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
                             <span class="text-avatar" style="visibility: hidden;">DQ</span>
                         </div>
                         <div class="user-name-and-role">
-                            <span class="user-name">{{userinfo.Ten}}</span> 
+                            <span class="user-name">{{user.Ten}}</span> 
                             <span class="sub-title">&lrm;Học viên</span>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                             <div class="col-md-3 avt-block">
                                 <div class="user-big-avatar float-left white-background">
                                     {{!-- <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg" id="avatar-image" class="avatar-customer"> --}}
-                                    <img src="{{userinfo.Avt}}" id="avatar-image" class="avatar-customer" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
+                                    <img src="{{user.Avt}}" id="avatar-image" class="avatar-customer" onerror="this.src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'">
                                     <span class="text-avatar" style="visibility: hidden;">DQ</span>
                                     {{!-- <button class="btn btn-outline-info btn-change-avt" style="top:100px"><i class="fa fa-camera" aria-hidden="true"></i> Change</button> --}}
                                 </div>
@@ -49,19 +49,19 @@
                                     <div class="form-group row">
                                     <label for="email" class="col-4 col-form-label">Username</label> 
                                     <div class="col-8">
-                                        <input id="username" name="username" placeholder="Username" class="form-control here"  type="text" value="{{userinfo.Username}}" required disabled>
+                                        <input id="username" name="username" placeholder="Username" class="form-control here"  type="text" value="{{user.Username}}" required disabled>
                                     </div>
                                 </div>
                                     <div class="form-group row">
                                     <label for="email" class="col-4 col-form-label">Email</label> 
                                     <div class="col-8">
-                                        <input id="email" name="email" placeholder="Email" class="form-control here"  type="text" value="{{userinfo.Mail}}" required >
+                                        <input id="email" name="email" placeholder="Email" class="form-control here"  type="text" value="{{user.Mail}}" required >
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="name" class="col-4 col-form-label">Full name</label> 
                                     <div class="col-8">
-                                        <input id="name"  name="hoten" placeholder="Name" class="form-control here" type="text" value = "{{userinfo.Ten}}" required  >
+                                        <input id="name"  name="hoten" placeholder="Name" class="form-control here" type="text" value = "{{user.Ten}}" required  >
                                     </div>
                                     <div class="custom-input-error">
                                         <span class="custom-error-text"> </span>

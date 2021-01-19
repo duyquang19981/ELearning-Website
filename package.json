@@ -29,5 +29,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sweetalert2": "^10.13.0"
+  },
+  "devDependencies": {
+    "video.js": "^7.10.2"
   }
 }
