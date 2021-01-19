@@ -22,6 +22,8 @@ const photosfiles = require('../../models/schema/photos.files.model');
 const photoschunks = require('../../models/schema/photos.chunks.model');
 const fsfiles = require('../../models/schema/fs.files.model');
 const fschunks = require('../../models/schema/fs.chunks.model');
+const DanhGia = require('../../models/schema/DanhGia.model');
+const Chuong = require('../../models/schema/Chuong.model');
 
 // const _id = '5ffa03261194ed6e97dc81f4';
 route.get('/', async (req,res )=>{
@@ -164,7 +166,7 @@ route.get('/WatchList',  async (req,res)=>{
   const WatchList = await HocVien.findOne({ "_id": _id}).select('WatchList');
   const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   const A_WatchList = WatchList.get('WatchList');
-  console.log(A_WatchList);
+  //console.log(A_WatchList);
   // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
   const coursesList = await KhoaHoc.find({'_id':{$in: A_WatchList}}).lean();
   
@@ -231,7 +233,7 @@ route.get('/cart',  async (req,res)=>{
   const _id =  req.user._id ;
 
   console.log("go to profile/cart");
-  console.log (_id);
+  //console.log (_id);
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 8;
@@ -242,7 +244,7 @@ route.get('/cart',  async (req,res)=>{
   const GioHang = await HocVien.findOne({ "_id": _id}).select('GioHang');
   
   const A_GioHang = GioHang.get('GioHang');
-  console.log(A_GioHang);
+  //console.log(A_GioHang);
   // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
   const coursesList = await KhoaHoc.find({'_id':{$in: A_GioHang}}).lean();
   let TongTien =0;
@@ -316,7 +318,7 @@ route.get('/delCourse', async (req,res)=>{
   const id_course = req.query.idcourse;
   const userinfo = await HocVien.findOne({ "_id": id_user}).lean();
   var course = await KhoaHoc.findOne({ "_id": id_course}).lean();
-  await HocVien.findOneAndUpdate({_id:id_user},{$pull:{GioHang: id_course}}, function(err){
+  HocVien.findOneAndUpdate({_id:id_user},{$pull:{GioHang: id_course}}, function(err){
       if(err){
           console.log('err' + err);
           res.send({status:'Failed',  subtractValue:0});

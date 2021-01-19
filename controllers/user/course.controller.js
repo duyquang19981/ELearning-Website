@@ -24,34 +24,43 @@ const photosfiles = require('../../models/schema/photos.files.model');
 const photoschunks = require('../../models/schema/photos.chunks.model');
 const fsfiles = require('../../models/schema/fs.files.model');
 const fschunks = require('../../models/schema/fs.chunks.model');
+const DanhGia = require('../../models/schema/DanhGia.model');
+
+
 route.get('/', async (req, res) => {
     console.log("go to course");
 
 });
-route.get('/:courseid/lectureslist', async (req,res)=>{
-    
-    if (!req.isAuthenticated()){
-        
-        res.redirect('/login');
-        return; 
-    }
+route.get('/:courseid', async (req,res)=>{
+
+    req.isAuthenticated();
     const _id =  req.user._id ;
     const courseID = req.params.courseid;
     db._connect(); 
     const course = await KhoaHoc.findById(courseID).lean();
     const userinfo = await HocVien.findOne({ "_id": _id}).lean();
-    const DanhGia = course.DSHocVien_DanhGia;
-    for ( i in DanhGia){
-        // DanhGia[i]=DanhGia[i].toObject();
-        let TacGia = await HocVien.findOne({"_id":DanhGia[i].idHocVien}).select('Ten -_id').lean();
-        DanhGia[i].TacGia = TacGia;
-    };
-    res.render('user/lectureslist',{
+    const teacher = await GiangVien.findOne({"_id":course.GiangVien}).lean();
+    let myCmt = await DanhGia.findOne({"idKhoaHoc":courseID,"idHocVien":_id}).lean();
+    const cmt = await DanhGia.find({"idKhoaHoc":courseID}).lean();
+
+    for ( i in cmt){
+        let TacGia = await HocVien.findOne({"_id":cmt[i].idHocVien}).select('Ten -_id').lean();
+        cmt[i].TacGia = TacGia;
+        };
+    const theloai2 = await TheLoaiCap2.findOne({"_id":course.TheLoai2}).lean();
+    const ListChuong = await Chuong.find({"beLongTo":courseID}).lean();
+
+
+    res.render('user/courseDetail',{
         title: "Lectureslist",
         layout: 'user/course',
         course :course,
-        user: userinfo,
-        DanhGia: DanhGia,
+        userinfo: userinfo,
+        teacher: teacher,
+        DanhGia: cmt,
+        TheLoai2: theloai2,
+        MyCmt: myCmt,
+        chuong: ListChuong,
         isAuthentication: req.isAuthenticated()
     })
     db._disconnect();

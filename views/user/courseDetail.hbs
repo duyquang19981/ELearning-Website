@@ -1,0 +1,384 @@
+
+<!-- Home -->
+<div class="home">
+    <div class="breadcrumbs_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="breadcrumbs">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/course/1">Courses</a></li>
+                            <li>Course Details</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Course -->
+<div class="course">
+    <div class="container">
+        <div class="row">
+
+            <!-- Course -->
+            <div class="col-lg-8">
+
+                <div class="course_container">
+                    <div class="course_title">{{course.TenKhoaHoc}}</div>
+                    <div
+                        class="course_info d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
+
+                        <!-- Course Info Item -->
+                        <div class="course_info_item">
+                            <div class="course_info_title">Teacher:</div>
+                            <div class="course_info_text">{{teacher.Ten}}</div>
+                        </div>
+
+                        <!-- Course Info Item -->
+                        <div class="course_info_item">
+                            <div class="course_info_title">Reviews:</div>
+                            <div class="rating_r rating_r_4">{{{course.DiemDanhGia}}}</div>
+                        </div>
+
+                        <!-- Course Info Item -->
+                        <div class="course_info_item">
+                            <div class="course_info_title">Categories:</div>
+                            <div class="course_info_text">{{TheLoai2.TenTheLoai}}</div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Course Image -->
+                    <div class="course_image"><img src={{course.AnhDaiDien}} alt=""></div>
+
+                    <!-- Course Tabs -->
+                    <div class="course_tabs_container">
+                        <div class="tabs d-flex flex-row align-items-center justify-content-start">
+                            <div class="tab active">Description</div>
+                            <div class="tab">Content</div>
+                            <div class="tab">Reviews</div>
+                        </div>
+                        <div class="tab_panels">
+
+                            <!-- Description -->
+                            <div class="tab_panel active">
+                                <div class="tab_panel_title">{{course.TenKhoaHoc}}</div>
+                                <div class="tab_panel_content">
+                                    <div class="tab_panel_text">
+                                        <p id="MoTaChiTiet" >{{course.MoTaChiTiet}}</p>                                    
+                                    </div>
+                                    <div class="tab_panel_section">
+                                        <div class="tab_panel_subtitle">Requirements</div>
+                                        <ul class="tab_panel_bullets">
+                                            <li>...</li>
+
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Curriculum -->
+                            <div class="tab_panel tab_panel_2">
+                                <div class="tab_panel_content">
+                                    <div class="tab_panel_title">{{course.TenKhoaHoc}}</div>
+                                    <div class="tab_panel_content">
+                                        <div class="tab_panel_text">
+                                            <p>{{course.MoTaNgan}}</p>
+                                        </div>
+
+                                        <!-- Dropdowns -->
+                                        <ul class="dropdowns">
+                                            {{!-- <li class="has_children">
+                                                <div class="dropdown_item">
+                                                    <div class="dropdown_item_title"><span>Lecture 1:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
+                                                    <div class="dropdown_item_text">
+                                                        <p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
+                                                    </div>
+                                                </div>
+                                                <ul>
+                                                    <li>
+                                                        <div class="dropdown_item">
+                                                            <div class="dropdown_item_title"><span>Lecture 1.1:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
+                                                            <div class="dropdown_item_text">
+                                                                <p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="dropdown_item">
+                                                            <div class="dropdown_item_title"><span>Lecture 1.2:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
+                                                            <div class="dropdown_item_text">
+                                                                <p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li> --}}
+                                            {{#each chuong}}
+                                            <li>
+                                                <div class="dropdown_item">
+                                                    <div class="dropdown_item_title"><span>Lecture :</span>
+                                                        {{this.TenChuong}}
+                                                    </div>
+                                                    <div class="dropdown_item_text">
+                                                        {{#each this.DSBaiHoc }}
+                                                            <p>{{this.TenBaiHoc}}</p>
+                                                        {{/each}}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reviews -->
+                            <div class="tab_panel tab_panel_3">
+                                <div class="tab_panel_title">Course Review</div>    
+                                <!-- Comments -->
+                                <div class="comments_container">
+                                    <ul class="comments_list">
+                                        {{#each DanhGia}}
+                                        <li>
+                                            <div
+                                                class="comment_item d-flex flex-row align-items-start jutify-content-start">
+                                                <div class="comment_image">
+                                                    <div><img class="avt" src="images/partner_1.png" alt="" ></div>
+                                                </div>
+                                                <div class="comment_content ">
+                                                    <div
+                                                        class="comment_title_container d-flex flex-row align-items-center justify-content-start">
+                                                        <div class="comment_author">{{this.TacGia.Ten}}</div>
+                                                        <div class="comment_rating ">
+                                                        <div class="rating_r rating_r_4"> has rated this Course   {{this.DiemDanhGia}} <i class="fa fa-star" style="color:rgb(235, 235, 41);" aria-hidden="true"></i></div>
+                                                        </div>
+                                                        <div class="comment_time ml-auto">  at {{this.NgayDang}}</div>
+                                                    </div>
+                                                    <div class="comment_text">
+                                                        <p>{{this.PhanHoi}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {{/each}}
+                                    </ul>
+                                    <div class="row pagination-container w-100 d-flex justify-content-center"></div>
+
+                                    {{#if isAuthentication}}
+                                        {{#if MyCmt}}
+                                            <div>   
+                                                <div class="form_title">
+                                                    <p>You've already reviewed this course.</p>
+                                                    <p>Change Your Review here:</p>
+                                                </div>
+                                                <textarea class="w-100 h-75 comment_input comment_textarea" required="required">{{MyCmt.PhanHoi}}</textarea>
+                                                <div id="rateYo"></div>
+                                                    <input type="hidden" id="Review-User" name="User" value={{userinfo._id}}>
+                                                    <input type="hidden" id="Review-KhoaHoc" name="KhoaHoc" value={{course._id}}>
+                                            </div>
+
+                                            <div>
+                                                <button onclick=" submitComment()"
+                                                    class="comment_button trans_200 btn btn-lg btn-primary">Change</button>
+                                            </div>
+                                        {{else}}
+                                            <div>   
+                                                <div class="form_title">Write Your Review *</div>
+                                                <textarea class="w-100 h-75 comment_input comment_textarea" required="required"></textarea>
+                                                <div id="rateYo"></div>
+                                                    <input type="hidden" id="Review-User" name="User" value=>
+                                                    <input type="hidden" id="Review-KhoaHoc" name="KhoaHoc" value=>
+                                            </div>
+
+                                            <div>
+                                                <button onclick=" submitComment()"
+                                                    class="comment_button trans_200 btn btn-lg btn-primary">submit</button>
+                                            </div>
+                                        {{/if}}
+                                    {{else}}
+                                    <div class="add_comment_container">
+                                        <div class="add_comment_title">Add a review</div>
+                                        <div class="add_comment_text">You must be <a href="/login">logged</a> in to post
+                                            a
+                                            comment.</div>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+
+                    <!-- Feature -->
+                    <div class="sidebar_section">
+                        <div class="sidebar_section_title">Course Feature</div>
+                        <div class="sidebar_feature">
+                            <div class="course_price">VNĐ {{course.HocPhiGoc}}</div>
+                    
+                            <button type="submit" form="cart-form" class= "btn btn-danger" style=" width: 100%;">Add to Cart</button> 
+                            <form method="POST" action="/addtoCart" id="cart-form">
+                                <input type="hidden" name="type" id="" value="2">
+                                <input type="hidden" name="courseid" id="" value="{{course._id}}">
+                                <input type="hidden" name="prodname" id="" value="Thanh toán Khóa học {{course.TenKhoaHoc}}">
+                                <input type="hidden" name="totalprice" id="" value="{{course.Gia}}">
+                                
+                            </form>
+                            <!-- Features -->
+                            <div class="feature_list">
+
+                                <!-- Feature -->
+                                <div class="feature d-flex flex-row align-items-center justify-content-start">
+                                    <div class="feature_title"><i class="fa fa-clock-o"
+                                            aria-hidden="true"></i><span>Duration:</span></div>
+                                    <div class="feature_text ml-auto">2 weeks</div>
+                                </div>
+
+                                <!-- Feature -->
+                                <div class="feature d-flex flex-row align-items-center justify-content-start">
+                                    <div class="feature_title"><i class="fa fa-file-text-o"
+                                            aria-hidden="true"></i><span>Lectures:</span></div>
+                                    <div class="feature_text ml-auto">{{totalLec}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature -->
+                    <div class="sidebar_section">
+                        <div class="sidebar_section_title">Teacher</div>
+                        <div class="sidebar_teacher">
+                            <div
+                                class="teacher_title_container d-flex flex-row align-items-center justify-content-start">
+                                <div class="teacher_image"><img src='images/avt.png' alt=""></div>
+                                <div class="teacher_title">
+                                    <div class="teacher_name"><a href="#">{{teacher.TenGiaoVien}}</a></div>
+                                    
+                                </div>
+                            </div>
+                            <div class="teacher_meta_container">
+                                <!-- Teacher Rating -->
+                                <div class="teacher_meta d-flex flex-row align-items-center justify-content-start">
+                                    <div class="teacher_meta_title">Average Rating:</div>
+                                    <div class="teacher_meta_text ml-auto"><span>4.7</span><i class="fa fa-star"
+                                            aria-hidden="true"></i></div>
+                                </div>
+                                <!-- Teacher Review -->
+                                <div class="teacher_meta d-flex flex-row align-items-center justify-content-start">
+                                    <div class="teacher_meta_title">Review:</div>
+                                    <div class="teacher_meta_text ml-auto"><span>12k</span><i class="fa fa-comment"
+                                            aria-hidden="true"></i></div>
+                                </div>
+
+                            </div>
+                            <div class="teacher_info">
+                                <p>Hi! I am Masion, I’m a marketing & management eros pulvinar velit laoreet, sit amet
+                                    egestas erat dignissim. Sed quis rutrum tellus, sit amet viverra felis. Cras
+                                    sagittis sem sit amet urna feugiat rutrum nam nulla ipsum.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Course -->
+                    <div class="sidebar_section">
+                        <div class="sidebar_section_title">Latest Courses</div>
+                        <div class="sidebar_latest">
+                            {{#each course_latest}}
+                            <!-- Latest Course -->
+                            <div class="latest d-flex flex-row align-items-start justify-content-start">
+                                <div class="latest_image">
+                                    <div><img src={{this.HinhAnh}} alt=""></div>
+                                </div>
+                                <div class="latest_content">
+                                    <div class="latest_title"><a href="/course/{{this._id}}">{{this.TenKhoaHoc}}</a>
+                                    </div>
+                                    <div class="latest_price">{{this.Gia}} VNĐ</div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{>footer}}
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/course.js"></script>
+<script src="js/custom.js"></script>
+<script src="scripts/jquery.simplePagination.js"></script>
+
+<script>
+    $(function () {   
+        $("#rateYo").rateYo({
+            rating: 0,
+            fullStar: true,
+        });
+    });
+</script>
+<script>
+async function submitComment(){
+    console.log("submitted");
+    var PhanHoi = document.querySelector('.comment_input.comment_textarea').value;
+    var User_id = document.querySelector('#Review-User').value;
+    var KhoaHoc = document.querySelector('#Review-KhoaHoc').value;
+    console.log(PhanHoi);
+    /* get rating */
+    var DiemDanhGia = $("#rateYo").rateYo("rating");
+    console.log(DiemDanhGia);
+    console.log(User_id);
+    const NgayPost = new Date();
+    const response = await fetch('/createComment', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({PhanHoi: PhanHoi, NgayPost:NgayPost,User_id:User_id,KhoaHoc:KhoaHoc,DiemDanhGia:DiemDanhGia})
+    })
+    const data = await response.json();
+    alert(data.status);
+    location.reload();
+};
+</script>
+<script>
+    var items = $(".comments_list li");
+    var numItems = items.length;
+    var perPage = 4;
+
+    items.slice(perPage).hide();
+
+    $('.row.pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+            $('html, body').animate({scrollTop:600}, 'slow');
+        }
+    });
+</script>
+
+
+
+
+
+

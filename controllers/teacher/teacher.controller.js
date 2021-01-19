@@ -12,7 +12,6 @@ const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const Chuong  =require('../../models/schema/Chuong.model');
-// const ThongKe = require('../../models/schema/ThongKe.model');
 const photosfiles = require('../../models/schema/photos.files.model');
 const photoschunks = require('../../models/schema/photos.chunks.model');
 const fsfiles = require('../../models/schema/fs.files.model');
