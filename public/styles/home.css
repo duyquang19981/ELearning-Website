@@ -48,3 +48,11 @@
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+.course-wrap{
+  width: 280px;
+  height: 480px;
+}
+.course_image_self{
+  width: 280px;
+  height: 200px;
+}

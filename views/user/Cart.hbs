@@ -125,42 +125,64 @@
     function deleteCourseInCart(index, id){
     
         // xoa div khoi trang web
-        if(!window.confirm('Do you want to delete this course?')){
-            return;
-        }
-        const  course_div_id = 'course-' + index;
-        const course_block = document.getElementById(course_div_id);
-        course_block.classList.add('course-remove');
-        setTimeout(function(){
-            course_block.remove();
-        },
-        1000);  
-        var xhttp = new XMLHttpRequest();
-        xhttp.open('GET', 'delCourse?idcourse=' + id,'true');
-        //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send();
-        xhttp.onreadystatechange = function(){
-            if(this.readyState == 4 && this.status == 200){
-                let res = JSON.parse(this.response);
-                console.log(res);
-                if(res.status == "Successed"){
-                    console.log('Xoa thanh cong');
-                    let prize_val = document.getElementById('prize-value');
-                    let prize = Number(prize_val.outerText);
-                    let new_total_prize = prize - res.subtractValue;
-                    prize_val.outerText = new_total_prize;
-                    let lengthCarrt = localStorage.getItem('cartItem');
-                    localStorage.setItem('cartItem', lengthCarrt - 1);
-                    let cart = document.querySelector('.shopping_cart_mount');
-                    cart.innerHTML = lengthCarrt - 1;
+        //if(!window.confirm('Do you want to delete this course?')){
+        //    return;
+       // }
+        Swal.fire({
+            title: 'Bạn có chắc muốn thực hiện thao tác này?',
+            text: "Thao tác không thể thực hiện lại!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const  course_div_id = 'course-' + index;
+                const course_block = document.getElementById(course_div_id);
+                course_block.classList.add('course-remove');
+                setTimeout(function(){
+                    course_block.remove();
+                },
+                1000);  
+                var xhttp = new XMLHttpRequest();
+                xhttp.open('GET', 'delCourse?idcourse=' + id,'true');
+                //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send();
+                xhttp.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        let res = JSON.parse(this.response);
+                        console.log(res);
+                        if(res.status == "Successed"){
+                            Swal.fire(
+                                'Successfully!',
+                                'Xóa khóa học thành công!',
+                                'success'
+                            )
+                            let prize_val = document.getElementById('prize-value');
+                            let prize = Number(prize_val.outerText);
+                            let new_total_prize = prize - res.subtractValue;
+                            prize_val.outerText = new_total_prize;
+                            let lengthCarrt = localStorage.getItem('cartItem');
+                            localStorage.setItem('cartItem', lengthCarrt - 1);
+                            let cart = document.querySelector('.shopping_cart_mount');
+                            cart.innerHTML = lengthCarrt - 1;
+                        }
+                        else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Thao tác thất bại, thử lại sau!',
+                            
+                            })
+                        }  
+                    
                 }
-                else{
-                    alert('Xoa khong thanh cong');
-                }  
-               
-           }
 
-        }
+                }
+            }
+        })
+        
     }
      
 </script>

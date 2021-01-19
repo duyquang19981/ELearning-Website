@@ -92,12 +92,10 @@ route.get('/mycourses', async (req,res)=>{
   let data = [];
   const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   const hocvien = await HocVien.findById(_id).populate('DSKhoaHocDK').lean();
-  console.log('hocvien :>> ', hocvien);
   var start = (page - 1 ) * perPage;
   var end = perPage * page;
   var coursesInPage = hocvien.DSKhoaHocDK.slice(start,end);
   const numberOfData = coursesInPage.length;
-  console.log('numberOfData :>> ', numberOfData);
   totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
   var i=0;
   for (const item of coursesInPage) {
@@ -290,7 +288,7 @@ route.get('/cart',  async (req,res)=>{
   if(pageNumberRequest < totalPage){
       pagesNav.next = Number(pageNumberRequest) + 1;
   }
-
+  db._disconnect();
 
   res.render('user/Cart', {
     layout: 'user/profile',
@@ -308,7 +306,6 @@ const https = require('https');
 route.get('/delCourse', async (req,res)=>{
   
   if (!req.isAuthenticated()){
-        
     res.redirect('/login');
     return; 
   }
@@ -318,9 +315,9 @@ route.get('/delCourse', async (req,res)=>{
   const id_course = req.query.idcourse;
   const userinfo = await HocVien.findOne({ "_id": id_user}).lean();
   var course = await KhoaHoc.findOne({ "_id": id_course}).lean();
-  HocVien.findOneAndUpdate({_id:id_user},{$pull:{GioHang: id_course}}, function(err){
+  await HocVien.findOneAndUpdate({_id:id_user},{$pull:{GioHang: id_course}}, function(err){
       if(err){
-          console.log('err' + err);
+          console.log('err ' + err);
           res.send({status:'Failed',  subtractValue:0});
       }
       else{
@@ -346,10 +343,9 @@ route.get('/addtocart', async (req,res)=>{
   db._connect();
   const id_user = req.user._id;
   const khoahoc_id = req.query.khoahoc_id;
-  console.log('khoahoc_id :>> ', khoahoc_id);
+  
   const hocvien = await HocVien.findById(id_user);
   for(i of hocvien.GioHang){
-    console.log('i :>> ', i);
     if(i == khoahoc_id){
       res.send('existed');
       db._disconnect();
@@ -383,7 +379,6 @@ route.get('/addtowl', async (req,res)=>{
   const khoahoc_id = req.query.khoahoc_id;
   const hocvien = await HocVien.findById(id_user);
   for(i of hocvien.WatchList){
-    console.log('i :>> ', i);
     if(i == khoahoc_id){
       res.send('existed');
       db._disconnect();

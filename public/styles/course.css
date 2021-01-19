@@ -905,10 +905,12 @@ section
 {
 	margin-top: 21px;
 	width: 100%;
+	
 }
 .course_image img
 {
 	max-width: 100%;
+	min-height: 278px;
 }
 .course_tabs_container
 {

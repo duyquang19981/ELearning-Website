@@ -31,7 +31,7 @@ function  validateRegister(){
 
 $(document).ready(function(){
     $('.add-cart').on('click', function(){
-        
+        console.log('add cart');
         //alert('click add cart')
         const khoahoc_id = $(this).parent('div').find('.id_khoahoc')[0].innerHTML;
         console.log('khoahoc_id :>> ', khoahoc_id);
@@ -88,7 +88,7 @@ $(document).ready(function(){
     });
 
     $('.add-wl').on('click', function(){
-        
+        console.log('add wl');
         //alert('click add cart')
         const khoahoc_id = $(this).parent('div').find('.id_khoahoc')[0].innerHTML;
         console.log('khoahoc_id :>> ', khoahoc_id);

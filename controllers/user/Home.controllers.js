@@ -145,52 +145,6 @@ route.get('/',async (req, res) => {
 });
 
 
-route.get('/', async (req, res) => {
-    
-    db._connect();
-    
-    const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
-    const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
-    const bestCourse = await KhoaHoc.find({}).sort({DiemDanhGia:-1}).limit(4).lean();
-    console.log(bestCourse);
-    if(req.isAuthenticated()){
-        db._disconnect();
-        return res.render('user/home', { mostView, newest,bestCourse, isAuthentication: req.isAuthenticated()});
-    }else{
-        db._disconnect();
-        return res.render('user/home', { mostView, newest, bestCourse, isAuthentication: req.isAuthenticated()});
-    }
-    
-});
-
-// route.get(contants.COURSE_ID_LINK, async (req, res) => {
-//     db._connect();
-//     const { _id } = req.params;
-//     const course = await KhoaHoc.findOne({ _id }).lean();
-//     const course_latest = await KhoaHoc.find({ _id: { $ne: _id } }).limit(3).lean();
-//     const teacher = await GiaoVien.findOne({ _id: course.GiaoVien }).lean();
-//     const chuong = await Chuong.find({ KhoaHoc: _id }).lean();;
-//     const comment = await BinhLuan.find({ KhoaHoc: _id }).sort({NgayPost:"desc"}).populate('User').lean();
-//     const {TenLinhVuc} = await LinhVuc.findOne({_id: course.LinhVuc}).lean();
-//     console.log(TenLinhVuc)
-//     course.rate = comment.length;
-//     comment.forEach(cmt => {
-//         let mydate = new Date(cmt.NgayPost);
-//         cmt.datePost = mydate.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-//     });
-//     let rating_hbs = '';
-//     for (let i = 0; i < course.Rating; i++) {
-//         rating_hbs += `<i></i>`
-//     }
-//     course.rating_hbs = rating_hbs;
-//     let UserId = '';
-//     if(req.isAuthenticated()){
-//         UserId = req.user._id;
-//     }
-//     db._disconnect();
-//     res.render('detailcourse', { course, course_latest, teacher, chuong, comment, totalLec: chuong.length ,isAuthentication: req.isAuthenticated(), User: UserId, TenLinhVuc});
-// })
-
 route.get('/login', checkNotAuthenticated, (req, res) => {
     console.log('log in get ');
     //console.log(req.flash('error'));
@@ -381,28 +335,107 @@ route.post('/createComment', async (req, res) => {
 
 });
 
-route.post('/addtoCart', async (req, res) => {
-    if(!req.user){
-        return res.status(401).send({success: false, msg:"You must be login"});
-    }
+// route.post('/addtoCart', async (req, res) => {
+//     if(!req.user){
+//         return res.status(401).send({success: false, msg:"You must be login"});
+//     }
     
-        db._connect();
-        const course = req.body.Course_id;
-        const user = req.body.User_id;
-        const UserInfo = HocVien.findOne({_id:user}).lean();
-        let check = UserInfo.GioHang.includes(course);
-        console.log(check);
-        if(check){
-            return res.status(409).send({success: true, msg:"Course has been already in cart"});
-        }
-        let check2 =UserInfo.DSKhoaHocDK.includes(course);
-        if(check){
-            return res.status(409).send({success: true, msg:"Course was bought"});
-        }
-        await HocVien.findOneAndUpdate({_id:user},{$push:{GioHang: course}});
-        return res.status(200).send({success: true, msg:"Course was added", mount: GioHang.length});
-        db._disconnect();
+//         db._connect();
+//         const course = req.body.Course_id;
+//         const user = req.body.User_id;
+//         const UserInfo = HocVien.findOne({_id:user}).lean();
+//         let check = UserInfo.GioHang.includes(course);
+//         console.log(check);
+//         if(check){
+//             return res.status(409).send({success: true, msg:"Course has been already in cart"});
+//         }
+//         let check2 =UserInfo.DSKhoaHocDK.includes(course);
+//         if(check){
+//             return res.status(409).send({success: true, msg:"Course was bought"});
+//         }
+//         await HocVien.findOneAndUpdate({_id:user},{$push:{GioHang: course}});
+//         return res.status(200).send({success: true, msg:"Course was added", mount: GioHang.length});
+//         db._disconnect();
 
     
+// })
+
+//search 
+route.get('/search', async (req, res) => {
+    console.log('search ne');
+    db._connect();
+    const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+    var user = -1;
+    if(req.isAuthenticated()){
+        user = await HocVien.findById(req.user._id).lean();
+    }
+    const searchkey = req.query.searchkey || "";
+    const page = req.query.page || 1;
+    const perPage = 3;
+ 
+    let data = [];
+    if(searchkey===""){
+        const numberOfData = await KhoaHoc.find().countDocuments();
+        totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+        data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+        .skip(perPage*(page-1))
+        .limit(perPage)
+        .lean();
+    }
+    else{
+        const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
+        totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+        data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
+        .skip(perPage*(page-1))
+        .limit(perPage)
+        .lean();
+    }
+    const pages = [];       // array of page and status
+    for (let i = 0; i < totalPages; i++) {
+        pages[i] = {
+            value : i + 1 ,
+            isActive : (i+1) == page,
+        }
+    }
+    const pagesNav = {};
+    if(page > 1){
+        pagesNav.prev = Number(page) - 1;
+    }
+    if(page < totalPages){
+        pagesNav.next = Number(page) + 1;
+    }
+    var i=0;
+    for (const item of data) {
+        const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+        const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+        if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+        return res.send('No data found~');
+        }
+        let fileData = [];          
+        for(let i=0; i<data_chunks.length;i++){                   
+        fileData.push(data_chunks[i].data.toString('base64'));          
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+            + fileData.join('');  
+            data[i].AnhDaiDien = finalFile;
+        i++;   
+    }
+    res.render(`user/search`,{
+        layout:'main',
+        isAuthentication: req.isAuthenticated(),
+        khoahoc : data,
+        searchkey : searchkey,
+        page : page,
+        pages : pages,
+        theloai,
+        user: user,
+        pagesNav : pagesNav
+        });
+    db._disconnect();
+    
+    
 })
+
 module.exports = route;

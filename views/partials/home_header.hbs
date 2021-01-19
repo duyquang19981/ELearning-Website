@@ -37,10 +37,11 @@
 								
 									<li><a href="courses.html">My Courses</a></li>
 									<li>
-										<form class="form-inline md-form mr-auto mb-4">
-											<input class="form-control mr-md-2 search-input" type="text" placeholder="Search" aria-label="Search">
+										<form action="/search" method="GET" class="form-inline md-form mr-auto mb-4">
+											<input name="searchkey"  class="form-control mr-md-2 search-input" type="text" placeholder="Search" aria-label="Search" value="{{searchkey}}">
 											<button class="btn purple-gradient btn-rounded btn-md my-0" type="submit">Search</button>
 										</form>
+
 									</li>
 									
 								</ul>
