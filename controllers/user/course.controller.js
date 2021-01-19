@@ -17,12 +17,13 @@ const GiangVien = require('../../models/schema/GiangVien.model');
 const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
+const DanhGia = require('../../models/schema/DanhGia.model');
 
 route.get('/', async (req, res) => {
     console.log("go to course");
 
 });
-route.get('/:courseid/lectureslist', async (req,res)=>{
+route.get('course/:courseid', async (req,res)=>{
 
     if (!req.isAuthenticated()){
         
@@ -40,7 +41,7 @@ route.get('/:courseid/lectureslist', async (req,res)=>{
         let TacGia = await HocVien.findOne({"_id":DanhGia[i].idHocVien}).select('Ten -_id').lean();
         DanhGia[i].TacGia = TacGia;
     };
-    res.render('user/lectureslist',{
+    res.render('user/courseDetail',{
         title: "Lectureslist",
         layout: 'user/course',
         course :course,
