@@ -484,6 +484,81 @@ route.get('/search', async (req, res) => {
     db._disconnect();
     
     
-})
+});
+
+
+route.get('/category1/:id', async (req, res) => {
+    console.log('category n');
+    const page = req.query.page || 1;
+    const perPage = 5;
+    const id_theloai = req.params.id;
+    //const sortby = req.query.sortby || 0;
+    db._connect();
+    const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+    const theloai_main = await TheLoaiCap1.findById(id_theloai)
+                .populate({path: 'TheLoaiCon', populate: {path:'DSKhoaHoc'}})
+                .lean();
+    var data = [];
+    for(i of theloai_main.TheLoaiCon){
+        data = data.concat(i.DSKhoaHoc);
+    }
+    console.log('data :>> ', data.length);
+    totalPages = data.length;
+    var user = -1;
+    if(req.isAuthenticated()){
+        user = await HocVien.findById(req.user._id).lean();
+    }
+    var start = (page - 1 ) * perPage;
+    var end = perPage * page;
+    var coursesInPage = data.slice(start,end);
+    const numberOfData = data.length;
+    totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
+    const pages = [];       // array of page and status
+    for (let i = 0; i < totalPages; i++) {
+        pages[i] = {
+            value : i + 1 ,
+            isActive : (i+1) == page,
+        }
+    }
+    const pagesNav = {};
+    if(page > 1){
+        pagesNav.prev = Number(page) - 1;
+    }
+    if(page < totalPages){
+        pagesNav.next = Number(page) + 1;
+    }
+    var i=0;
+    for (const item of coursesInPage) {
+        const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+        const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+        if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+        return res.send('No data found~');
+        }
+        let fileData = [];          
+        for(let i=0; i<data_chunks.length;i++){                   
+        fileData.push(data_chunks[i].data.toString('base64'));          
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+            + fileData.join('');  
+            coursesInPage[i].AnhDaiDien = finalFile;
+        i++;   
+    }
+
+    res.render(`user/searchCate`,{
+        layout:'main',
+        isAuthentication: req.isAuthenticated(),
+        khoahoc : coursesInPage,
+        //sortby : sortby,
+        page : page,
+        pages : pages,
+        theloai,
+        theloai_main,
+        user: user,
+        pagesNav : pagesNav
+        });
+    db._disconnect();
+});
 
 module.exports = route;

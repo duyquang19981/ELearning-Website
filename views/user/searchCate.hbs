@@ -1,0 +1,95 @@
+<header class="header">
+
+    {{>topbar}}
+
+    <!-- Header Content -->
+    {{>home_header}}
+    
+</header>
+
+<div class="courses">
+	<div class="section_background parallax-window" data-parallax="scroll" data-image-src="images/courses_background.jpg" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row courses-title">
+				<div class="col">
+					<div class="section_title_container text-center">
+						<h2 class="section_title">Các khóa học thể loại: </h2>
+						<h2 style="color: rgb(28, 180, 173);"> {{theloai_main.TenTheLoai}} </h2>
+            
+					</div>
+				</div>
+			</div>
+			<div class="row courses_row d-flex justify-content-around">
+				<!--  newestCourse -->
+					{{#each khoahoc }}
+						<div class="item course-wrap">
+							<div class="course">
+								<div class="course_image"><img class="course_image_self" src={{this.AnhDaiDien}} alt=""></div>
+								<div class="course_body">
+									<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>
+									<div class="course_teacher"></div>
+									<div class="course_text">
+										<p>{{this.MoTaNgan}}</p>
+									</div>
+								</div>
+								<div class="course_footer">
+									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
+										<div class="course_info">
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<span>{{this.DiemDanhGia}} Ratings</span>
+										</div>
+										<div class="course_price ml-auto">{{this.HocPhiGoc}}$</div>						
+									</div>
+									{{#if ../isAuthentication}}
+											<p style="display: none;" class="id_khoahoc">{{_id}}</p>
+									{{else}}
+												<p style="display: none;" class="id_khoahoc">-1</p>
+									{{/if}}
+								
+									<button class="btn btn-info btn-sm add-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+									<button class="btn btn-danger btn-sm add-wl"> <i class="fa fa-heart-o" aria-hidden="true"></i></button>
+								</div>
+							</div>
+						</div>
+					{{/each}}
+				</div>
+      <div class="row pagination_row">
+        <div class="col">
+            <div class="pagination_container d-flex flex-row align-items-center justify-content-center">
+                <ul class="pagination_list">
+                
+                    {{#if pagesNav.prev}}
+                        <li class=""><a href="?searchkey={{searchkey}}&sortby={{sortby}}&page={{pagesNav.prev}}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                    {{else}}
+                        <li class="no-hover"><a href="" class="disabled"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                    {{/if}}
+
+                        {{#each pages}}
+                        {{#if isActive}}
+                                <li> <a href="#" class = "active disabled">{{value}}</a>   </li>
+                        {{else}}
+                                <li> <a href="?searchkey={{../searchkey}}&sortby={{../sortby}}&page={{value}}">{{value}}</a></li>
+                        {{/if}}
+                    {{/each}}   
+
+                        {{#if pagesNav.next}}
+                        <li class=""><a href="?searchkey={{searchkey}}&sortby={{sortby}}&page={{pagesNav.next}}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                    {{else}}
+                        <li class="no-hover"><a href="" class="disabled"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                    {{/if}}
+                    
+                </ul>
+                
+            </div>
+        </div>
+
+    </div>
+		</div>
+
+  </div>
+</div>
+
+  <script src="js/function.js"></script>
+{{#section 'css_for_pagin'}}
+  <link rel="stylesheet" href="styles/courses.css">
+{{/section}}

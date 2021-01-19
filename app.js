@@ -100,9 +100,10 @@ app.use('/user/profile',require('./controllers/user/profile.controller'));
 app.use('/user/course',require('./controllers/user/course.controller'));
 
 app.use('/',require('./controllers/user/Home.controllers'));
-app.use('/', express.static('public/admin'))
+app.use('/', express.static('public/admin'));
 app.use('/admin', express.static('public/admin'));
-
+app.use('/category1', express.static('public/admin'));
+app.use('/category1', express.static('public'));
 app.use('/admin/manage-table',express.static('public/admin'));
 app.use('/admin',require('./controllers/admin/admin.controller'));
 
