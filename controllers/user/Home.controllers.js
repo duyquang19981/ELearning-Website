@@ -44,6 +44,8 @@ route.get('/',async (req, res) => {
     db._connect();
     
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+    // console.log('theloai :>> ', theloai);
+    const theloainoibat = theloai[0].TheLoaiCon.slice(0,2);
     const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
     const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
     const bestCourse = await KhoaHoc.find({}).sort({DiemDanhGia:-1}).limit(4).lean();
@@ -113,7 +115,6 @@ route.get('/',async (req, res) => {
     db._disconnect();
     if(req.isAuthenticated()){
         const user = req.user;
-        console.log('user :>> ', user);
         switch (user.Role) {
             case 0:
                 return res.redirect('/admin');
@@ -139,6 +140,7 @@ route.get('/',async (req, res) => {
         return res.render('user/home',{
             mostView, newest, bestCourse,
             theloai:theloai,
+            theloainoibat,
             title:'Home|mELearning'
         });
     }

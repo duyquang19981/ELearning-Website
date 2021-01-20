@@ -31,47 +31,22 @@
 					<div class="section_title_container text-center">
 						<h2 class="section_title">Các lĩnh vực nổi bật trong tuần</h2>
 					
-					</div>
+				</div>
 				</div>
 			</div>
-			<div class="row features_row">
+			<div class="row features_row d-flex justify-content-center">
 				
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_1.png" alt=""></div>
-						<h3 class="feature_title">The Experts</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
+				{{#each theloainoibat }}
+						<div class="col-lg-3 feature_col">
+							<a href="/category2/{{_id}}">
+								<div class="feature text-center trans_400">
+									<div class="feature_icon"><img src="images/icon_3.png" alt=""></div>
+									<h3 class="feature_title">{{TenTheLoai}}</h3>
+									{{!-- <div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div> --}}
+								</div>
+							</a>
 					</div>
-				</div>
-
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_2.png" alt=""></div>
-						<h3 class="feature_title">Book & Library</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_3.png" alt=""></div>
-						<h3 class="feature_title">Best Courses</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_4.png" alt=""></div>
-						<h3 class="feature_title">Award & Reward</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
+				{{/each}}
 			</div>
 		</div>
 	</div>
@@ -100,7 +75,7 @@
 							<div class="course">
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
-									<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>
+									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
 									<div class="course_teacher"></div>
 									<div class="course_text">
 										<p>{{this.MoTaNgan}}</p>
@@ -150,7 +125,7 @@
 							<div class="course">
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
-									<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>
+									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
 									<div class="course_teacher"></div>
 									<div class="course_text">
 										<p>{{this.MoTaNgan}}</p>
@@ -200,7 +175,7 @@
 							<div class="course">
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
-									<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>
+									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
 									<div class="course_teacher"></div>
 									<div class="course_text">
 										<p>{{this.MoTaNgan}}</p>

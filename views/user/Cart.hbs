@@ -43,7 +43,7 @@
                     <div class="row course-in-cart"  id= "course-{{@index}}" >
                         {{!-- --}}
                         <div class="course-img">
-                            <a href="/course/{{_id}}">
+                            <a href="/user/course/{{_id}}">
                                 <div >
                                     {{!-- <img class='img-in-cart' src="images/course_4.jpg" alt="hinh-anh">  --}}
                                     <img class='img-in-cart' src="{{AnhDaiDien}}" alt="hinh-anh"> 
@@ -51,7 +51,7 @@
                             </a>    
                         </div>
                         <div class="course-info">
-                            <a href="/course/{{_id}}" class="course-name">
+                            <a href="/user/course/{{_id}}" class="course-name">
                                 {{TenKhoaHoc}}
                             </a>
                             <p> Học phí gốc: {{HocPhiGoc}} VND<p>
@@ -104,10 +104,8 @@
                     <div class="prize"><span id = "prize-value">{{totalprice}}</span> VND</div>
                     <div class="ckeckout-button">         
                         <button type="submit" form="cart-form" class= "btn btn-danger" style=" width: 100%;">THANH TOÁN</button> 
-                        <form method="POST" action="paymentchoose" id="cart-form">
-                            <input type="hidden" name="type" id="" value="1">
-                            <input type="hidden" name="prodname" id="" value="Giỏ Hàng {{usercart.length}} Khóa học">
-                            <input type="hidden" name="totalprice" id="" value="{{totalprice}}">                         
+                        <form method="GET" action="/user/profile/checkout" id="cart-form">
+                            
                         </form>
                     </div>
                 </div>

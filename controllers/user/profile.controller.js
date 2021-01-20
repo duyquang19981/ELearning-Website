@@ -396,6 +396,36 @@ route.get('/addtowl', async (req,res)=>{
   db._disconnect();
 });
 
-
+route.get('/checkout', async (req,res)=>{
+  console.log('go to checkout');
+  if (!req.isAuthenticated()){    
+    res.redirect('/login');
+    return; 
+  }
+  if(+req.user.Role !=2){
+    res.redirect('/');
+    return;
+  }
+  const _id = req.user._id;
+  db._connect();
+  const user = await HocVien.findById(_id).lean();
+  console.log('user :>> ', user);
+  let giohang = user.GioHang;
+  let DSKhoaHocDK = user.DSKhoaHocDK.concat(giohang);
+  console.log('DSKhoaHocDK :>> ', DSKhoaHocDK);
+  giohang = []
+  console.log('giohang :>> ', giohang);
+  try{
+    await HocVien.findByIdAndUpdate(_id,{
+      GioHang : [],
+      DSKhoaHocDK : DSKhoaHocDK
+    })
+  } catch(err){
+    console.log('err :>> ', err);
+  }
+  res.redirect('/user/profile/cart');
+  db._disconnect();
+  
+});
 
 module.exports = route;

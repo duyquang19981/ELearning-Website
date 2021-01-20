@@ -32,49 +32,135 @@ route.get('/', async (req, res) => {
 
 });
 route.get('/:courseid', async (req,res)=>{
-
-    req.isAuthenticated();
-    const _id =  req.user._id ;
-    const courseID = req.params.courseid;
+    var user_id = -1;
+    if(req.user){
+        user_id =  req.user._id;
+    }
+    const course_id = req.params.courseid;
     db._connect(); 
-    const course = await KhoaHoc.findById(courseID).lean();
-    const userinfo = await HocVien.findOne({ "_id": _id}).lean();
+    const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
+
+    const course = await KhoaHoc.findById(course_id).lean();
     const teacher = await GiangVien.findOne({"_id":course.GiangVien}).lean();
-    let myCmt = await DanhGia.findOne({"idKhoaHoc":courseID,"idHocVien":_id}).lean();
-    const cmt = await DanhGia.find({"idKhoaHoc":courseID}).lean();
-
-    for ( i in cmt){
-        let TacGia = await HocVien.findOne({"_id":cmt[i].idHocVien}).select('Ten -_id').lean();
-        cmt[i].TacGia = TacGia;
+    var user  = -1, myCmt, cmt;
+    if(user_id != -1){
+        user = await HocVien.findOne({ "_id": user_id}).lean();
+        myCmt = await DanhGia.findOne({"idKhoaHoc":course_id,"idHocVien":user_id}).lean();
+        cmt = await DanhGia.find({"idKhoaHoc":course_id}).lean();    
+        for ( i in cmt){
+            let TacGia = await HocVien.findOne({"_id":cmt[i].idHocVien}).select('Ten -_id').lean();
+            cmt[i].TacGia = TacGia;
         };
-    const theloai2 = await TheLoaiCap2.findOne({"_id":course.TheLoai2}).lean();
-    const ListChuong = await Chuong.find({"beLongTo":courseID}).lean();
+    }
+    const data_hinhanh = await photosfiles.findById(course.AnhDaiDien).lean(); 
+    const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+    if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+    return res.send('No data found~');
+    }
+    let fileData = [];          
+    for(let i=0; i<data_chunks.length;i++){                           
+        fileData.push(data_chunks[i].data.toString('base64'));          
+    }
+    //Display the chunks using the data URI format          
+    let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+        + fileData.join('');  
+        course.AnhDaiDien = finalFile;
+        
+    const theloai2 = await TheLoaiCap2.findOne({"_id":course.TheLoai2})
+                    .populate({path:'DSKhoaHoc'})
+                    .lean();
+    var khoahoc, chuong;
+    try {
+        khoahoc = await KhoaHoc.findById(course_id)
+        .populate({path:'DeCuong', populate : {path:'DSBaiHoc'}}).lean();
+    
+    
+    } catch (error) {
+        console.log('error :>> ', error);
+    }
+    chuong = khoahoc.DeCuong;
+                    
+    const totalHV = course.DSHocVien.length;
+    const course_latest = theloai2.DSKhoaHoc;
+    var i = 0;
+    for (const item of course_latest) {
+        const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
+        const data_chunks = await photoschunks.find({files_id : data_hinhanh._id}).lean();
+        if(!data_chunks || data_chunks.length === 0){               
+        db._disconnect();      
+        return res.send('No data found~');
+        }
+        let fileData = [];          
+        for(let i=0; i<data_chunks.length;i++){                  
+        fileData.push(data_chunks[i].data.toString('base64'));          
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
+            + fileData.join('');  
+            course_latest[i].AnhDaiDien = finalFile;
+        i++;   
+    }
 
-
+    //
+    var check_login_and_permission = false;
+    if(user_id != -1){          // had login
+        var found =  -1;
+        for ( i of khoahoc.DSHocVien){
+            if(i==user_id){
+                found = 1;
+                break;
+            }
+        }
+        if(found>=0){
+            check_login_and_permission = true;
+            console.log('permiss');
+        }
+        else {
+            console.log('not found');
+        }
+    }
+    var chuong_trial, chuong_no_permission;
+    if(check_login_and_permission == false ){
+        chuong_trial = chuong[0];
+        chuong_no_permission = chuong.slice(1);
+    }
     res.render('user/courseDetail',{
         title: "Lectureslist",
-        layout: 'user/course',
+        layout: 'main',
         course :course,
-        userinfo: userinfo,
+        user: user,
         teacher: teacher,
         DanhGia: cmt,
         TheLoai2: theloai2,
+        theloai,
+        course_latest:course_latest,
+        totalHV: totalHV,
+        check_login_and_permission,
+        chuong_trial, 
+        chuong_no_permission,
         MyCmt: myCmt,
-        chuong: ListChuong,
+        chuong: chuong,
         isAuthentication: req.isAuthenticated()
     })
     db._disconnect();
 });
 
 route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
-    console.log('go to');
-    const user_id = req.user._id || -1;
+    console.log('go to lecture');
+
+    var user_id = -1;
+    if(req.user){
+        user_id =  req.user._id;
+    }
     // const user_id = '6005a1620da9e151e81a5224';
     const course_id = req.params.courseid;
     const lecture_id = req.params.lectureid;
-    console.log('lecture_id :>> ', lecture_id);
     db._connect();
-    const user = await HocVien.findById(user_id).lean();
+    var user = -1
+    if(user_id != -1){
+        user = await HocVien.findById(user_id).lean();
+    }
     var khoahoc, chuong, baihoc;
     try {
         khoahoc = await KhoaHoc.findById(course_id)
@@ -107,14 +193,12 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
             console.log('not found');
         }
     }
-    console.log('check_login :>> ', check_login_and_permission);
     var chuong_trial, chuong_no_permission;
     if(check_login_and_permission === false ){
         chuong_trial = chuong[0];
         for(i of chuong_trial.DSBaiHoc){
             if(i._id==lecture_id){
                 i.active = true;
-            
             }
         }
         chuong_no_permission = chuong.slice(1);
@@ -152,7 +236,7 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         chuong_trial,
         chuong,
         baihoc,
-        user: userinfo,
+        user: user,
         isAuthentication: req.isAuthenticated()
     })
     

@@ -23,27 +23,30 @@
                                     <li><a  href="/user/course/{{../../khoahoc._id}}/lecture/{{_id}}" class="list-group-item list-group-item-action " > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</a></li>   
                                 {{/if}}
                             {{/each}}
+                        
                         {{/each}}
                     {{else}}
-                    
                         {{#with chuong_trial}}
-                        <h1>chung  trial</h1>
-                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương {{@index}}:  {{TenChuong}}</li>     
+                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương: {{TenChuong}}</li>     
                             {{#each DSBaiHoc}} 
                                 {{#if active}}
                                     <li class="list-group-item lecture-active" > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</li>        
+                                
                                 {{else}}    
                                     <li><a  href="/user/course/{{../../khoahoc._id}}/lecture/{{_id}}" class="list-group-item list-group-item-action " > <div style="display: inline-block;" class = "lesson-index">Bài học {{@index}}</div>: {{TenBaiHoc}}</a></li>   
+                        
                                 {{/if}}
                             {{/each}}
+                            
                         {{/with}}
                         {{#each chuong_no_permission}}
-                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương {{@index}}:  {{TenChuong}}</li>     
+                            <li class="list-group-item list-group-item-primary chapter-name-sidebar"><div class="chapter-index" style="display: inline-block;"></div>Chương: {{TenChuong}}</li>     
                             {{#each DSBaiHoc}} 
                                 
-                                    <li><div style="display: inline-block; " class = "lesson-index">Bài học {{@index}}: <span style="color: black;">{{TenBaiHoc}}</span></div></li>   
-                            
+                                <li><div style="display: inline-block; " class = "lesson-index">Bài học {{@index}}: <span style="color: black;">{{TenBaiHoc}}</span></div></li>   
+                                
                             {{/each}}
+                        
                         {{/each}}
                     {{/if}}
                     
