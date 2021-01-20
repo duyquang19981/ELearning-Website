@@ -203,7 +203,7 @@ if(+req.user.Role !=1){
     khoahoc[i].AnhDaiDien = finalFile;
     i++;   
   }
-  console.log('khoahoc[0] :>> ', khoahoc[0]);
+
   db._disconnect();  
     res.render( 'teacher/mycourses' ,{
       layout:'teacher/t_main',
@@ -511,8 +511,7 @@ route.post('/reference/deleteLesson', async(req,res)=>{
   return;
   }
   const {_id, parent_id: id_chuong} = req.body;
-  console.log('_id :>> ', _id);
-  console.log('id_chuong :>> ', id_chuong);
+
   db._connect();
   var baihoc;
   try {

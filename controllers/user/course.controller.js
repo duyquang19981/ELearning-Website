@@ -177,7 +177,7 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         else{
             var trangthai = await TrangThaiModel.findOne({HocVien:user_id, KhoaHoc:course_id}).lean();
             var old_tt = trangthai.TrangThai;
-            console.log('old_tt :>> ', old_tt);
+        
             await TrangThaiModel.findByIdAndUpdate(trangthai._id,{TrangThai:+old_tt+1});
         }
     }

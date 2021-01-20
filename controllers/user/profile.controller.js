@@ -114,15 +114,13 @@ route.get('/mycourses', async (req,res)=>{
     let finalFile = 'data:' + data_hinhanh.contentType + ';base64,' 
           + fileData.join('');  
     coursesInPage[i].AnhDaiDien = finalFile;
-    i++;   
     let trangthai = await TrangThaiModel.findOne({HocVien:_id, KhoaHoc:item._id});
     if(trangthai!=null){
-      console.log('trangthai :>> ', trangthai);
       if(+trangthai.TrangThai>10){
         coursesInPage[i].isDone = true;
-        console.log('item :>> ', coursesInPage[i]);
       }
     }
+    i++;
   }
   const pages = [];       // array of page and status
   for (let i = 0; i < totalPages; i++) {
@@ -259,7 +257,7 @@ route.get('/cart',  async (req,res)=>{
     cL.ThanhTien = cL.HocPhiGoc*(1-cL.KhuyenMai/100);
     TongTien = TongTien + cL.ThanhTien
   });
-  console.log(coursesList);
+  
   var i=0;
   for (const item of coursesList) {
     const data_hinhanh = await photosfiles.findById(item.AnhDaiDien).lean(); 
@@ -445,12 +443,11 @@ route.get('/checkout', async (req,res)=>{
   const _id = req.user._id;
   db._connect();
   const user = await HocVien.findById(_id).lean();
-  console.log('user :>> ', user);
   let giohang = user.GioHang;
   let DSKhoaHocDK = user.DSKhoaHocDK.concat(giohang);
-  console.log('DSKhoaHocDK :>> ', DSKhoaHocDK);
+  //if exist
+  DSKhoaHocDK = Array.from(new Set(DSKhoaHocDK));
   giohang = []
-  console.log('giohang :>> ', giohang);
   try{
     await HocVien.findByIdAndUpdate(_id,{
       GioHang : [],
