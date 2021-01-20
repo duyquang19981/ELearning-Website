@@ -95,7 +95,7 @@ route.get('/mycourses', async (req,res)=>{
   var start = (page - 1 ) * perPage;
   var end = perPage * page;
   var coursesInPage = hocvien.DSKhoaHocDK.slice(start,end);
-  const numberOfData = coursesInPage.length;
+  const numberOfData = hocvien.DSKhoaHocDK.length;
   totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
   var i=0;
   for (const item of coursesInPage) {

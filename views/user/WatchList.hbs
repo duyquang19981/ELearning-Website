@@ -60,9 +60,9 @@
                             </a>
                             <p> {{MoTaNgan}} <p>
                         </div>                      
-                        <div class="del-btn">
-                            <button class="btn btn-danger"  onclick="deleteCourseInWatchList({{@index}},'{{_id}}')"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
-                            <button class="btn btn-info" onclick="addCourseToCart({{@index}},'{{_id}}')"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                        <div class="del-btn col-sm-2">
+                            <button class="btn btn-sm btn-danger"  onclick="deleteCourseInWatchList({{@index}},'{{_id}}')"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+                            <button class="btn btn-sm btn-info" onclick="addCourseToCart({{@index}},'{{_id}}')"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 {{/each}}
@@ -128,13 +128,22 @@
                 let res = JSON.parse(this.response);
                 console.log(res);
                 if(res.status == "Successed"){
-                    console.log('Xoa thanh cong');
+                    Swal.fire(
+                            'Successfully!',
+                            'Xóa khỏi Watchlist!',
+                            'success'
+                        )
                 }
                 else{
-                    alert('Xoa khong thanh cong');
+                    Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Thao tác thất bại, thử lại sau!',
+                            
+                        })
                 }  
-               
-           }
+            
+        }
 
         }
     }
