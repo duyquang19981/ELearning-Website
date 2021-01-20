@@ -247,7 +247,7 @@ section
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 100;
+	z-index: 10000;
 	box-shadow: 0px 5px 20px rgba(0,0,0,0.05);
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -341,6 +341,7 @@ section
 .header_content
 {
 	height: 90px;
+	z-index: 1000000000;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;

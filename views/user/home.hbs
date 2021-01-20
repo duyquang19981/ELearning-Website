@@ -73,6 +73,7 @@
 					{{#each newest }}
 						<div class="item">
 							<div class="course">
+								<div class = "newtag">NEW</div>
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
 									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
@@ -120,9 +121,9 @@
 				<div id ="owl-2" class="owl-carousel owl-theme">
 			
 					{{#each bestCourse }}
-
 						<div class="item">
 							<div class="course">
+								<div class ="course_topranking"><i class="fa fa-star" aria-hidden="true"></i>BEST RATED!<i class="fa fa-star" aria-hidden="true"></i></div>
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
 									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
@@ -173,6 +174,7 @@
 
 						<div class="item">
 							<div class="course">
+								<div class ="course_mostview"><i class="fa fa-eye" aria-hidden="true"></i> {{this.LuotXem}} Views!</i></div>
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
 									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
