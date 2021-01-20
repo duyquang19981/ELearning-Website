@@ -32,7 +32,7 @@ if(+req.user.Role !=0){
     //get all data
     const numberOfData = await HocVien.find().countDocuments();
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
-    data = await HocVien.find()
+    data = await HocVien.find().populate('DSKhoaHocDK')
     .skip(perPage*(page-1))
     .limit(perPage)
     .lean();
@@ -40,7 +40,7 @@ if(+req.user.Role !=0){
   else{
     const numberOfData = await HocVien.find({$text: { $search: searchkey }}).count();
     totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
-    data = await HocVien.find({$text: { $search: searchkey }})
+    data = await HocVien.find({$text: { $search: searchkey }}).populate('DSKhoaHocDK')
     .skip(perPage*(page-1))
     .limit(perPage)
     .lean();

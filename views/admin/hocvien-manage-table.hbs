@@ -51,7 +51,7 @@
 								<td>{{Ten}}</td>
 								<td>{{Mail}}</td>
 								<td>{{Username}}</td>
-								<td><a href="#show-courses" class="detail edit" data-toggle="modal" >Xem</a></td>
+								<td><a href="#show-courses-{{@index}}" class="detail edit" data-toggle="modal" >Xem</a></td>
 								<td>
 									<a  href="#editRecord"  class="editButton edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 									<a  href="#deleteRecord" class="deleteButton delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -159,7 +159,8 @@
 
 {{!-- danh sach khoa hoc model  --}}
 
-<div id="show-courses" class="modal fade">
+{{#each HocVien }}
+<div id="show-courses-{{@index}}" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">						
@@ -167,10 +168,15 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">					
+					{{#if DSKhoaHocDK}}
 					<ul id="courses-list" style="text-decoration: none;">
-						<li>khoa1</li>
-						<li>khoa 2</li>
+						{{#each DSKhoaHocDK}}
+							<li>{{TenKhoaHoc}}</li>
+						{{/each}}
 					</ul>
+					{{else}}
+						<h4>Chưa có khóa học.</h4>
+					{{/if}}
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -178,6 +184,8 @@
 		</div>
 	</div>
 </div>
+{{/each}}
+
 
 {{#section 'searchbar'}}
   <form action="HocVien" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">

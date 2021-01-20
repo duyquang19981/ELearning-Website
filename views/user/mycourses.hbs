@@ -43,7 +43,7 @@
                                 {{#each usercourses}}
                                 <div class="col-lg-4 course_col">
                                     <div class="course">
-                                        <div class="course_image"><img src="{{this.AnhDaiDien}}" alt="hinh-anh"></div>
+                                        <div class="course_image"><img class="custom-course-img" src="{{this.AnhDaiDien}}" alt="hinh-anh"></div>
                                         <div class="course_body">
                                             <h3 class="course_title"><a href="/user/course/{{this._id}}">{{this.TenKhoaHoc}}</a></h3>
                                             <div class="course_text">
@@ -53,13 +53,23 @@
                                         <div class="course_footer">
                                             <div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
                                                 <div class="course_info">
-                                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                                                    <span>20 Student</span>
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    <span>{{this.LuotXem}} views</span>
                                                 </div>
                                                 <div class="course_info">
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <span>{{this.DiemDanhGia}} Ratings</span>
+                                                    <span>{{this.DiemDanhGia}} Rate</span>
                                                 </div>
+                                                {{#if isDone}}
+                                                    <div style="margin-left:15px; " class="course_info">
+                                                        <i style="color: rgb(7, 168, 7); font-size:29px" class="fa fa-check-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                {{else}}
+                                                    <div style="margin-left:15px; " class="course_info">
+                                                        <i style="color: rgb(158, 160, 158); font-size:29px" class="fa fa-check-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                {{/if}}
+                                               
                                                 {{!-- <div class="course_price ml-auto"><span>$320</span>{{Gia}}</div> --}}
                                             </div>
                                         </div>

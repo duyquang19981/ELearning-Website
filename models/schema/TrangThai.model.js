@@ -9,7 +9,7 @@ const TrangThaiSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'KhoaHoc'
   },
-  TrangThai: []
+  TrangThai: Number
 
 
 }, {collection:'TrangThai'});

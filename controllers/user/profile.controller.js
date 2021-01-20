@@ -24,6 +24,7 @@ const fsfiles = require('../../models/schema/fs.files.model');
 const fschunks = require('../../models/schema/fs.chunks.model');
 const DanhGia = require('../../models/schema/DanhGia.model');
 const Chuong = require('../../models/schema/Chuong.model');
+const TrangThaiModel = require('../../models/schema/TrangThai.model');
 
 // const _id = '5ffa03261194ed6e97dc81f4';
 route.get('/', async (req,res )=>{
@@ -114,6 +115,14 @@ route.get('/mycourses', async (req,res)=>{
           + fileData.join('');  
     coursesInPage[i].AnhDaiDien = finalFile;
     i++;   
+    let trangthai = await TrangThaiModel.findOne({HocVien:_id, KhoaHoc:item._id});
+    if(trangthai!=null){
+      console.log('trangthai :>> ', trangthai);
+      if(+trangthai.TrangThai>10){
+        coursesInPage[i].isDone = true;
+        console.log('item :>> ', coursesInPage[i]);
+      }
+    }
   }
   const pages = [];       // array of page and status
   for (let i = 0; i < totalPages; i++) {

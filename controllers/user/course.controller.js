@@ -25,6 +25,7 @@ const photoschunks = require('../../models/schema/photos.chunks.model');
 const fsfiles = require('../../models/schema/fs.files.model');
 const fschunks = require('../../models/schema/fs.chunks.model');
 const DanhGia = require('../../models/schema/DanhGia.model');
+const TrangThaiModel = require('../../models/schema/TrangThai.model');
 
 
 route.get('/', async (req, res) => {
@@ -163,6 +164,22 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
     var user = -1
     if(user_id != -1){
         user = await HocVien.findById(user_id).lean();
+        var trangthai = await TrangThaiModel.findOne({HocVien:user_id, KhoaHoc:course_id}).lean();
+        if(trangthai == null){
+            console.log('trang thai null, khoi tao');
+            var newtrangthai = new TrangThaiModel({
+                HocVien : user_id,
+                KhoaHoc : course_id,
+                TrangThai : 0
+            });
+            await newtrangthai.save();
+        }
+        else{
+            var trangthai = await TrangThaiModel.findOne({HocVien:user_id, KhoaHoc:course_id}).lean();
+            var old_tt = trangthai.TrangThai;
+            console.log('old_tt :>> ', old_tt);
+            await TrangThaiModel.findByIdAndUpdate(trangthai._id,{TrangThai:+old_tt+1});
+        }
     }
     var khoahoc, chuong, baihoc;
     try {
