@@ -45,7 +45,7 @@ route.get('/',async (req, res) => {
     
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
     // console.log('theloai :>> ', theloai);
-    const theloainoibat = theloai[0].TheLoaiCon.slice(0,2);
+    const theloainoibat = theloai[0].TheLoaiCon.slice(0,4);
     const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
     const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
     const bestCourse = await KhoaHoc.find({}).sort({DiemDanhGia:-1}).limit(4).lean();

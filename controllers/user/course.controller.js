@@ -41,6 +41,9 @@ route.get('/:courseid', async (req,res)=>{
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
 
     const course = await KhoaHoc.findById(course_id).lean();
+    var luotxem = course.LuotXem;
+    console.log('luotxem :>> ', luotxem);
+    await KhoaHoc.findByIdAndUpdate(course_id,{LuotXem:(+luotxem+1)});
     const teacher = await GiangVien.findOne({"_id":course.GiangVien}).lean();
     var user  = -1, myCmt, cmt;
     if(user_id != -1){
