@@ -27,6 +27,9 @@
 					{{#each khoahoc }}
 						<div class="item course-wrap">
 							<div class="course">
+								{{#if this.KhuyenMai}}
+									<div class = "saleoff-tag">{{this.KhuyenMai}} % OFF</div>
+								{{/if}}
 								<div class="course_image"><img class="course_image_self" src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
 									<h3 class="course_title"><a href="course.html">{{this.TenKhoaHoc}}</a></h3>

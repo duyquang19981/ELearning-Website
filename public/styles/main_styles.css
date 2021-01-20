@@ -1038,6 +1038,76 @@ section
 	padding-right: 30px;
 	padding-bottom: 23px;
 }
+.course_topranking{
+	font-family: 'Roboto Slab', serif;
+	font-size: 20px;
+	color: #ff0000;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+	text-align: center;
+	background-color: wheat;
+}
+.course_topranking:hover{
+	color:yellow;
+	background-color: red;
+}
+.course_mostview{
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-size: 20px;
+	color: #6d04f7;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+	text-align: center;
+	background-color: rgb(207, 241, 144);
+}
+.newtag{
+	float: left ;
+	position: absolute;
+	z-index: 1000;
+	font-family: 'Roboto Slab', serif;
+	font-size: 15px;
+	font-weight: 400;
+	color: #eb0808;
+	padding: 2px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+	text-align: center;
+	border-radius: 10%;
+	border: solid 1px red;
+	background-color: rgb(252, 250, 153);
+}
+.saleoff-tag{
+	position: absolute;
+	z-index: 1000;
+	font-family: 'Roboto Slab', serif;
+	font-size: 15px;
+	font-weight: 400;
+	max-width: 50px;
+	color: #fffb05;
+	padding: 2px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+	text-align: center;
+	border-radius: 10%;
+	border: solid 1px rgb(255, 145, 0);
+	background-color: rgb(146, 15, 15);
+}
+.course_mostview:hover{
+	color:rgb(0, 225, 255);
+	background-color: rgb(228, 155, 155);
+}
 .course_title a
 {
 	font-family: 'Roboto Slab', serif;

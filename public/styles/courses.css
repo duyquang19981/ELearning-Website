@@ -248,7 +248,7 @@ section
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 100;
+	z-index: 1000000;
 	box-shadow: 0px 5px 20px rgba(0,0,0,0.05);
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
