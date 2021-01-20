@@ -2,6 +2,7 @@ desktop.ini
 public/admin/*.html
 test.html
 multilevel
+package-lock.json
 # Logs
 logs
 *.log
