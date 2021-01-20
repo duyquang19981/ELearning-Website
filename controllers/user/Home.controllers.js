@@ -284,7 +284,7 @@ route.post('/createComment', async (req, res) => {
         const courseID =data.KhoaHoc;
         const _id =data.User_id;
         const check = await DanhGia.countDocuments({"idKhoaHoc":courseID,"idHocVien":_id}).exec();
-        console.log(check);
+      console.log(check);
         if(!check){
         
             const danhgia = new DanhGia({ 
@@ -324,7 +324,7 @@ route.post('/createComment', async (req, res) => {
             for (i in list_DanhGia){
                 newRating+=list_DanhGia[i].DiemDanhGia;
             }
-            console.log(list_DanhGia);
+        
             newRating=newRating/(list_DanhGia.length);
             KhoaHoc.findByIdAndUpdate({"_id":data.KhoaHoc},{DiemDanhGia:newRating},function(err){
                 if(err){
@@ -504,7 +504,7 @@ route.get('/category1/:id', async (req, res) => {
     for(i of theloai_main.TheLoaiCon){
         data = data.concat(i.DSKhoaHoc);
     }
-    console.log('data :>> ', data.length);
+    
     totalPages = data.length;
     var user = -1;
     if(req.isAuthenticated()){
@@ -575,7 +575,7 @@ route.get('/category2/:id', async (req, res) => {
                 .populate({path:'DSKhoaHoc'})
                 .lean();
     var data = theloai_main.DSKhoaHoc;
-    console.log('data :>> ', data.length);
+   
     totalPages = data.length;
     var user = -1;
     if(req.isAuthenticated()){
