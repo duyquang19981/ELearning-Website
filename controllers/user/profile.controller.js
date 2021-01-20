@@ -303,7 +303,7 @@ route.get('/cart',  async (req,res)=>{
 
 });
 const https = require('https');
-route.get('/delCourse', async (req,res)=>{
+route.get('/delCourseInCart', async (req,res)=>{
   
   if (!req.isAuthenticated()){
     res.redirect('/login');
@@ -323,6 +323,33 @@ route.get('/delCourse', async (req,res)=>{
       else{
           console.log('removed ');   
           res.send({status:'Successed',  subtractValue:course.Gia});
+      }
+  });
+  
+  db._disconnect();
+});
+//delete WL
+route.get('/delCourseInWL', async (req,res)=>{
+  
+  if (!req.isAuthenticated()){
+        
+    res.redirect('/login');
+    return; 
+  }
+  db._connect(); 
+  console.log('go to delCourseInWL');
+  const id_user = req.user._id;
+  const id_course = req.query.idcourse;
+  // const course = await KhoaHoc.findById(id_course).lean();
+  console.log(id_user);
+  await HocVien.findOneAndUpdate({_id:id_user},{$pull:{WatchList: id_course}}, function(err){
+      if(err){
+          console.log('err' + err);
+          res.send({status:'Failed'});
+      }
+      else{
+          console.log('removed ');   
+          res.send({status:'Successed'});
       }
   });
   
