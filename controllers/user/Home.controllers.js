@@ -370,6 +370,7 @@ route.post('/createComment', async (req, res) => {
             }
             console.log(list_DanhGia);
             newRating=newRating/(list_DanhGia.length);
+            newRating = newRating.toFixed(2);
             KhoaHoc.findByIdAndUpdate({"_id":data.KhoaHoc},{DiemDanhGia:newRating},function(err){
                 if(err){
                     console.log('err' + err);
