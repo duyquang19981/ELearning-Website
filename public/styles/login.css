@@ -1,0 +1,5 @@
+.bg-gradient {
+  background-color: #df4edf;
+  background: linear-gradient(to right, #ba5370, #f4e2d8);
+  background-size: cover;
+}

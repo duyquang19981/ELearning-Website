@@ -86,7 +86,11 @@
 									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
 										<div class="course_info">
 											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>{{this.DiemDanhGia}} Ratings</span>
+											<span>{{this.DiemDanhGia}} Rates</span>
+										</div>
+										<div class="course_info">
+											<i class="fa fa-eye" aria-hidden="true"></i>
+											<span>{{this.LuotXem}} Views</span>
 										</div>
 										<div class="course_price ml-auto">{{this.HocPhiGoc}}$</div>						
 									</div>
@@ -136,8 +140,12 @@
 									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
 										<div class="course_info">
 											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>{{this.DiemDanhGia}} Ratings</span>
+											<span>{{this.DiemDanhGia}} Rates</span>
 										</div>
+											<div class="course_info">
+												<i class="fa fa-eye" aria-hidden="true"></i>
+												<span>{{this.LuotXem}} Views</span>
+											</div>
 										<div class="course_price ml-auto">{{this.HocPhiGoc}}$</div>						
 									</div>
 									{{#if ../isAuthentication}}
@@ -174,7 +182,7 @@
 
 						<div class="item">
 							<div class="course">
-								<div class ="course_mostview"><i class="fa fa-eye" aria-hidden="true"></i> {{this.LuotXem}} Views!</i></div>
+								<div class ="course_mostview"></div>
 								<div class="course_image"><img src={{this.AnhDaiDien}} alt=""></div>
 								<div class="course_body">
 									<h3 class="course_title"><a href="/user/course/{{_id}}">{{this.TenKhoaHoc}}</a></h3>
@@ -187,8 +195,12 @@
 									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
 										<div class="course_info">
 											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>{{this.DiemDanhGia}} Ratings</span>
+											<span>{{this.DiemDanhGia}} Rates</span>
 										</div>
+										<div class="course_info">
+												<i class="fa fa-eye" aria-hidden="true"></i>
+												<span>{{this.LuotXem}} Views</span>
+											</div>
 										<div class="course_price ml-auto">{{this.HocPhiGoc}}$</div>						
 									</div>
 									{{#if ../isAuthentication}}

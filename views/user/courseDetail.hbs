@@ -367,7 +367,11 @@ async function submitComment(){
         body: JSON.stringify({PhanHoi: PhanHoi, NgayPost:NgayPost,User_id:User_id,KhoaHoc:KhoaHoc,DiemDanhGia:DiemDanhGia})
     })
     const data = await response.json();
-    alert(data.status);
+     Swal.fire(
+            'Successfully!',
+            'Thao tác thành công',
+            'success'
+        )
     location.reload();
 };
 </script>
