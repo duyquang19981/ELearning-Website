@@ -3,8 +3,6 @@ $(document).ready(function(){
 
   var searchkey = getParameterByName('searchkey') || null;
   var page = getParameterByName('page') || 1;
-  console.log('searchkey :>> ', searchkey);
-  console.log('page :>> ', page);
 	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
 	
@@ -28,7 +26,6 @@ $(document).ready(function(){
   });
 
   $(".editButton").click(function(){
-    console.log('edit giang vien');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const Ten = td[1].innerHTML;
@@ -43,7 +40,6 @@ $(document).ready(function(){
   
   $(".deleteButton").click(function(){
     //kiem tra o client, va server, sua o client submit nhung khong thao tac
-    console.log('delete giang vien');
     
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
@@ -56,7 +52,6 @@ $(document).ready(function(){
     xhttp.send();
     xhttp.onreadystatechange = async function(){
         if(this.readyState == 4 && this.status == 200){
-            //alert(this.responseText);
             var resText = this.responseText;
             SoKhoaHoc =  JSON.parse(resText).numberofcourse;
             const noti = $('.noti');
@@ -81,7 +76,6 @@ $(document).ready(function(){
 
   // xem danh sach khoa hoc
   $('.detail').click(function(){
-    console.log('xem chi tiet khoa hoc');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     var xhttp = new XMLHttpRequest();

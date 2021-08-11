@@ -13,12 +13,10 @@ function  validateAddForm(){
           const isExist = JSON.parse(resText).isExist;
           const noti = $('.username-noti');
           if(isExist){
-            console.log('exist');
               noti.css('visibility','visible');
           }
           else
           {
-            console.log('not exist');
               noti.css('visibility','hidden');
               document.forms['addForm'].submit();
           }
@@ -41,12 +39,10 @@ function  validateAddForm2(){
           const isExist = JSON.parse(resText).isExist;
           const noti = $('.username-noti');
           if(isExist){
-            console.log('exist');
               noti.css('visibility','visible');
           }
           else
           {
-            console.log('not exist');
               noti.css('visibility','hidden');
               document.forms['addForm2'].submit();
           }

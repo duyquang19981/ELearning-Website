@@ -26,7 +26,6 @@ const DanhGia = require('../../models/schema/DanhGia.model');
 const Chuong = require('../../models/schema/Chuong.model');
 const TrangThaiModel = require('../../models/schema/TrangThai.model');
 
-// const _id = '5ffa03261194ed6e97dc81f4';
 route.get('/', async (req,res )=>{
   if (!req.isAuthenticated()){
         
@@ -38,10 +37,8 @@ route.get('/', async (req,res )=>{
     return;
   }
   const _id =  req.user._id ;
-  console.log('go to profile');
   db._connect();
   const userinfo = await HocVien.findOne({ "_id": _id}).lean();
-  // console.log(info);
   const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   res.render('user/info', {
     layout: 'user/profile',
@@ -85,7 +82,6 @@ route.get('/mycourses', async (req,res)=>{
     return;
   } 
   const _id =  req.user._id ;
-  console.log("go to profile/mycourses")
   const page = req.query.page || 1;
   var perPage = 3;
   
@@ -161,7 +157,6 @@ route.get('/WatchList',  async (req,res)=>{
   } 
   const _id =  req.user._id ;
 
-  console.log("go to profile/WatchList")
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 3;
@@ -171,8 +166,6 @@ route.get('/WatchList',  async (req,res)=>{
   const WatchList = await HocVien.findOne({ "_id": _id}).select('WatchList');
   const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
   const A_WatchList = WatchList.get('WatchList');
-  //console.log(A_WatchList);
-  // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
   const coursesList = await KhoaHoc.find({'_id':{$in: A_WatchList}}).lean();
   
   let start = (pageNumberRequest - 1 ) * perPage;
@@ -237,8 +230,6 @@ route.get('/cart',  async (req,res)=>{
   } 
   const _id =  req.user._id ;
 
-  console.log("go to profile/cart");
-  //console.log (_id);
   var userCourses = {};
   var pageNumberRequest = req.query.page || 1;
   var perPage = 8;
@@ -249,8 +240,6 @@ route.get('/cart',  async (req,res)=>{
   const GioHang = await HocVien.findOne({ "_id": _id}).select('GioHang');
   
   const A_GioHang = GioHang.get('GioHang');
-  //console.log(A_GioHang);
-  // let A_mycourses = mycourses.map(x=>x.KhoaHoc);
   const coursesList = await KhoaHoc.find({'_id':{$in: A_GioHang}}).lean();
   let TongTien =0;
   coursesList.forEach(function(cL) {
@@ -317,7 +306,6 @@ route.get('/delCourseInCart', async (req,res)=>{
     return; 
   }
   db._connect(); 
-  console.log('go to delCourse');
   const id_user = req.user._id;
   const id_course = req.query.idcourse;
   const userinfo = await HocVien.findOne({ "_id": id_user}).lean();
@@ -328,7 +316,6 @@ route.get('/delCourseInCart', async (req,res)=>{
           res.send({status:'Failed',  subtractValue:0});
       }
       else{
-          console.log('removed ');   
           res.send({status:'Successed',  subtractValue:course.Gia});
       }
   });
@@ -344,10 +331,8 @@ route.get('/delCourseInWL', async (req,res)=>{
     return; 
   }
   db._connect(); 
-  console.log('go to delCourseInWL');
   const id_user = req.user._id;
   const id_course = req.query.idcourse;
-  // const course = await KhoaHoc.findById(id_course).lean();
   console.log(id_user);
   await HocVien.findOneAndUpdate({_id:id_user},{$pull:{WatchList: id_course}}, function(err){
       if(err){
@@ -355,7 +340,6 @@ route.get('/delCourseInWL', async (req,res)=>{
           res.send({status:'Failed'});
       }
       else{
-          console.log('removed ');   
           res.send({status:'Successed'});
       }
   });
@@ -365,7 +349,6 @@ route.get('/delCourseInWL', async (req,res)=>{
 
 //add cart and wl
 route.get('/addtocart', async (req,res)=>{
-  console.log('go to addto cart');
   if (!req.isAuthenticated()){    
     res.redirect('/login');
     return; 
@@ -388,7 +371,6 @@ route.get('/addtocart', async (req,res)=>{
   }
   try {
     await HocVien.findByIdAndUpdate(id_user, {$push:{GioHang: khoahoc_id}});
-    console.log('them gio hang ');   
     res.send('successed');
   } catch (error) {
     console.log('err ' + error);
@@ -399,7 +381,6 @@ route.get('/addtocart', async (req,res)=>{
 
 
 route.get('/addtowl', async (req,res)=>{
-  console.log('go to addto watch list');
   if (!req.isAuthenticated()){    
     res.redirect('/login');
     return; 
@@ -421,7 +402,6 @@ route.get('/addtowl', async (req,res)=>{
   }
   try {
     await HocVien.findByIdAndUpdate(id_user, {$push:{WatchList: khoahoc_id}});
-    console.log('them watch list ');   
     res.send('successed');
   } catch (error) {
     console.log('err ' + error);
@@ -431,7 +411,6 @@ route.get('/addtowl', async (req,res)=>{
 });
 
 route.get('/checkout', async (req,res)=>{
-  console.log('go to checkout');
   if (!req.isAuthenticated()){    
     res.redirect('/login');
     return; 

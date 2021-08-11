@@ -24,7 +24,6 @@ $(document).ready(function(){
   });
 
   $(".editButton").click(function(){
-    console.log('edit');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const TenTheLoai = td[1].innerHTML;
@@ -36,7 +35,6 @@ $(document).ready(function(){
   
   $(".deleteButton").click(function(){
     //kiem tra o client, va server, sua o client submit nhung khong thao tac
-    console.log('delete');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const id_theloai = td[5].innerHTML;
@@ -44,7 +42,6 @@ $(document).ready(function(){
     delete_input_id[0].value = _id;
     const delete_input_id_theloai = $('#delete_input_id_theloai');
     delete_input_id_theloai[0].value = id_theloai;
-    console.log('id_theloai :>> ', id_theloai);
   });
 
 });

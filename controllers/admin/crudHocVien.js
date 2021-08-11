@@ -20,7 +20,6 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('hoc vien table');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
   const perPage = 10;
@@ -95,7 +94,6 @@ if(+req.user.Role !=0){
   db._connect();
   hocvien.save(function (err) {
     if (err) return console.error(err);
-    console.log(" saved to Hoc vien collection.");
     db._disconnect;
     res.redirect(`/admin/manage-table/HocVien?searchkey=${searchkey}&page=${page}`);
   });
@@ -116,7 +114,6 @@ if(+req.user.Role !=0){
   db._connect();
   HocVien.findByIdAndUpdate(_id,{Ten:ten, Mail:mail},function (err) {
     if (err) return console.error(err);
-    console.log(" edit HocVien collection.");
     db._disconnect;
     res.redirect(`/admin/manage-table/HocVien?searchkey=${searchkey}&page=${page}`);
   });
@@ -132,7 +129,6 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('del hoc vien');
   const _id = req.body._id;
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -155,7 +151,6 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('get course of student');
   const _id = req.query._id;
   db._connect();
   let data ;

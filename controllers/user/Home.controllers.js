@@ -18,7 +18,6 @@ const HocVien = require('../../models/schema/HocVien.model');
 const TheLoaiCap1 = require('../../models/schema/TheLoaiCap1.model');
 const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const Chuong  =require('../../models/schema/Chuong.model');
-// const ThongKe = require('../../models/schema/ThongKe.model');
 const photosfiles = require('../../models/schema/photos.files.model');
 const photoschunks = require('../../models/schema/photos.chunks.model');
 const fsfiles = require('../../models/schema/fs.files.model');
@@ -44,7 +43,6 @@ route.get('/',async (req, res) => {
     db._connect();
     
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
-    // console.log('theloai :>> ', theloai);
     const theloainoibat = theloai[0].TheLoaiCon.slice(0,4);
     const mostView = await KhoaHoc.find({}).sort({LuotXem: -1}).limit(10).lean();
     const newest = await KhoaHoc.find({}).sort({NgayDang: -1}).limit(10).lean();
@@ -148,8 +146,6 @@ route.get('/',async (req, res) => {
 
 
 route.get('/login', checkNotAuthenticated, (req, res) => {
-    console.log('log in get ');
-    //console.log(req.flash('error'));
     req.session.returnTo = req.header('Referer');
     //var msg = req.flash('error');
     
@@ -161,9 +157,6 @@ route.get('/login', checkNotAuthenticated, (req, res) => {
 });
 
 route.get('/register',checkNotAuthenticated, async (req, res) => {
-    //get linhvuc
-    //db._connect();
-    //const linhvuc = await LinhVuc.find().limit(8).lean();
     res.render('user/register', {
         title : 'Register',
         layout : 'user/sign',
@@ -176,7 +169,6 @@ route.post('/login', passport.authenticate('local',{
         failureFlash: true}), (req, res) => {
         if (req.session.returnTo) {
             returnTo = req.session.returnTo
-            //delete req.session.returnTo
             return res.redirect(returnTo);
         }
         else{
@@ -186,7 +178,6 @@ route.post('/login', passport.authenticate('local',{
 );
 
 route.post('/register', async (req, res) => {
-    console.log('post register');
     if(
 		req.body['g-recaptcha-response'] === undefined ||
 		req.body['g-recaptcha-response'] === '' ||
@@ -198,7 +189,6 @@ route.post('/register', async (req, res) => {
             title:'Register' });
 
     }
-    // const {topic} = req.body ;
     const { ten, username, password, mail } = req.body;
     // *Check data
     // *TODO
@@ -214,7 +204,6 @@ route.post('/register', async (req, res) => {
             GioHang:[],
         });
         await user.save();
-        console.log('save new Hoc vien');
         db._disconnect();
 
         return res.redirect('/login',)
@@ -231,9 +220,7 @@ route.post('/register', async (req, res) => {
 });
 
 route.post('/logout', (req, res) => {
-    console.log('log out post');
     req.logout();
-    console.log('req.header :>> ', req.header('Referer'));
     res.redirect(req.header('Referer'));
 })
 
@@ -279,8 +266,6 @@ route.post('/createComment', async (req, res) => {
 
         db._connect();
         const data = req.body;
-        //console.log(data);
-        //let check =0;
         const courseID =data.KhoaHoc;
         const _id =data.User_id;
         const check = await DanhGia.countDocuments({"idKhoaHoc":courseID,"idHocVien":_id}).exec();
@@ -302,7 +287,6 @@ route.post('/createComment', async (req, res) => {
                     res.send({status:'Add Cmt Failed'});
                 }
                 else{
-                    console.log('added');   
                     res.send({status:'Add Cmt Successed'});
                 }
             });
@@ -313,7 +297,6 @@ route.post('/createComment', async (req, res) => {
                 res.send({status:'Update Cmt Failed'});
             }
             else{
-                console.log('added');   
                 res.send({status:'Update Cmt Successed'});
             }
         });
@@ -338,34 +321,8 @@ route.post('/createComment', async (req, res) => {
 
 });
 
-// route.post('/addtoCart', async (req, res) => {
-//     if(!req.user){
-//         return res.status(401).send({success: false, msg:"You must be login"});
-//     }
-    
-//         db._connect();
-//         const course = req.body.Course_id;
-//         const user = req.body.User_id;
-//         const UserInfo = HocVien.findOne({_id:user}).lean();
-//         let check = UserInfo.GioHang.includes(course);
-//         console.log(check);
-//         if(check){
-//             return res.status(409).send({success: true, msg:"Course has been already in cart"});
-//         }
-//         let check2 =UserInfo.DSKhoaHocDK.includes(course);
-//         if(check){
-//             return res.status(409).send({success: true, msg:"Course was bought"});
-//         }
-//         await HocVien.findOneAndUpdate({_id:user},{$push:{GioHang: course}});
-//         return res.status(200).send({success: true, msg:"Course was added", mount: GioHang.length});
-//         db._disconnect();
-
-    
-// })
-
 //search 
 route.get('/search', async (req, res) => {
-    console.log('search ne');
     db._connect();
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
     var user = -1;
@@ -380,7 +337,6 @@ route.get('/search', async (req, res) => {
     if(searchkey===""){
         if(+sortby === 0)
         {
-            console.log('all no sort');
             const numberOfData = await KhoaHoc.find().countDocuments();
             totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
             data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
@@ -389,7 +345,6 @@ route.get('/search', async (req, res) => {
             .lean();
         }
         else if(+sortby === 1){  //gia tang dan
-            console.log('all sortby gia tang');
             const numberOfData = await KhoaHoc.find().countDocuments();
             totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
             data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
@@ -399,7 +354,6 @@ route.get('/search', async (req, res) => {
             .lean();
         }    
         else if(+sortby === 2){  //diem giam
-            console.log('all sortby diem giam');
             const numberOfData = await KhoaHoc.find().countDocuments();
             totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
             data = await KhoaHoc.find().populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
@@ -411,7 +365,6 @@ route.get('/search', async (req, res) => {
     }
     else{
         if(+sortby === 0){
-            console.log('key no sort');
             const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
             totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
             data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
@@ -420,7 +373,6 @@ route.get('/search', async (req, res) => {
             .lean();
         }
         else if(+sortby === 1){
-            console.log('key sortby gia tang');
             const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
             totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
             data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
@@ -430,7 +382,6 @@ route.get('/search', async (req, res) => {
             .lean();
         }
         else if(+sortby === 2){
-            console.log('key sortby diem giam');
             const numberOfData = await KhoaHoc.find({$text: { $search: searchkey }}).count();
             totalPages = parseInt(Math.ceil(+numberOfData / perPage ));
             data = await KhoaHoc.find({$text: { $search: searchkey }}).populate('GiangVien', 'Ten').populate('TheLoai2','TenTheLoai')
@@ -491,11 +442,9 @@ route.get('/search', async (req, res) => {
 
 
 route.get('/category1/:id', async (req, res) => {
-    console.log('category n');
     const page = req.query.page || 1;
     const perPage = 5;
     const id_theloai = req.params.id;
-    //const sortby = req.query.sortby || 0;
     db._connect();
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
     const theloai_main = await TheLoaiCap1.findById(id_theloai)
@@ -569,7 +518,6 @@ route.get('/category2/:id', async (req, res) => {
     const page = req.query.page || 1;
     const perPage = 5;
     const id_theloai = req.params.id;
-    //const sortby = req.query.sortby || 0;
     db._connect();
     const theloai = await TheLoaiCap1.find().populate('TheLoaiCon').lean();
     const theloai_main = await TheLoaiCap2.findById(id_theloai)

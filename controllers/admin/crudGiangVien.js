@@ -20,7 +20,6 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('giang vien table');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
   const perPage = 10;
@@ -76,7 +75,7 @@ route.post('/add', async (req,res)=>{
     res.redirect('/login');
     return; 
 }
-if(+req.user.Role !=0){
+if(+req.user.Role !=0a){
   res.redirect('/');
   return;
 }
@@ -93,7 +92,6 @@ if(+req.user.Role !=0){
   db._connect();
   giangvien.save(function (err) {
     if (err) return console.error(err);
-    console.log(" saved to GiangVien collection.");
     db._disconnect;
     res.redirect(`/admin/manage-table/GiangVien?searchkey=${searchkey}&page=${page}`);
   });
@@ -114,8 +112,6 @@ if(+req.user.Role !=0){
   db._connect();
   GiangVien.findByIdAndUpdate(_id,{Ten:ten, Mail:mail},function (err) {
     if (err) return console.error(err);
-    console.log(" edit GiangVien collection.");
-    
     db._disconnect;
     res.redirect(`/admin/manage-table/GiangVien?searchkey=${searchkey}&page=${page}`);
   });
@@ -131,7 +127,6 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('del giang vien');
   const _id = req.body._id;
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
@@ -162,7 +157,6 @@ route.get('/getcoursesofteacher', async(req,res)=>{
     return; 
 }
 
-  console.log('get course of teacher');
   const _id = req.query._id;
   db._connect();
   let data ;
@@ -178,7 +172,6 @@ route.get('/getcoursesofteacher', async(req,res)=>{
 });
 
 route.get('/checkUsernameExist', async(req,res)=>{
-  console.log('check username exist');
   db._connect();
   const username = req.query.username;
   const data1 = await GiangVien.findOne({Username:username}).lean();

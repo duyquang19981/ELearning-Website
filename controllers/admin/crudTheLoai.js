@@ -11,7 +11,6 @@ const TheLoaiCap2  =require('../../models/schema/TheLoaiCap2.model');
 const TheLoaiCap1Model = require('../../models/schema/TheLoaiCap1.model');
 
 route.get('/', async (req,res)=>{
-  console.log('the loai1');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -50,7 +49,6 @@ if(+req.user.Role !=0){
   db._connect();
   theloai.save(function (err) {
     if (err) return console.error(err);
-    console.log(" saved to TheLoaiCap1 collection.");
     db._disconnect();
     res.redirect('/admin/manage-table/TheLoai');
   });
@@ -70,8 +68,6 @@ if(+req.user.Role !=0){
   db._connect();
   TheLoaiCap1.findByIdAndUpdate(_id,{TenTheLoai:TenTheLoai},function (err) {
     if (err) return console.error(err);
-    console.log(" edit TheLoaiCap1 collection.");
-    
     db._disconnect();
     res.redirect('/admin/manage-table/TheLoai');
   });
@@ -87,14 +83,12 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('del1');
   const _id = req.body._id;
   db._connect();
   const TheLoai1 = await TheLoaiCap1.findById(_id); 
   if(+TheLoai1.SoKhoaHoc===0){
     TheLoaiCap1.findByIdAndRemove(_id,function (err) {
       if (err) return console.error(err);
-      console.log(" delete TheLoaiCap1 collection.");
     });
   }
   
@@ -143,7 +137,6 @@ if(+req.user.Role !=0){
   db._connect();
   TheLoaiCap2.findByIdAndUpdate(_id,{TenTheLoai:TenTheLoai},function (err) {
     if (err) return console.error(err);
-    console.log(" edit TheLoaiCap2 collection.");
     db._disconnect();
     res.redirect('/admin/manage-table/TheLoai');
   });

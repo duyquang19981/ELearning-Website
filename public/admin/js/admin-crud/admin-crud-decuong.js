@@ -24,7 +24,6 @@ $(document).ready(function(){
   });
 
   $(".editButton").click(function(){
-    console.log('edit');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const TenTheLoai = td[1].innerHTML;
@@ -36,7 +35,6 @@ $(document).ready(function(){
   
   $(".deleteButton").click(function(){
     //kiem tra o client, va server, sua o client submit nhung khong thao tac
-    console.log('delete');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const SoKhoaHoc = +td[2].innerHTML;
@@ -61,7 +59,6 @@ $(document).ready(function(){
   });
 
   $(".editButton2").click(function(){
-    console.log('edit2');
     const td = $(this).closest('tr').find('td');
     const parent_id = td[0].innerHTML;
     const _id = td[1].innerHTML;
@@ -77,7 +74,6 @@ $(document).ready(function(){
 
   $(".deleteButton2").click(function(){
     //kiem tra o client, va server, sua o client submit nhung khong thao tac
-    console.log('delete2');
     const td = $(this).closest('tr').find('td');
     const parent_id = td[0].innerHTML;
     const _id = td[1].innerHTML;
@@ -92,7 +88,6 @@ $(document).ready(function(){
 
   // xem danh sach khoa hoc
   $('.detail').click(function(){
-    console.log('xem chi tiet khoa hoc');
     const td = $(this).closest('tr').find('td');
     const _id = td[1].innerHTML;
     var xhttp = new XMLHttpRequest();
@@ -104,7 +99,6 @@ $(document).ready(function(){
               //alert(this.responseText);
               var resText = this.responseText;
               console.log('resText :>> ', resText);
-              
           }
 
       }

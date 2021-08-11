@@ -24,7 +24,6 @@ $(document).ready(function(){
   });
 
   $(".editButton").click(function(){
-    console.log('edit hoc vien');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const Ten = td[1].innerHTML;
@@ -39,7 +38,6 @@ $(document).ready(function(){
   
   $(".deleteButton").click(function(){
     //kiem tra o client, va server, sua o client submit nhung khong thao tac
-    console.log('delete');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     const delete_input_id = $('#delete_input_id');
@@ -48,7 +46,6 @@ $(document).ready(function(){
 
   // xem danh sach khoa hoc
   $('.detail').click(function(){
-    console.log('xem chi tiet khoa hoc cua hoc vien');
     const td = $(this).closest('tr').find('td');
     const _id = td[0].innerHTML;
     var xhttp = new XMLHttpRequest();

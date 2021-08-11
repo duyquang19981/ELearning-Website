@@ -29,7 +29,6 @@ const TrangThaiModel = require('../../models/schema/TrangThai.model');
 
 
 route.get('/', async (req, res) => {
-    console.log("go to course");
 
 });
 route.get('/:courseid', async (req,res)=>{
@@ -43,7 +42,6 @@ route.get('/:courseid', async (req,res)=>{
 
     const course = await KhoaHoc.findById(course_id).lean();
     var luotxem = course.LuotXem;
-    console.log('luotxem :>> ', luotxem);
     await KhoaHoc.findByIdAndUpdate(course_id,{LuotXem:(+luotxem+1)});
     const teacher = await GiangVien.findOne({"_id":course.GiangVien}).lean();
     var user  = -1, myCmt, cmt;
@@ -118,10 +116,6 @@ route.get('/:courseid', async (req,res)=>{
         }
         if(found>=0){
             check_login_and_permission = true;
-            console.log('permiss');
-        }
-        else {
-            console.log('not found');
         }
     }
     var chuong_trial, chuong_no_permission;
@@ -151,8 +145,6 @@ route.get('/:courseid', async (req,res)=>{
 });
 
 route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
-    console.log('go to lecture');
-
     var user_id = -1;
     if(req.user){
         user_id =  req.user._id;
@@ -166,7 +158,6 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         user = await HocVien.findById(user_id).lean();
         var trangthai = await TrangThaiModel.findOne({HocVien:user_id, KhoaHoc:course_id}).lean();
         if(trangthai == null){
-            console.log('trang thai null, khoi tao');
             var newtrangthai = new TrangThaiModel({
                 HocVien : user_id,
                 KhoaHoc : course_id,
@@ -207,10 +198,6 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         }
         if(found>=0){
             check_login_and_permission = true;
-            console.log('permiss');
-        }
-        else {
-            console.log('not found');
         }
     }
     var chuong_trial, chuong_no_permission;
@@ -259,13 +246,6 @@ route.get('/:courseid/lecture/:lectureid', async (req,res)=>{
         user: user,
         isAuthentication: req.isAuthenticated()
     })
-    
-
-
-
-
 });
-
-
 
 module.exports = route;

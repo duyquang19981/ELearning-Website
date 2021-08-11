@@ -73,7 +73,6 @@ $(document).ready(function(){
 
   $(".deleteButton2").click(function(){
     //kiem tra o client, va server, sua o client submit nhung khong thao tac
-    console.log('delete2');
     const td = $(this).closest('tr').find('td');
     const parent_id = td[0].innerHTML;
     const _id = td[1].innerHTML;
@@ -84,7 +83,6 @@ $(document).ready(function(){
     delete_input_id[0].value = _id;
     const noti = $('.noti-2');
     if(SoKhoaHoc>0){
-      console.log('go');
       noti[0].innerHTML = `There are some available courses. Category can't be deleted!`;
       $('#deleteButton2').attr('disabled', 'disabled');
       $('.text-warning').css('display','none');
@@ -97,7 +95,6 @@ $(document).ready(function(){
 
   // xem danh sach khoa hoc
   $('.detail').click(function(){
-    console.log('xem chi tiet khoa hoc');
     const td = $(this).closest('tr').find('td');
     const _id = td[1].innerHTML;
     var xhttp = new XMLHttpRequest();

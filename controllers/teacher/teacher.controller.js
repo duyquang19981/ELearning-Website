@@ -36,8 +36,6 @@ if(+req.user.Role !=1){
   db._connect();
   const user = await GiangVien.findById(_id).lean();
   db._disconnect();
-  console.log('go to teacher');
-  console.log('user :>> ', user);
   res.render('teacher/dashboard',{
     layout:'teacher/t_main',
     title : '',
@@ -58,8 +56,6 @@ if(+req.user.Role !=1){
   db._connect();
   const user = await GiangVien.findById(_id).lean();
   db._disconnect();
-  console.log('go to teacher profile');
-  console.log('user :>> ', user);
   res.render('teacher/teacher_profile',{
     layout:'teacher/t_main',
     title : 'Profile',
@@ -77,7 +73,6 @@ if(+req.user.Role !=1){
   res.redirect('/');
   return;
 }
-  console.log('tạo khóa học');
   const _id = req.user._id;
   db._connect();
   const user = await GiangVien.findById(_id).lean();
@@ -107,7 +102,6 @@ if(+req.user.Role !=1){
   res.redirect('/');
   return;
 }
-  console.log('get add course');
   const user = req.user;
   db._connect();
   var file;
@@ -122,7 +116,6 @@ if(+req.user.Role !=1){
         if (req.file == undefined) {
           return res.send(`You must select a file.`); ;
         }
-        console.log(`File has been uploaded.`);
         file = req.file;  
         const khoahoc = new KhoaHoc({ 
             TenKhoaHoc : tenkhoahoc,
@@ -142,12 +135,9 @@ if(+req.user.Role !=1){
       
           //luu khoa hoc
           await khoahoc.save();
-          console.log('save Khoa hoc');
           await GiangVien.findByIdAndUpdate(user._id, {$pull:{DSKhoaHocDay:khoahoc._id}} );
-          console.log('save khoa hoc to giang vien');
           const theloai2 = await TheLoaiCap2.findByIdAndUpdate(_idTheLoai, {$push:{DSKhoaHoc:khoahoc._id}});
           await TheLoaiCap2.findByIdAndUpdate(_idTheLoai,{SoKhoaHoc : (+theloai2.SoKhoaHoc + 1)})
-          console.log('cap nhat so luong khoa hoc 2');
           const theloai1 = await TheLoaiCap1.find();
           var temp;
           for (const item of theloai1) {
@@ -159,7 +149,6 @@ if(+req.user.Role !=1){
             }
           }
           await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc + 1});
-          console.log('cap nhat so luong khoa hoc 1');
           db._disconnect();
           res.redirect('/teacher/mycourses')
       }
@@ -176,7 +165,6 @@ if(+req.user.Role !=1){
   res.redirect('/');
   return;
 }
-  console.log('tds khoa hoc giang vien');
   const _id = req.user._id;
   db._connect();
   const user = await GiangVien.findById(_id).lean();
@@ -229,7 +217,6 @@ if(+req.user.Role !=1){
   db._connect();
   const user = await GiangVien.findById(_id).lean();
   const khoahoc = await KhoaHoc.findById(_id_khoahoc).populate('TheLoai2','TenTheLoai').lean();
-  //console.log('khoahoc :>> ', khoahoc);
   db._disconnect();
   res.render( 'teacher/editcourse' ,{
     layout:'teacher/t_main',
@@ -241,7 +228,6 @@ if(+req.user.Role !=1){
 });
 
 route.post('/detailcourse/:id/editCourse', async (req,res)=>{
-  console.log('edit coutse');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -261,12 +247,10 @@ if(+req.user.Role !=1){
     CapNhatCuoi : new Date(),
   });
   db._disconnect();
-  console.log('chinh sua khoa hoc xong');
   res.redirect('../'+_id)
 });
 
 route.post('/detailcourse/:id/deleteCourse', async (req,res)=>{
-  console.log('delete coutse');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -278,12 +262,9 @@ if(+req.user.Role !=1){
   const {_id, id_theloai} = req.body;
   db._connect();
   const khoahoc = await KhoaHoc.findByIdAndDelete(_id);
-  console.log('xoa khoa hoc');
   const theloai2 = await TheLoaiCap2.findById(id_theloai);
   await TheLoaiCap2.findByIdAndUpdate(id_theloai,{SoKhoaHoc:+theloai2.SoKhoaHoc - 1});
-  console.log('cap nhat so khoa hoc 2');
   await TheLoaiCap2.findByIdAndUpdate(id_theloai, {$pull:{DSKhoaHoc:khoahoc._id}});
-  console.log('xoa khoa hoc khoi ds');
   
   const theloai1 = await TheLoaiCap1.find();
   var temp;
@@ -297,9 +278,7 @@ if(+req.user.Role !=1){
     }
   }
   await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc - 1});
-  console.log('cap nhat so luong khoa hoc -1');
   db._disconnect();
-  console.log('xoa khoa hoc xong');
   res.redirect('/teacher/mycourses');
 });
 
@@ -307,7 +286,6 @@ if(+req.user.Role !=1){
 
 
 route.post('/changeinfo', async (req,res)=>{
-  console.log('change');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -330,7 +308,6 @@ if(+req.user.Role !=1){
 });
 
 route.get('/reference/:id', async(req,res)=>{
-  console.log(' vo ref ne');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -346,7 +323,6 @@ if(+req.user.Role !=1){
   const khoahoc = await KhoaHoc.findById(id_khoahoc)
   .populate({path:'DeCuong', populate: { path: 'DSBaiHoc' }})
   .lean();
-  // console.log('khoahoc :>> ', khoahoc);
   db._disconnect();
   res.render('teacher/reference',{
     title:"Change Password" ,
@@ -357,7 +333,6 @@ if(+req.user.Role !=1){
 });
 
 route.post('/reference/add', async(req,res)=>{
-  console.log(' vo add reff');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -381,17 +356,14 @@ if(+req.user.Role !=1){
     console.log('err :>> ', err);
     return res.redirect('./'+ id_khoahoc);
   }
-  console.log('add chuong');
   const khoahoc = await KhoaHoc.findByIdAndUpdate(id_khoahoc, 
     {$push: {DeCuong: chuong._id}, CapNhatCuoi:new Date()});
-  console.log('add chuong to khoa hoc');
   db._disconnect();
   res.redirect('./'+id_khoahoc);
 });
 
 
 route.post('/reference/edit', async(req,res)=>{
-  console.log(' vo edit reff');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -403,17 +375,13 @@ if(+req.user.Role !=1){
   const _id = req.user._id;
   const id_chuong = req.body.id_chuong;
   const tenchuong = req.body.tenchuong;
-  console.log('id_chuong :>> ', id_chuong);
-  console.log('tenchuong :>> ', tenchuong);
   db._connect();
   const chuong = await Chuong.findByIdAndUpdate(id_chuong, {TenChuong:tenchuong});
-  console.log('edit chuong');
   db._disconnect();
   res.redirect('./'+chuong.beLongTo);
 });
 
 route.post('/reference/delete', async(req,res)=>{
-  console.log(' vo delete chuong');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -426,13 +394,11 @@ if(+req.user.Role !=1){
   const id_chuong = req.body.id_chuong;
   db._connect();
   const chuong = await Chuong.findByIdAndRemove(id_chuong);
-  console.log('delete chuong');
   db._disconnect();
   res.redirect('./'+chuong.beLongTo);
 });
 
 route.post('/reference/addLesson', async(req,res)=>{
-  console.log(' vo add lesson');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -456,7 +422,6 @@ if(+req.user.Role !=1){
         if (req.file == undefined) {
           return res.send(`You must select a file.`); ;
         }
-        console.log(`File has been uploaded.`);
         file = req.file;  
         const lesson = new BaiHoc({
           TenBaiHoc : tenbaihoc,
@@ -464,7 +429,6 @@ if(+req.user.Role !=1){
         });
         try{
           await lesson.save();
-          console.log('save new baihoc');
         } catch(err) {console.log('err :>> ', err)};
         
         const chuong = await Chuong.findByIdAndUpdate(id_chuong, {$push:{ DSBaiHoc: lesson._id}});
@@ -476,7 +440,6 @@ if(+req.user.Role !=1){
 });
 
 route.post('/reference/editLesson', async(req,res)=>{
-  console.log(' vo edit reff editLesson ');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -494,14 +457,11 @@ route.post('/reference/editLesson', async(req,res)=>{
     console.log('error :>> ', error);
   }
 
-  console.log('edit ten bai hoc ');
-  // console.log('chuong :>> ', chuong);
   db._disconnect();
   res.redirect('./'+chuong.beLongTo);
 });
 
 route.post('/reference/deleteLesson', async(req,res)=>{
-  console.log(' vo delete baihoc');
   if (!req.isAuthenticated()){
     res.redirect('/login');
     return; 
@@ -541,7 +501,6 @@ route.post('/reference/deleteLesson', async(req,res)=>{
     console.log('error :>> ', error);
     return;
   }
-  console.log('delete bai hoc');
   db._disconnect();
   res.redirect('./'+chuong.beLongTo);
 });
@@ -584,7 +543,7 @@ if(+req.user.Role !=1){
       res.send('incorrect');
       return;
   }
-  else{console.log("dung");}
+
   var changepw = await GiangVien.findByIdAndUpdate(ID,{Password:hashPassword(newpw)},function(err){
       if(err){
           console.log('Err: ', err);
@@ -599,7 +558,6 @@ if(+req.user.Role !=1){
 );
 
 route.get('/logout', (req, res) => {
-  console.log('log out teacher');
   req.logout();
   res.redirect('/');
 });

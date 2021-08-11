@@ -21,7 +21,6 @@ route.get('/', async (req,res)=>{
     res.redirect('/');
     return;
   }
-  console.log('khoa hoc');
   const searchkey = req.query.searchkey || "";
   const page = req.query.page || 1;
   const perPage = 10;
@@ -79,7 +78,6 @@ if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
-  console.log('del khoa hoc');
   const _id = req.body._id;
   const id_theloai = req.body.id_theloai;
   const searchkey = req.query.searchkey || "";
@@ -87,14 +85,11 @@ if(+req.user.Role !=0){
   db._connect();
   const khoahoc = KhoaHoc.findByIdAndRemove(_id,function (err) {
     if (err) return console.error(err);
-    console.log(" delete KhoaHoc collection.");
   });
   //
   const theloai2 = await TheLoaiCap2.findById(id_theloai);
   await TheLoaiCap2.findByIdAndUpdate(id_theloai,{SoKhoaHoc:+theloai2.SoKhoaHoc - 1});
-  console.log('cap nhat so khoa hoc 2');
   await TheLoaiCap2.findByIdAndUpdate(id_theloai, {$pull:{DSKhoaHoc:khoahoc._id}});
-  console.log('xoa khoa hoc khoi ds the loai');
   const theloai1 = await TheLoaiCap1.find();
   var temp;
   for (const item of theloai1) {
@@ -107,9 +102,7 @@ if(+req.user.Role !=0){
     }
   }
   await TheLoaiCap1.findByIdAndUpdate(temp._id,{SoKhoaHoc : +temp.SoKhoaHoc - 1});
-  console.log('cap nhat so luong khoa hoc -1');
   db._disconnect();
-  console.log('xoa khoa hoc xong');
   db._disconnect;
   res.redirect(`/admin/manage-table/KhoaHoc?searchkey=${searchkey}&page=${page}`);
 });
