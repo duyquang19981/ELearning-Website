@@ -1040,8 +1040,10 @@ section
 }
 .course_topranking{
 	font-family: 'Roboto Slab', serif;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
 	font-size: 20px;
-	color: #ff0000;
+	color:#ce0012 ;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
@@ -1051,8 +1053,8 @@ section
 	background-color: wheat;
 }
 .course_topranking:hover{
-	color:yellow;
-	background-color: red;
+	color:#f3f318;
+	background-color: #de0b0b;
 }
 .course_mostview{
 	font-family: "Lucida Console", "Courier New", monospace;
@@ -1068,22 +1070,23 @@ section
 }
 .newtag{
 	float: left ;
+	padding: 3px 5px;
 	position: absolute;
 	z-index: 1000;
 	font-family: 'Roboto Slab', serif;
 	font-size: 15px;
 	font-weight: 400;
-	color: #eb0808;
-	padding: 2px;
+	color: #ffffff;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 	text-align: center;
-	border-radius: 10%;
-	border: solid 1px red;
-	background-color: rgb(252, 250, 153);
+	border-radius: 10% 0;
+
+	/* border: solid 1px red; */
+	background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
 }
 .saleoff-tag{
 	position: absolute;

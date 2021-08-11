@@ -38,8 +38,11 @@
   background-color: red;
 }
 /* my style */
-.courses-title{
-  margin: 10px 0px;
+.course_title{
+  /* margin: 10px 0px; */
+  display: inline-block;
+  height: 55px;
+  overflow: visible;
 }
 .new-courses-wrap{
   height: 500px;

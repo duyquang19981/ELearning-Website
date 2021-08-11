@@ -75,7 +75,7 @@ route.post('/add', async (req,res)=>{
     res.redirect('/login');
     return; 
 }
-if(+req.user.Role !=0a){
+if(+req.user.Role !=0){
   res.redirect('/');
   return;
 }
