@@ -35,6 +35,10 @@
 .logo_container_sm {
   display: none;
 }
+
+.search_icon {
+  display: none;
+}
 @media only screen and (max-width: 1600px) {
 }
 
@@ -468,7 +472,7 @@
 
   .btn.btn-md {
     padding: 0.3rem 0.6rem;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 
   .home_slider_title {
@@ -523,6 +527,10 @@
 @media only screen and (max-width: 480px) {
   .search_title {
     display: none;
+  }
+
+  .search_icon {
+    display: inline;
   }
 
   .search-input {
