@@ -24,400 +24,599 @@
 /************
 1. 1600px
 ************/
+.menu-responsive-btn {
+  display: none;
+}
 
-@media only screen and (max-width: 1600px)
-{
-	
+.mycourses_drop_item {
+  display: none;
+}
+
+.logo_container_sm {
+  display: none;
+}
+@media only screen and (max-width: 1600px) {
 }
 
 /************
 2. 1440px
 ************/
 
-@media only screen and (max-width: 1440px)
-{
-	
+@media only screen and (max-width: 1440px) {
 }
 
 /************
 3. 1380px
 ************/
 
-@media only screen and (max-width: 1380px)
-{
-	
+@media only screen and (max-width: 1380px) {
 }
 
 /************
 3. 1280px
 ************/
 
-@media only screen and (max-width: 1280px)
-{
-	
+@media only screen and (max-width: 1280px) {
 }
 
 /************
 4. 1199px
 ************/
 
-@media only screen and (max-width: 1199px)
-{
-	.home_slider_prev
-	{
-		left: 25px;
-	}
-	.home_slider_next
-	{
-		right: 25px;
-	}
-	.course_info:first-child
-	{
-		margin-right: 12px;
-	}
-	.milestone:not(:last-child)::after
-	{
-		display: none;
-	}
-	.team_image
-	{
-		width: 160px;
-		height: 140px;
-	}
+@media only screen and (max-width: 1199px) {
+  .home_slider_prev {
+    left: 25px;
+  }
+  .home_slider_next {
+    right: 25px;
+  }
+  .course_info:first-child {
+    margin-right: 12px;
+  }
+  .milestone:not(:last-child)::after {
+    display: none;
+  }
+  .team_image {
+    width: 160px;
+    height: 140px;
+  }
+
+  /* my responsive */
+  .logo_container {
+    margin-right: 30px;
+  }
+  .header_content {
+    width: 110%;
+  }
+  .main_nav {
+    width: 680px;
+  }
+
+  .main_nav li:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  .user_func {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .fa-navicon:before,
+  .fa-reorder:before,
+  .fa-bars:before {
+    content: '\f0c9';
+  }
+
+  .responsive-menu {
+    display: block;
+  }
+
+  .menu-responsive-btn {
+    display: inline;
+  }
+
+  .shopping_cart {
+    margin-left: 0px;
+  }
 }
 
 /************
 4. 1100px
 ************/
 
-@media only screen and (max-width: 1100px)
-{
-	
+@media only screen and (max-width: 1100px) {
 }
 
 /************
 5. 1024px
 ************/
 
-@media only screen and (max-width: 1024px)
-{
-	
+@media only screen and (max-width: 1024px) {
 }
 
 /************
 6. 991px
 ************/
 
-@media only screen and (max-width: 991px)
-{
-	.main_nav,
-	.search_button
-	{
-		display: none;
-	}
-	.top_bar_contact_list li i,
-	.top_bar_contact_list li > div,
-	.login_button a
-	{
-		font-size: 12px;
-	}
-	.login_button
-	{
-		width: 140px;
-	}
-	.hamburger
-	{
-		display: inline-block;
-		margin-left: 33px;
-	}
-	.home_slider_form_container
-	{
-		width: 100%;
-	}
-	.home_search_button
-	{
-		margin-top: 15px;
-	}
-	.feature_col:not(:last-child)
-	{
-		margin-bottom: 30px;
-	}
-	.course_col:not(:last-child)
-	{
-		margin-bottom: 40px;
-	}
-	.counter_form
-	{
-	    position: relative;
-	    top: 0;
-	    right: auto;
-	    width: 100%;
-	    height: auto;
-	    padding-left: 40px;
-	    padding-right: 40px;
-	    padding-top: 60px;
-	    padding-bottom: 60px;
-	}
-	.counter_content
-	{
-		padding-top: 100px;
-		padding-bottom: 68px;
-	}
-	.counter
-	{
-		padding-bottom: 100px;
-	}
-	.event_col:not(:last-child)
-	{
-		margin-bottom: 20px;
-	}
-	.team_col .team_item
-	{
-		padding-left: 0px;
-		padding-right: 0px;
-	}
-	.team_col:first-child .team_item
-	{
-		padding-left: 0;
-		padding-right: 0px;
-	}
-	.team_col:nth-child(4n) .team_item
-	{
-		padding-left: 0px;
-		padding-right: 0;
-	}
-	.team_col:nth-child(odd) .team_item
-	{
-		padding-right: 6px;
-	}
-	.team_col:nth-child(even) .team_item
-	{
-		padding-left: 6px;
-	}
-	.news_col:not(:last-child)
-	{
-		margin-bottom: 80px;
-	}
-	.newsletter_container
-	{
-		height: auto;
-		padding-top: 40px;
-		padding-bottom: 40px;
-	}
-	.newsletter_form_container
-	{
-		margin-top: 19px;
-	}
-	.footer_col:not(:last-child)
-	{
-		margin-bottom: 60px;
-	}
-	.footer_contact,
-	.footer_links
-	{
-		padding-left: 0;
-	}
-	.footer_links ul
-	{
-		columns: 1;
-		-webkit-columns: 1;
-		-moz-columns: 1;
-	}
-	.footer_mobile
-	{
-		float: none;
-	}
-	.footer_logo_container
-	{
-		margin-top: 0;
-	}
-	.copyright
-	{
-	    height: auto;
-	    padding-top: 30px;
-	    padding-bottom: 30px;
-	}
-	.cr_list
-	{
-		margin-top: 30px;
-	}
-	.cr_list li:not(:last-child)
-	{
-		margin-right: 20px;
-	}
-	.copyright div,
-	.cr_list li a
-	{
-		font-size: 13px;
-	}
+@media only screen and (max-width: 991px) {
+  .top_bar_contact_list li i,
+  .top_bar_contact_list li > div,
+  .login_button a {
+    font-size: 12px;
+  }
+  .login_button {
+    width: 140px;
+  }
+  .hamburger {
+    display: inline-block;
+    margin-left: 33px;
+  }
+  .home_slider_form_container {
+    width: 100%;
+  }
+  .home_search_button {
+    margin-top: 15px;
+  }
+  .feature_col:not(:last-child) {
+    margin-bottom: 30px;
+  }
+  .course_col:not(:last-child) {
+    margin-bottom: 40px;
+  }
+  .counter_form {
+    position: relative;
+    top: 0;
+    right: auto;
+    width: 100%;
+    height: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .counter_content {
+    padding-top: 100px;
+    padding-bottom: 68px;
+  }
+  .counter {
+    padding-bottom: 100px;
+  }
+  .event_col:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  .team_col .team_item {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .team_col:first-child .team_item {
+    padding-left: 0;
+    padding-right: 0px;
+  }
+  .team_col:nth-child(4n) .team_item {
+    padding-left: 0px;
+    padding-right: 0;
+  }
+  .team_col:nth-child(odd) .team_item {
+    padding-right: 6px;
+  }
+  .team_col:nth-child(even) .team_item {
+    padding-left: 6px;
+  }
+  .news_col:not(:last-child) {
+    margin-bottom: 80px;
+  }
+  .newsletter_container {
+    height: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .newsletter_form_container {
+    margin-top: 19px;
+  }
+  .footer_col:not(:last-child) {
+    margin-bottom: 55px;
+  }
+  .footer_contact,
+  .footer_links {
+    padding-left: 0;
+  }
+  .footer_links ul {
+    columns: 1;
+    -webkit-columns: 1;
+    -moz-columns: 1;
+  }
+  .footer_mobile {
+    float: none;
+  }
+  .footer_logo_container {
+    margin-top: 0;
+  }
+  .copyright {
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  .cr_list {
+    margin-top: 30px;
+  }
+  .cr_list li:not(:last-child) {
+    margin-right: 20px;
+  }
+  .copyright div,
+  .cr_list li a {
+    font-size: 13px;
+  }
+
+  /* my responsive */
+  .home_route,
+  .mycourse_route {
+    display: none !important;
+  }
+
+  .logo_container {
+    margin-right: 15px;
+  }
+
+  .main_nav {
+    width: 480px;
+  }
+
+  .mycourses_drop_item {
+    display: inline;
+  }
+
+  .logo_container {
+    margin-right: 5px;
+  }
+
+  .footer {
+    padding-top: 70px;
+  }
 }
 
 /************
 7. 959px
 ************/
 
-@media only screen and (max-width: 959px)
-{
-	
+@media only screen and (max-width: 959px) {
 }
 
 /************
 8. 880px
 ************/
 
-@media only screen and (max-width: 880px)
-{
-	
+@media only screen and (max-width: 880px) {
 }
 
 /************
 9. 768px
 ************/
 
-@media only screen and (max-width: 768px)
-{
-	
+@media only screen and (max-width: 768px) {
 }
 
 /************
 10. 767px
 ************/
 
-@media only screen and (max-width: 767px)
-{
-	.top_bar
-	{
-		display: none;
-	}
-	.home_slider_nav
-	{
-		display: none;
-	}
-	.home_slider_title
-	{
-		font-size: 48px;
-	}
-	.home_search_form div
-	{
-		width: 100%;
-	}
-	.milestone:not(:last-child)
-	{
-		margin-bottom: 50px;
-	}
-	.team_col .team_item
-	{
-		padding-left: 0px;
-		padding-right: 0px;
-	}
-	.team_col:first-child .team_item
-	{
-		padding-left: 0;
-		padding-right: 0px;
-	}
-	.team_col:nth-child(4n) .team_item
-	{
-		padding-left: 0px;
-		padding-right: 0;
-	}
-	.team_col:nth-child(odd) .team_item
-	{
-		padding-right: 0px;
-	}
-	.team_col:nth-child(even) .team_item
-	{
-		padding-left: 0px;
-	}
+@media only screen and (max-width: 767px) {
+  .footer_col:not(:last-child) {
+    margin-bottom: 40px;
+  }
+  .top_bar {
+    display: none;
+  }
+  .home_slider_nav {
+    display: none;
+  }
+  .home_slider_title {
+    font-size: 48px;
+  }
+  .home_search_form div {
+    width: 100%;
+  }
+  .milestone:not(:last-child) {
+    margin-bottom: 50px;
+  }
+  .team_col .team_item {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .team_col:first-child .team_item {
+    padding-left: 0;
+    padding-right: 0px;
+  }
+  .team_col:nth-child(4n) .team_item {
+    padding-left: 0px;
+    padding-right: 0;
+  }
+  .team_col:nth-child(odd) .team_item {
+    padding-right: 0px;
+  }
+  .team_col:nth-child(even) .team_item {
+    padding-left: 0px;
+  }
+
+  /* my responsive */
+  .logo_text {
+    font-size: 22px;
+  }
+
+  .header_container .container:first-child {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .main_nav li:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  .main_nav li a {
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .main_nav {
+    width: 440px;
+  }
+
+  .search-input {
+    width: 160px !important;
+  }
+
+  .btn.btn-md {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.6rem;
+  }
+
+  .home_slider_title {
+    font-size: 36px;
+  }
+
+  .home_slider_subtitle {
+    font-size: 40px;
+  }
+
+  .home {
+    margin-top: 0px;
+    width: 100%;
+    height: 600px;
+  }
+
+  .features {
+    margin-top: -300px !important;
+    padding-bottom: 20px;
+  }
+
+  .section_title {
+    font-size: 28px;
+  }
+
+  .features_row {
+    margin-top: 10px;
+  }
+
+  .courses {
+    width: 100%;
+    padding-top: 25px;
+    padding-bottom: 35px;
+  }
+
+  .footer {
+    padding-top: 60px;
+  }
 }
 
-/************
-11. 575px
-************/
+@media only screen and (max-width: 640px) {
+  h2 {
+    font-size: 24px;
+  }
+  p {
+    font-size: 13px;
+  }
+  .menu {
+    width: 100%;
+    right: -100%;
+  }
+  .home_search_input::-webkit-input-placeholder {
+    font-size: 12px !important;
+  }
+  .home_search_input:-moz-placeholder {
+    font-size: 12px !important;
+  }
+  .home_search_input::-moz-placeholder {
+    font-size: 12px !important;
+  }
+  .home_search_input:-ms-input-placeholder {
+    font-size: 12px !important;
+  }
+  .home_search_input::input-placeholder {
+    font-size: 12px !important;
+  }
+  .dropdown_item_select,
+  .home_search_button {
+    font-size: 12px;
+  }
+  .home_search_button {
+    width: 100px;
+    height: 40px;
+  }
+  .newsletter_form_container {
+    width: 100%;
+    padding-left: 0;
+  }
 
-@media only screen and (max-width: 575px)
-{
-	h2
-	{
-		font-size: 24px;
-	}
-	p
-	{
-		font-size: 13px;
-	}
-	.menu
-	{
-		width: 100%;
-		right: -100%;
-	}
-	.home_search_input::-webkit-input-placeholder
-	{
-		font-size: 12px !important;
-	}
-	.home_search_input:-moz-placeholder
-	{
-		font-size: 12px !important;
-	}
-	.home_search_input::-moz-placeholder
-	{
-		font-size: 12px !important;
-	} 
-	.home_search_input:-ms-input-placeholder
-	{ 
-		font-size: 12px !important;
-	}
-	.home_search_input::input-placeholder
-	{
-		font-size: 12px !important;
-	}
-	.dropdown_item_select,
-	.home_search_button
-	{
-		font-size: 12px;
-	}
-	.home_search_button
-	{
-		width: 100px;
-		height: 40px;
-	}
-	.newsletter_form_container
-	{
-		width: 100%;
-		padding-left: 0;
-	}
+  /* my res */
+  .logo_container {
+    display: none;
+  }
+
+  .logo_container_sm {
+    display: block;
+  }
+
+  .search-input {
+    width: 140px !important;
+  }
+
+  .main_nav {
+    width: 400px;
+  }
+
+  .btn.btn-md {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .home_slider_title {
+    font-size: 28px;
+  }
+
+  .home_slider_subtitle {
+    font-size: 32px;
+  }
+
+  .home {
+    margin-top: 0px;
+    width: 100%;
+    height: 500px;
+  }
+
+  .features {
+    margin-top: -300px !important;
+    padding-bottom: 10px;
+  }
+
+  .section_title {
+    font-size: 28px;
+  }
+
+  .features_row {
+    margin-top: 10px;
+  }
+
+  .courses {
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 20px;
+  }
+
+  .footer {
+    padding-top: 40;
+  }
 }
 
 /************
 11. 539px
 ************/
 
-@media only screen and (max-width: 539px)
-{
-	
+@media only screen and (max-width: 539px) {
 }
 
 /************
 12. 480px
 ************/
 
-@media only screen and (max-width: 480px)
-{
-	
+@media only screen and (max-width: 480px) {
+  .search_title {
+    display: none;
+  }
+
+  .search-input {
+    width: 130px !important;
+  }
+
+  .main_nav {
+    width: 310px;
+  }
+
+  .home_slider_title {
+    font-size: 23px;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .home_slider_subtitle {
+    font-size: 28px;
+  }
+
+  .home {
+    margin-top: 0px;
+    width: 100%;
+    height: 470px;
+  }
+
+  .main_nav li a {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .features {
+    margin-top: -300px !important;
+    padding-bottom: 10px;
+  }
+
+  .section_title {
+    font-size: 28px;
+  }
+
+  .features_row {
+    margin-top: 10px;
+  }
+
+  .courses {
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 20px;
+  }
+
+  .footer_col:not(:last-child) {
+    margin-bottom: 30px;
+  }
 }
 
 /************
 13. 479px
 ************/
 
-@media only screen and (max-width: 479px)
-{
-	
+@media only screen and (max-width: 479px) {
 }
 
 /************
 14. 400px
 ************/
 
-@media only screen and (max-width: 400px)
-{
-	
+@media only screen and (max-width: 400px) {
+  .search-input {
+    width: 110px !important;
+  }
+
+  .main_nav li a {
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .main_nav {
+    width: 280px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .main_nav {
+    width: 230px;
+  }
+
+  .search-input {
+    width: 80px !important;
+  }
+
+  .footer_col:not(:last-child) {
+    margin-bottom: 20px;
+  }
 }

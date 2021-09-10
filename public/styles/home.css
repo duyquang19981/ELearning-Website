@@ -1,61 +1,76 @@
-@media (min-width: 992px){
-  .dropdown-menu .dropdown-toggle:after{
-    border-top: .3em solid transparent;
-      border-right: 0;
-      border-bottom: .3em solid transparent;
-      border-left: .3em solid;
+@media (min-width: 992px) {
+  .dropdown-menu .dropdown-toggle:after {
+    border-top: 0.3em solid transparent;
+    border-right: 0;
+    border-bottom: 0.3em solid transparent;
+    border-left: 0.3em solid;
   }
 
-  .dropdown-menu .dropdown-menu{
-    margin-left:0; margin-right: 0;
+  .dropdown-menu .dropdown-menu {
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  .dropdown-menu li{
+  .dropdown-menu li {
     position: relative;
   }
-  .nav-item .submenu{ 
+  .nav-item .submenu {
     display: none;
     position: absolute;
-    left:100%; top:-7px;
+    left: 100%;
+    top: -7px;
   }
-  .nav-item .submenu-left{ 
-    right:100%; left:auto;
+  .nav-item .submenu-left {
+    right: 100%;
+    left: auto;
   }
 
-  .dropdown-menu > li:hover{ background-color: #f1f1f1 }
-  .dropdown-menu > li:hover > .submenu{
+  .dropdown-menu > li:hover {
+    background-color: #f1f1f1;
+  }
+  .dropdown-menu > li:hover > .submenu {
     display: block;
   }
 }
 
-.dropdown-item{
+.dropdown-item {
   font-size: 16px !important;
   font-weight: 400 !important;
 }
 
-.search-input{
+.search-input {
   width: 250px !important;
   background-color: red;
 }
 /* my style */
-.course_title{
+.course_title {
   /* margin: 10px 0px; */
   display: inline-block;
   height: 55px;
   overflow: visible;
 }
-.new-courses-wrap{
+.new-courses-wrap {
   height: 500px;
 }
-.course_body{
+.course_body {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
-.course-wrap{
+.course-wrap {
   width: 280px;
   height: 480px;
 }
-.course_image_self{
+.course_image_self {
   width: 280px;
   height: 200px;
+}
+
+.search-field {
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 1199px) {
+  .search-input {
+    width: 180px !important;
+  }
 }

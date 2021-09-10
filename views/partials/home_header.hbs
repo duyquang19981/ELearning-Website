@@ -2,65 +2,111 @@
 		
 		{{>topbar}}
 
-		<!-- Header Content -->
-		<div class="header_container">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="header_content d-flex flex-row align-items-center justify-content-start">
-							<div class="logo_container">
-								<a href="/">
-									<div class="logo_text"><span>mE</span>Learning</div>
-								</a>
-							</div>
-							<nav class="main_nav_contaner ml-auto">
-								<ul class="main_nav">
-										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">  Categories  </a>
-												<ul class="dropdown-menu">
-                          {{#each theloai}}
-                            <li>
-                              <a class="dropdown-item" href="/category1/{{_id}}"> {{TenTheLoai}}  &raquo</a>
-                              <ul class="submenu dropdown-menu">
-                              {{#each TheLoaiCon}}
-                                <li><a class="dropdown-item" href="/category2/{{_id}}">{{TenTheLoai}}</a></li>
-                                
-                              {{/each}}
-                              </ul>
-                            </li>
 
-                          {{/each}}
-                        
-												</ul>
-										</li>
-									<li class="active"><a href="/">Home</a></li>
-								
-									<li><a href="/user/profile/mycourses">My Courses</a></li>
-									<li>
-										<form action="/search" method="GET" class="form-inline md-form mr-auto mb-4">
-											<input name="searchkey"  class="form-control mr-md-2 search-input" type="text" placeholder="Search" aria-label="Search" value="{{searchkey}}">
-											<button class="btn purple-gradient btn-rounded btn-md my-0" type="submit">Search</button>
-										</form>
-
-									</li>
-									
-								</ul>
-								
-								<!-- Hamburger -->
-                
-								<a href="/user/profile/cart"><div class="shopping_cart" style="font-style: 25px;"><i  class="fa fa-shopping-cart" aria-hidden="true"></i></div></a>
-								<a href="/user/profile"><div class="shopping_cart" style="font-style: 25px;"><i class="fa fa-user" aria-hidden="true"></i></div></a>
-								<a href="/user/profile/WatchList"><div class="shopping_cart" style="font-style: 25px;"><i class="fa fa-heart" aria-hidden="true"></i></div></a>
-								
-								<div class="hamburger menu_mm">
-									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
-								</div>
-							</nav>
-
+	<!-- Header Content -->
+	<div class="header_container">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="
+                header_content
+                d-flex
+                    flex-row
+                    align-items-center
+                justify-content-start
+            ">
+						<div class="logo_container_sm">
+							<a href="/">
+								<div class="logo_text"><span>E</span>L</div>
+							</a>
 						</div>
+						<div class="logo_container">
+							<a href="/">
+								<div class="logo_text"><span>mE</span>Learning</div>
+							</a>
+						</div>
+						<nav class="main_nav_contaner">
+							<ul class="main_nav">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+										Categories
+									</a>
+									<ul class="dropdown-menu">
+										{{#each theloai}}
+										<li>
+											<a class="dropdown-item" href="/category1/{{_id}}">
+												{{TenTheLoai}} &raquo</a>
+											<ul class="submenu dropdown-menu">
+												{{#each TheLoaiCon}}
+												<li>
+													<a class="dropdown-item" href="/category2/{{_id}}">{{TenTheLoai}}</a>
+												</li>
+
+												{{/each}}
+											</ul>
+										</li>
+
+										{{/each}}
+									</ul>
+								</li>
+								<li class="home_route active"><a href="/">Home</a></li>
+
+								<li class="mycourse_route"><a href="/user/profile/mycourses">My Courses</a></li>
+								<li>
+									<form action="/search" method="GET" class="form-inline md-form mr-auto mb-4">
+										<input name="searchkey" class="form-control mr-md-2 search-input" type="text" placeholder="Search"
+											aria-label="Search" value="{{searchkey}}" />
+										<button class="btn purple-gradient btn-rounded btn-md my-0" type="submit">
+											<span class="search_title">Search</span>	🔎
+										</button>
+									</form>
+								</li>
+					
+							</ul>
+
+							<!-- Hamburger -->
+
+							<a class="user_func" href="/user/profile/cart">
+								<div class="shopping_cart" style="font-style: 25px">
+									<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+								</div>
+							</a>
+							<a class="user_func" href="/user/profile">
+								<div class="shopping_cart" style="font-style: 25px">
+									<i class="fa fa-user" aria-hidden="true"></i>
+								</div>
+							</a>
+							<a class="user_func" href="/user/profile/WatchList">
+								<div class="shopping_cart" style="font-style: 25px">
+									<i class="fa fa-heart" aria-hidden="true"></i>
+								</div>
+							</a>
+
+								<li class="nav-item dropdown menu-responsive menu-responsive-btn">
+									<a class=" dropdown-toggle "  href="#"  data-toggle="dropdown">
+										<div class="shopping_cart">
+											<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+										</div>
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a class="dropdown-item" href="/user/profile/cart">Cart</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="/user/profile">Profile</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="/user/profile/WatchList">WatchList</a>
+										</li>
+										<li class="mycourses_drop_item">
+											<a class="dropdown-item" href="/user/profile/mycourses">My courses</a>
+										</li>
+									</ul>
+								</li>
+						</nav>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-	</header>
+	</div>
+</header>
